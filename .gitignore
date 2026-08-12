@@ -20,3 +20,5 @@ tsconfig.tsbuildinfo
 # Локальное хранилище загруженных изображений (драйвер storage=local)
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+.vercel
