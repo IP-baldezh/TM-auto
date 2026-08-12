@@ -1,0 +1,544 @@
+// ─────────────────────────────────────────────────────────────────────────
+//  Sunservice · Подбор авто
+//
+//  Принцип модели: секции с фиксированной композицией (hero, кейс,
+//  калькулятор) — синглтоны с собственными полями; повторяющиеся элементы —
+//  списки с sortOrder/enabled; заголовки и видимость всех остальных секций
+//  вынесены в общую таблицу SectionBlock, чтобы не плодить 12 таблиц из
+//  трёх текстовых полей.
+// ─────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Аутентификация админки ───────────────────────────────────────────────
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String    @default("Администратор")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+}
+
+/// В базе хранится SHA-256 от токена сессии; сам токен живёт только в cookie.
+model Session {
+  tokenHash String    @id
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ── Общие настройки секций ───────────────────────────────────────────────
+
+/// Заголовок + видимость + порядок для секций лендинга.
+/// key — стабильный идентификатор из lib/sections.ts
+model SectionBlock {
+  id        String  @id @default(cuid())
+  key       String  @unique
+  label     String
+  eyebrow   String?
+  title     String?
+  subtitle  String?
+  enabled   Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  @@index([sortOrder])
+}
+
+// ── Навигация ────────────────────────────────────────────────────────────
+
+enum NavGroup {
+  HEADER
+  FOOTER
+  LEGAL
+}
+
+model NavigationItem {
+  id        String   @id @default(cuid())
+  group     NavGroup @default(HEADER)
+  label     String
+  href      String
+  sortOrder Int      @default(0)
+  enabled   Boolean  @default(true)
+  external  Boolean  @default(false)
+
+  @@index([group, sortOrder])
+}
+
+// ── Hero ─────────────────────────────────────────────────────────────────
+
+model HeroSection {
+  id             String  @id @default("hero")
+  eyebrow        String?
+  titleLead      String
+  titleAccent    String
+  titleTail      String
+  subtitle       String
+  trustLine      String?
+  primaryLabel   String
+  primaryHref    String
+  secondaryLabel String
+  secondaryHref  String
+
+  /// Слои параллакса: от дальнего к ближнему.
+  layerSkyUrl        String
+  layerMidUrl        String?
+  layerCarUrl        String
+  /// true — layerCarUrl это PNG/WebP с прозрачностью (вырезанный автомобиль);
+  /// false — обычное фото, к которому применяется мягкая маска.
+  layerCarIsCutout   Boolean @default(false)
+  layerForegroundUrl String?
+
+  enabled   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+// ── Полоса доверия под hero ──────────────────────────────────────────────
+
+model TrustItem {
+  id        String  @id @default(cuid())
+  title     String
+  text      String
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  @@index([sortOrder])
+}
+
+// ── «Что мы проверяем» ───────────────────────────────────────────────────
+
+model InspectionCategory {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  title     String
+  summary   String
+  /// Конкретные пункты проверки.
+  points    String[]
+  imageUrl  String?
+  imageAlt  String?
+  sortOrder Int      @default(0)
+  enabled   Boolean  @default(true)
+
+  @@index([sortOrder])
+}
+
+// ── Услуги ───────────────────────────────────────────────────────────────
+
+model Service {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  excerpt   String
+  /// Что клиент получает в результате.
+  outcomes  String[]
+  imageUrl  String?
+  imageAlt  String?
+  ctaLabel  String   @default("Оставить заявку")
+  ctaHref   String   @default("#calculator")
+  featured  Boolean  @default(false)
+  sortOrder Int      @default(0)
+  enabled   Boolean  @default(true)
+
+  @@index([sortOrder])
+}
+
+/// Акция на главной: цена «по акции» против зачёркнутой обычной,
+/// кнопка в мессенджер и срок действия.
+model Promotion {
+  id         String   @id @default(cuid())
+  title      String
+  /// Вторая строка заголовка, помельче.
+  subtitle   String?
+  /// Цена по акции, как её показывать — строкой: «0 руб.», «от 5 000 ₽».
+  price      String
+  /// Зачёркнутая обычная цена. Пусто — не показывается.
+  oldPrice   String?
+  ctaLabel   String   @default("написать в whatsapp")
+  ctaHref    String
+  /// «Акция действует до …» — пусто, если бессрочная.
+  validUntil String?
+  imageUrl   String?
+  imageAlt   String?
+  sortOrder  Int      @default(0)
+  enabled    Boolean  @default(true)
+  /// Демонстрационная запись: заменить перед публикацией.
+  isDemo     Boolean  @default(false)
+
+  @@index([sortOrder])
+}
+
+// ── Калькулятор ──────────────────────────────────────────────────────────
+
+enum StepKind {
+  RANGE
+  SINGLE
+  MULTI
+}
+
+/// Глобальные параметры расчёта.
+/// ⚠️ Значения из seed — ДЕМОНСТРАЦИОННЫЕ, требуют согласования с заказчиком.
+model CalculatorConfig {
+  id       String @id @default("calculator")
+  eyebrow  String?
+  title    String
+  subtitle String?
+
+  /// Базовая стоимость услуги до применения коэффициентов, ₽.
+  baseFee       Int
+  /// Границы итоговой оценки, ₽.
+  minEstimate   Int
+  maxEstimate   Int
+  /// Округление итога, ₽.
+  roundTo       Int     @default(1000)
+  /// Ширина «вилки» вокруг точечной оценки, доля (0.15 = ±15%).
+  spread        Float   @default(0.15)
+  /// Рекомендуемый резерв на первичное обслуживание, доля от бюджета.
+  reserveShare  Float   @default(0.05)
+
+  resultTitle   String
+  resultNote    String?
+  disclaimer    String
+  ctaLabel      String  @default("Получить варианты автомобилей")
+  successTitle  String  @default("Заявка отправлена")
+  successText   String  @default("Свяжемся с вами в рабочее время: 8:00–20:00, без выходных.")
+
+  enabled   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+
+  steps CalculatorStep[]
+}
+
+model CalculatorStep {
+  id       String   @id @default(cuid())
+  configId String   @default("calculator")
+  config   CalculatorConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+  key       String   @unique
+  kind      StepKind
+  title     String
+  hint      String?
+  /// Разрешить поиск по вариантам (для шага с марками).
+  searchable Boolean @default(false)
+  /// Обязателен ли ответ для перехода дальше.
+  required   Boolean @default(true)
+
+  /// Для kind = RANGE: { min, max, step, defaultFrom, defaultTo, unit, quick: [{label, from, to}] }
+  rangeConfig Json?
+
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  options CalculatorOption[]
+
+  @@index([sortOrder])
+}
+
+model CalculatorOption {
+  id     String         @id @default(cuid())
+  stepId String
+  step   CalculatorStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  label String
+  /// Стабильное значение, попадающее в заявку.
+  value String
+  hint  String?
+
+  /// Итог = (baseFee + Σ addend) × Π multiplier
+  multiplier Float @default(1)
+  addend     Int   @default(0)
+
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  @@unique([stepId, value])
+  @@index([sortOrder])
+}
+
+/// Коэффициенты для шага RANGE задаются порогами по бюджету.
+model CalculatorBudgetTier {
+  id         String @id @default(cuid())
+  /// Верхняя граница бюджета (₽), к которой применяется правило. null — «и выше».
+  upTo       Int?
+  label      String
+  multiplier Float  @default(1)
+  addend     Int    @default(0)
+  sortOrder  Int    @default(0)
+
+  @@index([sortOrder])
+}
+
+// ── Подобранные автомобили ───────────────────────────────────────────────
+
+model DeliveredCar {
+  id     String @id @default(cuid())
+  title  String
+  brand  String
+  model  String
+
+  year         Int
+  mileage      Int?
+  engine       String?
+  transmission String?
+  drive        String?
+  trim         String?
+
+  location    String?
+  searchDays  Int?
+  price       Int?
+  /// Экономия относительно первоначальной цены объявления, ₽.
+  savings     Int?
+  description String?
+
+  imageUrl String
+  imageAlt String?
+  gallery  String[]
+  videoUrl String?
+
+  handedOverAt DateTime?
+  featured     Boolean   @default(false)
+  sortOrder    Int       @default(0)
+  published    Boolean   @default(true)
+  /// Демонстрационная карточка — заменить перед production.
+  isDemo       Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+// ── Как мы работаем ──────────────────────────────────────────────────────
+
+model ProcessStep {
+  id        String  @id @default(cuid())
+  title     String
+  text      String
+  detail    String?
+  imageUrl  String?
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  @@index([sortOrder])
+}
+
+// ── Почему нам можно доверить подбор ─────────────────────────────────────
+
+enum ReasonSize {
+  LARGE
+  MEDIUM
+  SMALL
+}
+
+model TrustReason {
+  id        String     @id @default(cuid())
+  title     String
+  text      String
+  imageUrl  String?
+  imageAlt  String?
+  size      ReasonSize @default(MEDIUM)
+  sortOrder Int        @default(0)
+  enabled   Boolean    @default(true)
+
+  @@index([sortOrder])
+}
+
+// ── Разбор автомобиля / кейс ─────────────────────────────────────────────
+
+model CaseStudy {
+  id      String  @id @default(cuid())
+  eyebrow String?
+  title   String
+
+  /// Что было в объявлении.
+  listingTitle String
+  listingPrice String?
+  listingText  String?
+
+  /// Что нашли при проверке.
+  findings String[]
+  /// Чем это грозило покупателю.
+  risks    String[]
+
+  decisionTitle String
+  decisionText  String
+
+  images   String[]
+  imageAlt String?
+
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+  /// Демонстрационный кейс — заменить перед production.
+  isDemo    Boolean @default(false)
+
+  @@index([sortOrder])
+}
+
+// ── Отзывы ───────────────────────────────────────────────────────────────
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  author    String
+  city      String?
+  carTitle  String?
+  text      String
+  rating    Int?
+  avatarUrl String?
+  publishedAt DateTime?
+  sortOrder Int      @default(0)
+  enabled   Boolean  @default(true)
+  /// Демонстрационный отзыв — заменить перед production.
+  isDemo    Boolean  @default(false)
+
+  @@index([sortOrder])
+}
+
+// ── FAQ ──────────────────────────────────────────────────────────────────
+
+model FaqItem {
+  id        String  @id @default(cuid())
+  question  String
+  answer    String
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  @@index([sortOrder])
+}
+
+// ── Контакты и настройки сайта ───────────────────────────────────────────
+
+/// Телефоны подразделений: в шапке — направление автоподбора,
+/// в подвале — весь список.
+model ContactChannel {
+  id        String  @id @default(cuid())
+  label     String
+  phone     String
+  /// Телефон направления автоподбора — показывается в шапке и hero.
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  @@index([sortOrder])
+}
+
+model SiteSettings {
+  id        String @id @default("site")
+  brandName String @default("Sunservice")
+  brandNote String @default("Автотехцентр")
+  logoUrl   String?
+
+  city    String @default("Дзержинск")
+  address String
+  hours   String
+
+  email       String?
+  whatsappUrl String?
+  telegramUrl String?
+  vkUrl       String?
+  maxUrl      String?
+
+  /// Ссылка «Проложить маршрут» (Яндекс.Карты).
+  routeUrl String?
+  /// iframe-код или URL встраиваемой карты. Пусто — карта не показывается.
+  mapEmbedUrl String?
+  mapLat      Float?
+  mapLng      Float?
+
+  legalName String?
+  legalInn  String?
+
+  /// Заявки дублируются POST-запросом на этот адрес. Пусто — отключено.
+  leadWebhookUrl    String?
+  leadWebhookSecret String?
+
+  privacyUrl String @default("/privacy")
+  consentUrl String @default("/consent")
+
+  updatedAt DateTime @updatedAt
+}
+
+// ── SEO ──────────────────────────────────────────────────────────────────
+
+model SeoSettings {
+  id String @id @default("seo")
+
+  title       String
+  description String
+  h1          String
+  keywords    String?
+
+  ogTitle       String?
+  ogDescription String?
+  ogImageUrl    String?
+
+  canonicalUrl String?
+  robots       String  @default("index,follow")
+
+  /// Дополнительный код в <head> (счётчики). Вставляется как есть.
+  headScripts String?
+
+  updatedAt DateTime @updatedAt
+}
+
+// ── Заявки ───────────────────────────────────────────────────────────────
+
+enum LeadStatus {
+  NEW
+  IN_PROGRESS
+  DONE
+  SPAM
+}
+
+enum LeadSource {
+  CALCULATOR
+  FINAL_CTA
+  HEADER
+  SERVICE
+  CONTACTS
+  OTHER
+}
+
+model Lead {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  name    String
+  phone   String
+  email   String?
+  message String?
+
+  source LeadSource @default(OTHER)
+  status LeadStatus @default(NEW)
+
+  /// Ответы калькулятора и вычисленная оценка.
+  calculatorData Json?
+
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  utmContent  String?
+  utmTerm     String?
+
+  pageUrl   String?
+  referrer  String?
+  /// Результат доставки во внешнюю систему.
+  webhookStatus String?
+
+  adminNote String?
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+}
