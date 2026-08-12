@@ -70,6 +70,17 @@ const SKY_ND_END = 0.6;
  */
 const BG_TOP = 0.2;
 
+/**
+ * Какую долю ширины плиты занимает сам кадр с автомобилем.
+ *
+ * Кадр 2.15:1 — во всю ширину плиты он получается таким высоким, что при
+ * object-fit: cover на широком экране уходит под нижнюю кромку: видна только
+ * крыша, дороги нет совсем. Уменьшаем кадр и продолжаем дорогу к краям
+ * плиты растяжкой крайних колонок — асфальт там смазан движением, шва не
+ * видно, а прозрачная часть выше отбойника остаётся прозрачной.
+ */
+const CAR_WIDTH = 0.72;
+
 const mix = (a, b, t) => a + (b - a) * t;
 
 /**
@@ -175,15 +186,33 @@ async function main() {
   await sharp(sky.buffer).webp({ quality: 82 }).toFile(skyPath);
 
   // ── Передний план ──────────────────────────────────────────────────────
-  // Во всю ширину и прижат к низу — иначе по бокам видны срезы полосы дороги.
-  const carScaled = await sharp(carPath).resize(WIDTH).ensureAlpha().png().toBuffer();
+  const carW = Math.round(WIDTH * CAR_WIDTH);
+  const carLeft = Math.round((WIDTH - carW) / 2);
+  const carScaled = await sharp(carPath).resize(carW).ensureAlpha().png().toBuffer();
   const carScaledH = (await sharp(carScaled).metadata()).height;
   const carTop = plateH - carScaledH;
+
+  // Дорога продолжается к краям плиты: крайние колонки кадра растягиваются
+  // наружу. Иначе по бокам остаются прозрачные поля и полоса дороги
+  // обрывается прямыми вертикальными срезами.
+  const { data: cd, info: ci } = await sharp(carScaled).raw().toBuffer({ resolveWithObject: true });
+  const wings = Buffer.alloc(WIDTH * carScaledH * 4, 0);
+  for (let y = 0; y < carScaledH; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      const srcX = Math.min(ci.width - 1, Math.max(0, x - carLeft));
+      const s = (y * ci.width + srcX) * ci.channels;
+      const d = (y * WIDTH + x) * 4;
+      wings[d] = cd[s];
+      wings[d + 1] = cd[s + 1];
+      wings[d + 2] = cd[s + 2];
+      wings[d + 3] = cd[s + 3];
+    }
+  }
 
   await sharp({
     create: { width: WIDTH, height: plateH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
   })
-    .composite([{ input: carScaled, top: carTop, left: 0 }])
+    .composite([{ input: wings, raw: { width: WIDTH, height: carScaledH, channels: 4 }, top: carTop, left: 0 }])
     .webp({ quality: 88, alphaQuality: 100 })
     .toFile(carOutPath);
 

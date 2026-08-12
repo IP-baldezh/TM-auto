@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────
    Дизайн-токены.
@@ -35,10 +35,14 @@
   --color-brand-tint: #f7e6e6;
 
   /* Типографика */
-  --font-display: var(--font-unbounded), var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-unbounded), var(--font-manrope), ui-sans-serif, system-ui,
+    sans-serif;
   --font-sans:
-    var(--font-manrope), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --font-mono:
+    var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Сетка */
   --spacing-gutter: 1.25rem;
@@ -76,7 +80,7 @@
     background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: 'ss01', 'cv01';
+    font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -243,26 +247,40 @@
   max-width: none;
   height: 117.5%;
   position: absolute;
-  top: -17.5%;
+  top: -44%;
   left: 0;
 }
 
 /* Дальний слой поднят чуть выше — у reference так же */
 .parallax__layer-img.is-third {
-  top: -20%;
+  top: -30%;
 }
 
-/* Передний план на узком экране.
-   Плита почти квадратная, а контейнер здесь очень высокий и узкий: при полной
-   высоте слоя object-fit: cover срезает 69% ширины, и от автомобиля остаётся
-   вертикальная полоса. Уменьшаем высоту слоя и опускаем его — плита
-   масштабируется ближе к ширине, а линия горизонта попадает на нижнюю строку
-   заголовка. Дальний слой при этом остаётся во всю высоту: это градиент,
-   обрезка ему безразлична. */
+/* Передний план прижимается к нижней кромке ЭКРАНА, а не слоя.
+
+   Слои намеренно выше кадра и подняты над ним — это даёт им запас хода. Но
+   для автомобиля такая посадка означает, что низ кадра уходит под экран: при
+   вьюпорте 2000×1077 кузов занимал 747–1677px, то есть была видна только
+   крыша, а дороги не было совсем.
+
+   83.333% — это доля секции (100svh) в контейнере .parallax__visuals (120%),
+   поэтому нижняя кромка слоя точно совпадает с нижней кромкой первого экрана.
+   Запас хода при этом сохраняется: слой уезжает вниз, а сверху у него
+   прозрачное поле. */
+[data-parallax-layer="4"].parallax__layer-img {
+  top: 0;
+  height: 85.3333%;
+  object-position: center bottom;
+}
+
+/* На узком экране почти квадратная плита в высоком контейнере обрезается по
+   ширине до 44%, и от автомобиля остаётся вертикальная полоса. Уменьшаем
+   высоту слоя — плита масштабируется ближе к ширине. */
 @media (max-width: 767px) {
-  [data-parallax-layer='4'].parallax__layer-img {
-    height: 70%;
-    top: 13%;
+  [data-parallax-layer="4"].parallax__layer-img {
+    height: 62%;
+    top: auto;
+    bottom: 17%;
   }
 }
 
@@ -279,7 +297,7 @@
      У reference заголовок стоит по центру, потому что его передний план —
      узкая полоса у нижнего края. Наш автомобиль занимает середину кадра, и
      текст, оставленный по центру, тонул в кроне и кузове. */
-  padding-bottom: 44svh;
+  padding-bottom: 50svh;
 }
 
 .parallax__title {
@@ -315,7 +333,6 @@
 .parallax__title-block {
   position: relative;
 }
-
 
 /* Растворение низа сцены в фон следующей секции.
    Многоступенчатый градиент взят из reference: линейный на такой площади
@@ -390,7 +407,6 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
 }
 
-
 /* ── Анимации появления ────────────────────────────────────────────────
    Элементы с [data-reveal] скрыты до срабатывания ScrollTrigger.
    Если JS не выполнился — контент всё равно виден (класс js-reveal-ready
@@ -402,7 +418,7 @@
   will-change: transform, opacity;
 }
 
-.js-reveal-ready [data-reveal='mask'] {
+.js-reveal-ready [data-reveal="mask"] {
   opacity: 1;
   transform: none;
   clip-path: inset(0 0 100% 0);
