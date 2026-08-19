@@ -507,7 +507,13 @@ export async function getSiteContent(): Promise<SiteContent> {
       legal: navFor('LEGAL', fb.nav.legal),
     },
     sections,
-    hero: hero ?? fb.hero,
+    hero: hero
+      ? {
+          ...hero,
+          layerSkyUrl: hero.layerSkyUrl || fb.hero.layerSkyUrl,
+          layerCarUrl: hero.layerCarUrl || fb.hero.layerCarUrl,
+        }
+      : fb.hero,
     trust: nonEmpty(trust, fb.trust),
     promotions: nonEmpty(promotionRows, fb.promotions),
     inspection: nonEmpty(inspection, fb.inspection),
