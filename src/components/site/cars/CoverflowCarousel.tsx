@@ -37,6 +37,8 @@ export type CoverflowCarouselProps = {
   gap?: number;
   label?: string;
   className?: string;
+  /** Ref для управления каруселью снаружи. */
+  controlRef?: React.MutableRefObject<{ nudge: (by: number) => void } | null>;
 };
 
 /**
@@ -63,6 +65,7 @@ export function CoverflowCarousel({
   gap = 0.06,
   label = 'Подобранные автомобили',
   className,
+  controlRef,
 }: CoverflowCarouselProps) {
   const count = slides.length;
   // Кольцо имеет смысл только начиная с трёх карточек: при двух карточка
@@ -172,6 +175,13 @@ export function CoverflowCarousel({
     (by: number) => settle(clamp(Math.round(targetRef.current) + by)),
     [clamp, settle],
   );
+
+  React.useEffect(() => {
+    if (controlRef) {
+      controlRef.current = { nudge };
+      return () => { controlRef.current = null; };
+    }
+  }, [controlRef, nudge]);
 
   // ── Перетаскивание ────────────────────────────────────────────────────
   // Ось определяется по первому заметному смещению: горизонталь забираем
@@ -325,7 +335,7 @@ export function CoverflowCarousel({
                 aria-roledescription="слайд"
                 aria-label={`${index + 1} из ${count}: ${slide.title}`}
                 aria-hidden={index !== selected}
-                className="absolute left-1/2 top-0 overflow-hidden rounded-[5px] border border-white/8 bg-graphite shadow-[0_28px_60px_-24px_rgba(0,0,0,0.85)] will-change-transform"
+                className="absolute left-1/2 top-0 overflow-hidden rounded-[1.25rem] bg-graphite shadow-[0_28px_60px_-24px_rgba(0,0,0,0.85)] will-change-transform"
                 style={{ width: 'var(--cf-card)', height: 'calc(var(--cf-card) * 0.72)' }}
               >
                 <SmartImage
@@ -340,12 +350,12 @@ export function CoverflowCarousel({
                 {(slide.badge || slide.accent) && (
                   <div className="absolute left-3 top-3 flex flex-wrap gap-2">
                     {slide.badge && (
-                      <span className="eyebrow rounded-[3px] bg-ink/85 px-2 py-1 text-white/85 backdrop-blur-sm">
+                      <span className="eyebrow rounded-md bg-ink/85 px-2 py-1 text-white/85 backdrop-blur-sm">
                         {slide.badge}
                       </span>
                     )}
                     {slide.accent && (
-                      <span className="eyebrow rounded-[3px] bg-brand px-2 py-1 text-white">
+                      <span className="eyebrow rounded-md bg-brand px-2 py-1 text-white">
                         {slide.accent}
                       </span>
                     )}
@@ -367,26 +377,6 @@ export function CoverflowCarousel({
           </div>
         </div>
 
-        {count > 1 && (
-          <>
-            <button
-              type="button"
-              aria-label="Предыдущий автомобиль"
-              onClick={() => nudge(-1)}
-              className="absolute left-0 top-[calc(50%-1.5rem)] z-[200] flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-paper/85 text-ink backdrop-blur transition-colors hover:border-ink hover:bg-ink hover:text-paper sm:left-2 lg:size-12"
-            >
-              <ChevronLeft className="size-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              aria-label="Следующий автомобиль"
-              onClick={() => nudge(1)}
-              className="absolute right-0 top-[calc(50%-1.5rem)] z-[200] flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-paper/85 text-ink backdrop-blur transition-colors hover:border-ink hover:bg-ink hover:text-paper sm:right-2 lg:size-12"
-            >
-              <ChevronRight className="size-5" aria-hidden="true" />
-            </button>
-          </>
-        )}
       </div>
 
       {/* ── Подпись под активной карточкой ──────────────────────────────── */}

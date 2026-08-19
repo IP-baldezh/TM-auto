@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Menu, Phone, X } from 'lucide-react';
 
 import type { NavItemView } from '@/lib/content';
-import { useScrolledPast } from '@/components/animations/useScrolledPast';
+import { useHeroPassed } from '@/components/animations/useScrolledPast';
 import { ButtonLink } from '@/components/ui/Button';
 import { cn, formatPhone, telHref } from '@/lib/utils';
 import { BrandMark } from './BrandMark';
@@ -30,7 +30,7 @@ export function Header({
   ctaHref?: string;
 }) {
   // Прозрачная шапка живёт только над hero — дальше нужен фон.
-  const scrolled = useScrolledPast(24);
+  const scrolled = useHeroPassed();
   const [open, setOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -129,7 +129,7 @@ export function Header({
               aria-label="Открыть меню"
               aria-expanded={open}
               className={cn(
-                'flex size-10 items-center justify-center rounded-[3px] border transition-colors xl:hidden',
+                'flex size-10 items-center justify-center rounded-lg border transition-colors xl:hidden',
                 solid
                   ? 'border-line-strong text-ink hover:bg-paper-3'
                   : 'border-white/25 text-white hover:bg-white/10',
@@ -170,7 +170,7 @@ export function Header({
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Закрыть меню"
-                className="flex size-10 items-center justify-center rounded-[3px] border border-line-strong text-ink transition-colors hover:bg-paper-3"
+                className="flex size-10 items-center justify-center rounded-lg border border-line-strong text-ink transition-colors hover:bg-paper-3"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>

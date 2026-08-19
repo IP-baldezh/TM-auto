@@ -1,6 +1,7 @@
 import { getSiteContent } from '@/lib/content';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
+import { FloatingMessenger } from '@/components/site/FloatingMessenger';
 import { MotionProvider, revealBootstrapScript } from '@/components/animations/MotionProvider';
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -36,6 +37,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         contacts={content.contacts}
         nav={content.nav.footer}
         legal={content.nav.legal}
+      />
+
+      <FloatingMessenger
+        telegramUrl={content.site.telegramUrl}
+        maxUrl={content.site.maxUrl}
+        email={content.site.email}
       />
 
       <MotionProvider />

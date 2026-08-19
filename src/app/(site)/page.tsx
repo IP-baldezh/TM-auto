@@ -13,7 +13,6 @@ import { CalculatorSection } from '@/components/site/CalculatorSection';
 import { DeliveredCars } from '@/components/site/cars/DeliveredCars';
 import { ProcessTimeline } from '@/components/site/ProcessTimeline';
 import { ReasonsGrid } from '@/components/site/ReasonsGrid';
-import { CaseStudySection } from '@/components/site/CaseStudySection';
 import { Testimonials } from '@/components/site/Testimonials';
 import { FaqAccordion } from '@/components/site/FaqAccordion';
 import { FinalCta } from '@/components/site/FinalCta';
@@ -97,18 +96,21 @@ export default async function HomePage() {
       />
 
       {content.hero.enabled && (
-        <ParallaxHero hero={content.hero} />
+        <ParallaxHero
+          hero={content.hero}
+          privacyUrl={site.privacyUrl}
+          consentUrl={site.consentUrl}
+        />
       )}
-
-      <Promotions
-        section={sections.promotions ?? FALLBACK_SECTION}
-        promotions={content.promotions}
-      />
 
       <Services
         section={sections.services ?? FALLBACK_SECTION}
-        services={content.services}
-        extraServices={content.extraServices}
+      />
+
+      <Promotions
+        section={sections.promotions ?? FALLBACK_SECTION}
+        privacyUrl={site.privacyUrl}
+        consentUrl={site.consentUrl}
       />
 
       {sections.inspection?.enabled !== false && content.inspection.length > 0 && (
@@ -145,22 +147,20 @@ export default async function HomePage() {
       )}
 
       {sections.reasons?.enabled !== false && content.reasons.length > 0 && (
-        <Section id="reasons" tone="ink">
+        <section
+          id="reasons"
+          className="relative scroll-mt-20 overflow-x-clip bg-ink pt-20 text-paper md:pt-28 lg:pt-32"
+        >
           <Container>
             <SectionHeading
               title={sections.reasons?.title}
               subtitle={sections.reasons?.subtitle}
               tone="dark"
             />
-            <ReasonsGrid reasons={content.reasons} />
           </Container>
-        </Section>
+          <ReasonsGrid reasons={content.reasons} />
+        </section>
       )}
-
-      <CaseStudySection
-        section={sections.case ?? FALLBACK_SECTION}
-        caseStudy={content.caseStudy}
-      />
 
       <Testimonials
         section={sections.testimonials ?? FALLBACK_SECTION}

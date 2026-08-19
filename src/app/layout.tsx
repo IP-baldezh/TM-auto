@@ -1,39 +1,30 @@
 import type { Metadata, Viewport } from 'next';
-import { JetBrains_Mono, Manrope, Unbounded } from 'next/font/google';
+import { Inter, Montserrat } from 'next/font/google';
 
 import './globals.css';
 
 /**
- * Unbounded Bold — заголовки. Широкий геометрический гротеск с полноценной
- * кириллицей, хорошо держит крупный кегль.
- * Manrope — основной текст и интерфейс.
- * JetBrains Mono — технические подписи и числовые метки.
+ * Montserrat Bold — заголовки.
+ * Inter — основной текст, интерфейс и технические подписи.
  */
-const unbounded = Unbounded({
+const montserrat = Montserrat({
   subsets: ['cyrillic', 'latin'],
-  variable: '--font-unbounded',
+  variable: '--font-montserrat',
   display: 'swap',
-  weight: ['700'],
+  weight: ['700', '800'],
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ['cyrillic', 'latin'],
-  variable: '--font-manrope',
+  variable: '--font-inter',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['cyrillic', 'latin'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-  weight: ['400', '500'],
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-  title: 'Подбор авто в Дзержинске — Sunservice',
-  description: 'Профессиональный подбор и проверка автомобиля перед покупкой в Дзержинске.',
+  title: 'Пригон авто из Китая под ключ — ТМ Авто',
+  description: 'Подбор и пригон автомобилей из Китая: таможня, доставка, СБКТС. Работаем по всей России.',
 };
 
 export const viewport: Viewport = {
@@ -52,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // атрибут class корневого элемента.
     <html
       lang="ru"
-      className={`${unbounded.variable} ${manrope.variable} ${jetbrainsMono.variable}`}
+      className={`${montserrat.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>{children}</body>

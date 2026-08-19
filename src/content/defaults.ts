@@ -44,8 +44,8 @@ export const IMAGES = {
 
 export const DEFAULT_SITE = {
   id: 'site',
-  brandName: 'Sunservice',
-  brandNote: 'Автотехцентр',
+  brandName: 'ТМ Авто',
+  brandNote: 'Пригон авто из Китая',
   logoUrl: null as string | null,
   city: 'Дзержинск',
   address: 'Дзержинск, ул. Самохвалова, д. 6Б',
@@ -68,19 +68,15 @@ export const DEFAULT_SITE = {
   consentUrl: '/consent',
 };
 
-/** Телефоны подразделений — с текущего сайта. */
 export const DEFAULT_CONTACTS = [
-  { label: 'Подбор автомобилей', phone: '+7 (953) 558-89-99', isPrimary: true, sortOrder: 0 },
-  { label: 'Сервис и запчасти', phone: '+7 (910) 100-13-00', isPrimary: false, sortOrder: 1 },
-  { label: 'Автомойка и шиномонтаж', phone: '+7 (910) 382-22-38', isPrimary: false, sortOrder: 2 },
-  { label: 'Эвакуатор', phone: '+7 (920) 066-05-00', isPrimary: false, sortOrder: 3 },
+  { label: 'Пригон и подбор авто', phone: '+7 (000) 000-00-00', isPrimary: true, sortOrder: 0 },
 ];
 
 // ── Навигация ────────────────────────────────────────────────────────────
 
 export const DEFAULT_NAVIGATION = [
   { group: 'HEADER' as const, label: 'Как работаем', href: '#process', sortOrder: 0 },
-  { group: 'HEADER' as const, label: 'Что проверяем', href: '#inspection', sortOrder: 1 },
+  { group: 'HEADER' as const, label: 'Инспекция авто', href: '#inspection', sortOrder: 1 },
   { group: 'HEADER' as const, label: 'Услуги', href: '#services', sortOrder: 2 },
   { group: 'HEADER' as const, label: 'Автомобили', href: '#cars', sortOrder: 3 },
   { group: 'HEADER' as const, label: 'Рассчитать стоимость', href: '#calculator', sortOrder: 4 },
@@ -92,13 +88,6 @@ export const DEFAULT_NAVIGATION = [
   { group: 'FOOTER' as const, label: 'Как работаем', href: '#process', sortOrder: 3 },
   { group: 'FOOTER' as const, label: 'Вопросы и ответы', href: '#faq', sortOrder: 4 },
   { group: 'FOOTER' as const, label: 'Контакты', href: '#contacts', sortOrder: 5 },
-  {
-    group: 'FOOTER' as const,
-    label: 'Основной сайт Sunservice',
-    href: 'https://sunservice-auto.ru',
-    sortOrder: 6,
-    external: true,
-  },
 
   { group: 'LEGAL' as const, label: 'Политика конфиденциальности', href: '/privacy', sortOrder: 0 },
   {
@@ -128,18 +117,17 @@ export const DEFAULT_SECTIONS = [
     key: 'services',
     label: 'Услуги',
     eyebrow: null,
-    title: 'Подключаемся на любом этапе покупки',
-    subtitle:
-      'Можно заказать один выезд на осмотр, а можно передать нам весь подбор — от поиска объявлений до сделки.',
+    title: 'Как мы работаем',
+    subtitle: 'Пять шагов от заявки до ключей в руках — берём на себя всё.',
     sortOrder: 1,
   },
   {
     key: 'inspection',
-    label: 'Что мы проверяем',
+    label: 'Предотгрузочная инспекция',
     eyebrow: null,
-    title: 'Проверка почти по сотне характеристик',
+    title: 'Проверяем авто до оплаты',
     subtitle:
-      'Осмотр ведут специалисты действующего автотехцентра — на своём оборудовании и на своём подъёмнике.',
+      'Наш агент осматривает автомобиль на месте — вы видите реальное состояние, а не слова продавца.',
     sortOrder: 2,
   },
   {
@@ -152,25 +140,25 @@ export const DEFAULT_SECTIONS = [
   },
   {
     key: 'cars',
-    label: 'Подобранные автомобили',
+    label: 'Пригнанные автомобили',
     eyebrow: null,
-    title: 'Автомобили, которые мы подобрали в прошлом месяце',
-    subtitle: 'Листайте карточки — внутри параметры автомобиля и срок, за который его нашли.',
+    title: 'Автомобили, которые мы уже привезли',
+    subtitle: null,
     sortOrder: 4,
   },
   {
     key: 'process',
     label: 'Как мы работаем',
     eyebrow: null,
-    title: 'Пять шагов от запроса до сделки',
+    title: 'От заявки до ключей — шаг за шагом',
     subtitle: null,
     sortOrder: 5,
   },
   {
     key: 'reasons',
-    label: 'Почему можно доверить подбор',
+    label: 'Почему выбирают нас',
     eyebrow: null,
-    title: 'Почему нам можно доверить подбор',
+    title: 'Почему выбирают нас',
     subtitle: null,
     sortOrder: 6,
   },
@@ -185,8 +173,8 @@ export const DEFAULT_SECTIONS = [
   {
     key: 'testimonials',
     label: 'Отзывы',
-    eyebrow: null,
-    title: 'Что говорят клиенты',
+    eyebrow: 'Реальные истории',
+    title: 'Отзывы клиентов',
     subtitle: null,
     sortOrder: 8,
   },
@@ -202,16 +190,16 @@ export const DEFAULT_SECTIONS = [
     key: 'cta',
     label: 'Финальная заявка',
     eyebrow: null,
-    title: 'Расскажите, какой автомобиль ищете',
+    title: 'Расскажите, какой автомобиль из Китая вас интересует',
     subtitle:
-      'Опишите задачу в двух предложениях — перезвоним, уточним детали и предложим формат работы.',
+      'Марка, модель, бюджет — оставьте заявку, и мы подберём варианты с ценами и сроками доставки.',
     sortOrder: 10,
   },
   {
     key: 'contacts',
     label: 'Контакты',
     eyebrow: null,
-    title: 'Приезжайте или позвоните',
+    title: 'Свяжитесь с нами',
     subtitle: null,
     sortOrder: 11,
   },
@@ -258,18 +246,15 @@ export const DEFAULT_PROMOTIONS = [
 export const DEFAULT_HERO = {
   id: 'hero',
   eyebrow: null as string | null,
-  // titleLead — крупная строка главного экрана, titleAccent — подпись под ней
-  // помельче. Третья строка (titleTail) необязательна и по умолчанию пуста.
   titleLead: 'ТМ Авто',
-  titleAccent: 'Ваш надёжный подбор авто',
+  titleAccent: 'Привезём авто из Китая и Кореи',
   titleTail: '',
-  subtitle:
-    'Находим автомобиль под ваш бюджет и задачи, проверяем кузов, двигатель, коробку и электрику на оборудовании автотехцентра, отдельно смотрим юридическую историю — угон, ограничения, залог.',
-  trustLine: 'Дзержинск · поиск по области и по России',
+  subtitle: '',
+  trustLine: 'Работаем по всей России · таможня включена в стоимость',
   primaryLabel: 'Рассчитать стоимость',
   primaryHref: '#calculator',
-  secondaryLabel: 'Как проходит подбор',
-  secondaryHref: '#process',
+  secondaryLabel: 'Подобрать авто',
+  secondaryHref: '#modal',
   // Планы собраны из одного кадра скриптом scripts/build-hero-planes.mjs —
   // так же, как в reference разложена фотография горы.
   layerSkyUrl: '/hero/sky.webp',
@@ -284,119 +269,104 @@ export const DEFAULT_HERO = {
 
 export const DEFAULT_TRUST_ITEMS = [
   {
-    title: 'Техническая диагностика',
-    text: 'Двигатель, коробка, ходовая и электрика — на оборудовании автотехцентра, а не «на глаз» во дворе.',
+    title: 'Инспекция в Китае',
+    text: 'Наш агент осматривает автомобиль на месте — кузов, агрегаты, документы. Вы видите реальный автомобиль.',
     sortOrder: 0,
   },
   {
-    title: 'Проверка истории',
-    text: 'Смотрим автомобиль на угон, ограничения и залог, сверяем документы и сопроводительные бумаги.',
+    title: 'Таможня и СБКТС',
+    text: 'Оформляем растаможку, получаем СБКТС и ПТС — полный пакет документов для постановки на учёт.',
     sortOrder: 1,
   },
   {
-    title: 'Поиск автомобиля',
-    text: 'Разбираем объявления, отсеиваем перекупов и битые варианты, выезжаем на осмотр.',
+    title: 'Доставка по России',
+    text: 'Транспортируем автомобиль от завода до вашего города. Страхование груза включено.',
     sortOrder: 2,
   },
   {
-    title: 'Сопровождение сделки',
-    text: 'Помогаем с торгом, оформлением и передачей автомобиля — до момента, когда ключи у вас.',
+    title: 'Прозрачная стоимость',
+    text: 'Цена фиксируется в договоре до оплаты — никаких доплат по дороге и сюрпризов на таможне.',
     sortOrder: 3,
   },
 ];
 
-// ── Что мы проверяем ─────────────────────────────────────────────────────
+// ── Предотгрузочная инспекция ─────────────────────────────────────────────
 
 export const DEFAULT_INSPECTION = [
   {
     code: 'body',
     title: 'Кузов и ЛКП',
     summary:
-      'Кузов — самый дорогой элемент автомобиля. Толщину лакокрасочного покрытия специалисты замеряют специализированным оборудованием, чтобы вы не купили автомобиль после аварии.',
+      'Наш агент осматривает кузов на месте в Китае: замеряет толщину покрытия, проверяет геометрию и наличие следов восстановления — до того, как вы переведёте деньги.',
     points: [
       'Замер толщины ЛКП по всем элементам',
-      'Геометрия кузова и следы восстановления',
-      'Скрытые полости, пороги, лонжероны',
-      'Зазоры, следы окраски и шпатлёвки',
+      'Геометрия кузова и следы ударов',
+      'Пороги, лонжероны, скрытые полости',
+      'Зазоры дверей, капота, крышки багажника',
     ],
     imageUrl: IMAGES.bodyPaint,
-    imageAlt: 'Замер толщины лакокрасочного покрытия кузова',
+    imageAlt: 'Осмотр кузова автомобиля перед отправкой из Китая',
     sortOrder: 0,
   },
   {
     code: 'engine',
-    title: 'Двигатель',
+    title: 'Двигатель и агрегаты',
     summary:
-      'Проверяем состояние мотора и всё, что влияет на его ресурс: технические жидкости, воздушный фильтр, ремень привода, посторонние шумы и звуки.',
+      'Проверяем работу двигателя на холодном и прогретом моторе, смотрим подтёки и состояние технических жидкостей — несоответствие хотя бы одному пункту останавливает отправку.',
     points: [
-      'Состояние двигателя и подкапотного пространства',
+      'Запуск на холодном и горячем двигателе',
       'Технические жидкости и следы подтёков',
-      'Ремень привода, воздушный фильтр',
-      'Посторонние шумы и звуки на работающем моторе',
+      'Воздушный фильтр, ремень привода',
+      'Посторонние звуки при работе мотора',
     ],
     imageUrl: IMAGES.engineBelts,
-    imageAlt: 'Ремённый привод двигателя',
+    imageAlt: 'Осмотр двигателя автомобиля',
     sortOrder: 1,
   },
   {
     code: 'transmission',
-    title: 'Коробка передач',
+    title: 'Трансмиссия',
     summary:
-      'Определяем состояние коробки передач: как включаются передачи, есть ли рывки и задержки, что показывает диагностика по ошибкам.',
+      'Тест-драйв перед отправкой — проверяем работу коробки передач в движении. Особое внимание уделяем DSG и вариаторам, которые часто скрывают проблемы.',
     points: [
-      'Работа коробки на ходу и на месте',
-      'Рывки, пинки, задержки при переключении',
-      'Ошибки блока управления трансмиссией',
-      'Следы подтёков и состояние масла',
+      'Тест-драйв на разных режимах',
+      'Переключения, рывки, задержки',
+      'Подтёки масла из коробки',
+      'Состояние сцепления и приводов',
     ],
     imageUrl: IMAGES.engineHands,
-    imageAlt: 'Диагностика агрегатов автомобиля',
+    imageAlt: 'Тест-драйв перед отправкой',
     sortOrder: 2,
   },
   {
     code: 'electric',
     title: 'Электрика и электроника',
     summary:
-      'Наши специалисты проверяют электронику и электрику автомобиля с пробегом: генератор, аккумулятор, систему зажигания и работу оборудования салона.',
+      'Китайские автомобили насыщены электроникой — проверяем все системы: мультимедиа, адаптивный круиз, камеры, датчики и климат-контроль.',
     points: [
-      'Генератор, аккумулятор, система зажигания',
-      'Компьютерная диагностика по блокам',
-      'Электрооборудование салона и кузова',
-      'Ошибки и следы их «скручивания»',
+      'Мультимедийная система и дисплей',
+      'Камеры и парктроники',
+      'Климат-контроль и подогревы',
+      'Диагностика по ошибкам блоков управления',
     ],
     imageUrl: IMAGES.cockpit,
-    imageAlt: 'Приборная панель и электроника автомобиля',
+    imageAlt: 'Проверка электроники автомобиля из Китая',
     sortOrder: 3,
   },
   {
-    code: 'chassis',
-    title: 'Подвеска и ходовая',
+    code: 'documents',
+    title: 'Документы и соответствие',
     summary:
-      'Диагностика ходовой части на подъёмнике: подшипники, опоры, элементы подвески и рулевого управления.',
+      'Сверяем VIN, номер кузова и двигателя с документами — это критично для таможни. Также проверяем соответствие комплектации заявленной в объявлении.',
     points: [
-      'Осмотр на подъёмнике автотехцентра',
-      'Подшипники и опоры',
-      'Элементы подвески и рулевого управления',
-      'Тормозная система и состояние дисков',
-    ],
-    imageUrl: IMAGES.serviceBay,
-    imageAlt: 'Автомобиль на диагностике в сервисной зоне',
-    sortOrder: 4,
-  },
-  {
-    code: 'legal',
-    title: 'Юридическая история',
-    summary:
-      'Автомобиль проверяется не только на неисправности: смотрим угон, ограничения и залог, а также сопроводительную документацию.',
-    points: [
-      'Проверка на угон',
-      'Ограничения на регистрационные действия',
-      'Залог и обременения',
-      'Сверка документов и сопроводительных бумаг',
+      'Сверка VIN и номера кузова',
+      'Соответствие комплектации объявлению',
+      'Пробег по диагностике vs по одометру',
+      'Оригинальные документы на авто',
     ],
     imageUrl: IMAGES.highway,
-    imageAlt: 'Автомобиль на дороге',
-    sortOrder: 5,
+    imageAlt: 'Проверка документов автомобиля',
+    sortOrder: 4,
   },
 ];
 
@@ -472,10 +442,10 @@ export const DEFAULT_SERVICES = [
 
 /** Дополнительные направления — списком с сайта Sunservice. */
 export const DEFAULT_EXTRA_SERVICES = [
-  'Базовые выездные проверки авто в Дзержинске',
+  'Базовые выездные проверки авто',
   'Комплексная проверка транспортного средства на СТО',
   'Подбор автомобиля по региону',
-  'Подбор по территории всей страны с доставкой в Дзержинск',
+  'Подбор по территории всей страны с доставкой клиенту',
   'Предоставление эксперта на день',
   'Тщательная проверка автомобильного кузова',
 ];
@@ -514,7 +484,7 @@ export const DEFAULT_PROCESS = [
   {
     title: 'Помогаем оформить покупку',
     text: 'Сопровождаем сделку: помогаем с торгом, оформлением документов и передачей автомобиля.',
-    detail: 'При подборе по России помогаем с доставкой автомобиля в Дзержинск.',
+    detail: 'Помогаем с доставкой автомобиля клиенту — в любую точку России.',
     imageUrl: IMAGES.carQ5,
     sortOrder: 4,
   },
@@ -524,52 +494,68 @@ export const DEFAULT_PROCESS = [
 
 export const DEFAULT_REASONS = [
   {
-    title: 'Мы автосервис, а не только подборщики',
-    text: 'Подбор ведут специалисты действующего автотехцентра Sunservice. Тот же персонал, который каждый день ремонтирует такие автомобили, смотрит их и перед покупкой.',
+    title: 'Низкие цены',
+    text: 'Предлагаем конкурентные цены на автомобили из Кореи — вы платите ровно столько, сколько стоит авто, без скрытых наценок.',
     imageUrl: IMAGES.workshop,
     imageAlt: 'Ремонтная зона автотехцентра',
     size: 'LARGE' as const,
     sortOrder: 0,
   },
   {
-    title: 'Собственная техническая база',
-    text: 'Подъёмник, оборудование для замера ЛКП и компьютерная диагностика — на месте, а не «у знакомых».',
+    title: 'Без посредников',
+    text: 'Работаем напрямую с поставщиками и аукционами в Корее — никаких лишних звеньев в цепочке и никаких дополнительных комиссий.',
     imageUrl: IMAGES.serviceBay,
     imageAlt: 'Автомобиль на подъёмнике',
     size: 'MEDIUM' as const,
     sortOrder: 1,
   },
   {
-    title: 'Проверяем не только внешне',
-    text: 'Проверка автомобиля идёт почти по сотне характеристик — от геометрии кузова до ошибок в блоках управления.',
+    title: 'Большой выбор авто',
+    text: 'Тысячи автомобилей разных марок, моделей и комплектаций — подберём именно то, что вам нужно.',
     imageUrl: null,
     imageAlt: null,
     size: 'SMALL' as const,
     sortOrder: 2,
   },
   {
-    title: 'Юридическая проверка',
-    text: 'Автомобиль смотрим на угон, ограничения и залог до того, как вы внесёте задаток.',
+    title: 'Прозрачность в покупке',
+    text: 'Вы получаете полную информацию об истории автомобиля, его техническом состоянии и предыдущих владельцах — без утайки.',
     imageUrl: null,
     imageAlt: null,
     size: 'SMALL' as const,
     sortOrder: 3,
   },
   {
-    title: 'Поиск по региону и по России',
-    text: 'Если подходящего варианта нет в Дзержинске — ищем по области и по стране, с доставкой автомобиля клиенту.',
+    title: 'Авто с аукционов Кореи',
+    text: 'Прямой доступ к корейским аукционам: широкий выбор брендов, актуальные лоты и честные стартовые цены.',
     imageUrl: IMAGES.highway,
     imageAlt: 'Автомобиль на трассе',
     size: 'MEDIUM' as const,
     sortOrder: 4,
   },
   {
-    title: 'Работаем вместе с ExpertAuto52',
-    text: 'Услуги по подбору оказываем совместно с компанией ExpertAuto52, которая занимается этим не первый год.',
+    title: 'Быстрая доставка',
+    text: 'Берём на себя всю логистику — от выкупа до передачи ключей — и доставляем автомобиль в максимально короткие сроки.',
     imageUrl: null,
     imageAlt: null,
     size: 'SMALL' as const,
     sortOrder: 5,
+  },
+  {
+    title: 'Полное сопровождение',
+    text: 'Наша команда ведёт вас от выбора автомобиля до его получения: отвечаем на вопросы, решаем вопросы, держим в курсе на каждом этапе.',
+    imageUrl: null,
+    imageAlt: null,
+    size: 'SMALL' as const,
+    sortOrder: 6,
+  },
+  {
+    title: 'Гарантия качества',
+    text: 'Каждый автомобиль проходит проверку перед отправкой — мы уверены в том, что передаём вам, и готовы это подтвердить.',
+    imageUrl: null,
+    imageAlt: null,
+    size: 'SMALL' as const,
+    sortOrder: 7,
   },
 ];
 
@@ -767,7 +753,7 @@ export const DEFAULT_FAQ = [
   {
     question: 'Можно ли искать автомобиль в другом городе?',
     answer:
-      'Да. Мы делаем подбор по региону и по территории всей страны с доставкой выбранного автомобиля клиенту в Дзержинск.',
+      'Да. Мы делаем подбор по региону и по территории всей страны с доставкой выбранного автомобиля клиенту.',
     sortOrder: 1,
   },
   {
@@ -828,7 +814,7 @@ export const DEFAULT_CALCULATOR = {
     'Расчёт носит предварительный характер, не является офертой и уточняется после разговора со специалистом. Итоговая стоимость зависит от количества выездов, географии поиска и состояния конкретных автомобилей.',
   ctaLabel: 'Получить варианты автомобилей',
   successTitle: 'Заявка отправлена',
-  successText: 'Свяжемся с вами в рабочее время: 8:00–20:00, без выходных.',
+  successText: 'Перезвоним в течение часа и пришлём варианты с ценами и сроками доставки.',
 };
 
 export const DEFAULT_BUDGET_TIERS = [
@@ -840,82 +826,70 @@ export const DEFAULT_BUDGET_TIERS = [
 ];
 
 export const DEFAULT_CALCULATOR_STEPS = [
+  // Шаг 1 — Бюджет
   {
     key: 'budget',
-    kind: 'RANGE' as const,
-    title: 'Какой бюджет на автомобиль?',
-    hint: 'Укажите вилку, в которой готовы рассматривать варианты.',
+    kind: 'SINGLE' as const,
+    title: 'Какой у Вас бюджет на авто?',
+    hint: null,
     searchable: false,
     required: true,
-    rangeConfig: {
-      min: 300_000,
-      max: 10_000_000,
-      step: 50_000,
-      defaultFrom: 1_200_000,
-      defaultTo: 2_500_000,
-      unit: '₽',
-      quick: [
-        { label: 'до 1 млн', from: 300_000, to: 1_000_000 },
-        { label: '1–2 млн', from: 1_000_000, to: 2_000_000 },
-        { label: '2–3,5 млн', from: 2_000_000, to: 3_500_000 },
-        { label: '3,5–6 млн', from: 3_500_000, to: 6_000_000 },
-        { label: 'от 6 млн', from: 6_000_000, to: 10_000_000 },
-      ],
-    },
+    rangeConfig: null,
     sortOrder: 0,
-    options: [],
+    options: [
+      { label: '1–2 млн ₽', value: '1-2', multiplier: 1, addend: 0, sortOrder: 0 },
+      { label: '2–3 млн ₽', value: '2-3', multiplier: 1.25, addend: 3_000, sortOrder: 1 },
+      { label: '3–4 млн ₽', value: '3-4', multiplier: 1.4, addend: 6_000, sortOrder: 2 },
+      { label: 'Более 4 млн ₽', value: '4+', multiplier: 1.6, addend: 10_000, sortOrder: 3 },
+    ],
   },
+
+  // Шаг 2 — Марки
   {
     key: 'brand',
     kind: 'MULTI' as const,
-    title: 'Какие марки рассматриваете?',
-    hint: 'Можно выбрать несколько или пропустить, если ещё не определились.',
-    searchable: true,
+    title: 'Какие марки авто вы рассматриваете?',
+    hint: 'Можно выбрать несколько',
+    searchable: false,
     required: false,
     rangeConfig: null,
     sortOrder: 1,
     options: [
-      { label: 'Не определился', value: 'any', multiplier: 1.05, addend: 0, sortOrder: 0 },
-      { label: 'Toyota', value: 'toyota', multiplier: 1, addend: 0, sortOrder: 1 },
-      { label: 'Kia', value: 'kia', multiplier: 1, addend: 0, sortOrder: 2 },
-      { label: 'Hyundai', value: 'hyundai', multiplier: 1, addend: 0, sortOrder: 3 },
-      { label: 'Volkswagen', value: 'volkswagen', multiplier: 1, addend: 0, sortOrder: 4 },
-      { label: 'Skoda', value: 'skoda', multiplier: 1, addend: 0, sortOrder: 5 },
-      { label: 'Mazda', value: 'mazda', multiplier: 1, addend: 0, sortOrder: 6 },
-      { label: 'Nissan', value: 'nissan', multiplier: 1, addend: 0, sortOrder: 7 },
-      { label: 'Renault', value: 'renault', multiplier: 1, addend: 0, sortOrder: 8 },
-      { label: 'Lada', value: 'lada', multiplier: 0.95, addend: 0, sortOrder: 9 },
-      { label: 'BMW', value: 'bmw', multiplier: 1.15, addend: 0, sortOrder: 10 },
-      { label: 'Mercedes-Benz', value: 'mercedes', multiplier: 1.15, addend: 0, sortOrder: 11 },
-      { label: 'Audi', value: 'audi', multiplier: 1.15, addend: 0, sortOrder: 12 },
-      { label: 'Land Rover', value: 'land-rover', multiplier: 1.2, addend: 0, sortOrder: 13 },
-      { label: 'Chery', value: 'chery', multiplier: 1, addend: 0, sortOrder: 14 },
-      { label: 'Geely', value: 'geely', multiplier: 1, addend: 0, sortOrder: 15 },
-      { label: 'Haval', value: 'haval', multiplier: 1, addend: 0, sortOrder: 16 },
-      { label: 'Exeed', value: 'exeed', multiplier: 1, addend: 0, sortOrder: 17 },
+      { label: 'KIA', value: 'kia', multiplier: 1, addend: 0, sortOrder: 0 },
+      { label: 'Hyundai', value: 'hyundai', multiplier: 1, addend: 0, sortOrder: 1 },
+      { label: 'Genesis', value: 'genesis', multiplier: 1.15, addend: 0, sortOrder: 2 },
+      { label: 'Changan', value: 'changan', multiplier: 1, addend: 0, sortOrder: 3 },
+      { label: 'BMW', value: 'bmw', multiplier: 1.15, addend: 0, sortOrder: 4 },
+      { label: 'Audi', value: 'audi', multiplier: 1.15, addend: 0, sortOrder: 5 },
+      { label: 'Mercedes', value: 'mercedes', multiplier: 1.15, addend: 0, sortOrder: 6 },
+      { label: 'Geely', value: 'geely', multiplier: 1, addend: 0, sortOrder: 7 },
+      { label: 'Другой', value: 'other', multiplier: 1.05, addend: 0, sortOrder: 8 },
     ],
   },
+
+  // Шаг 3 — Возраст
   {
-    key: 'year',
+    key: 'age',
     kind: 'SINGLE' as const,
-    title: 'Какой год выпуска рассматриваете?',
+    title: 'Какой максимальный возраст автомобиля вас интересует?',
     hint: null,
     searchable: false,
     required: true,
     rangeConfig: null,
     sortOrder: 2,
     options: [
-      { label: 'Не старше 3 лет', value: 'lt3', multiplier: 1, addend: 0, sortOrder: 0 },
+      { label: 'До 3 лет', value: 'lt3', multiplier: 1, addend: 0, sortOrder: 0 },
       { label: 'От 3 до 5 лет', value: '3-5', multiplier: 1.05, addend: 0, sortOrder: 1 },
-      { label: 'От 5 до 8 лет', value: '5-8', multiplier: 1.15, addend: 1_500, sortOrder: 2 },
-      { label: 'Старше 8 лет', value: 'gt8', multiplier: 1.25, addend: 3_000, sortOrder: 3 },
-      { label: 'Не принципиально', value: 'any', multiplier: 1.05, addend: 0, sortOrder: 4 },
+      { label: 'От 5 до 7 лет', value: '5-7', multiplier: 1.15, addend: 1_500, sortOrder: 2 },
+      { label: 'Старше 7 лет', value: 'gt7', multiplier: 1.25, addend: 3_000, sortOrder: 3 },
     ],
   },
+
+  // Шаг 4 — Пробег
   {
     key: 'mileage',
     kind: 'SINGLE' as const,
-    title: 'Максимальный пробег?',
+    title: 'Какой должен быть пробег на автомобиле?',
     hint: null,
     searchable: false,
     required: true,
@@ -929,93 +903,21 @@ export const DEFAULT_CALCULATOR_STEPS = [
       { label: 'Любой', value: 'any', multiplier: 1.05, addend: 0, sortOrder: 4 },
     ],
   },
-  {
-    key: 'geography',
-    kind: 'SINGLE' as const,
-    title: 'Где искать автомобиль?',
-    hint: 'От географии зависит количество выездов и срок подбора.',
-    searchable: false,
-    required: true,
-    rangeConfig: null,
-    sortOrder: 4,
-    options: [
-      { label: 'Дзержинск', value: 'dzerzhinsk', multiplier: 1, addend: 0, sortOrder: 0 },
-      {
-        label: 'Нижегородская область',
-        value: 'region',
-        multiplier: 1.15,
-        addend: 2_000,
-        sortOrder: 1,
-      },
-      {
-        label: 'Другие регионы России',
-        value: 'russia',
-        multiplier: 1.35,
-        addend: 8_000,
-        hint: 'С доставкой автомобиля в Дзержинск',
-        sortOrder: 2,
-      },
-    ],
-  },
-  {
-    key: 'format',
-    kind: 'SINGLE' as const,
-    title: 'Какой формат услуги нужен?',
-    hint: null,
-    searchable: false,
-    required: true,
-    rangeConfig: null,
-    sortOrder: 5,
-    options: [
-      {
-        label: 'Разовый осмотр',
-        value: 'single',
-        hint: 'Проверка одного автомобиля, который вы уже нашли',
-        multiplier: 0.5,
-        addend: 0,
-        sortOrder: 0,
-      },
-      {
-        label: 'Эксперт на день',
-        value: 'expert-day',
-        hint: 'Специалист смотрит несколько автомобилей за день',
-        multiplier: 0.9,
-        addend: 4_000,
-        sortOrder: 1,
-      },
-      {
-        label: 'Комплексный подбор',
-        value: 'full',
-        hint: 'От поиска объявлений до сопровождения сделки',
-        multiplier: 1.6,
-        addend: 12_000,
-        sortOrder: 2,
-      },
-      {
-        label: 'Пока не знаю',
-        value: 'unsure',
-        hint: 'Подберём формат на консультации',
-        multiplier: 1,
-        addend: 0,
-        sortOrder: 3,
-      },
-    ],
-  },
 ];
 
 // ── SEO ──────────────────────────────────────────────────────────────────
 
 export const DEFAULT_SEO = {
   id: 'seo',
-  title: 'Подбор авто в Дзержинске — Sunservice | Проверка автомобиля перед покупкой',
+  title: 'Пригон авто из Китая под ключ — ТМ Авто',
   description:
-    'Профессиональный подбор автомобиля в Дзержинске. Проверка ЛКП и кузова, комплексная диагностика, эксперт на день, юридическая проверка на угон, ограничения и залог. Автотехцентр Sunservice, ул. Самохвалова, 6Б.',
-  h1: 'Подбор автомобилей в Дзержинске',
+    'Подбор и пригон автомобилей из Китая: предотгрузочная инспекция, таможня, СБКТС и доставка по России. Фиксированная цена в договоре.',
+  h1: 'Пригон автомобилей из Китая',
   keywords:
-    'подбор авто Дзержинск, подбор автомобиля Дзержинск, проверка авто перед покупкой, автоподбор Дзержинск, диагностика перед покупкой',
-  ogTitle: 'Подбор авто в Дзержинске — Sunservice',
+    'пригон авто из Китая, авто из Китая под ключ, растаможка авто из Китая, купить авто в Китае, доставка авто из Китая',
+  ogTitle: 'Пригон авто из Китая под ключ — ТМ Авто',
   ogDescription:
-    'Найдём автомобиль под ваш бюджет и проверим его на оборудовании автотехцентра: кузов, двигатель, коробка, электрика и юридическая история.',
+    'Подбираем, проверяем на месте, растамаживаем и доставляем авто из Китая. Таможня и СБКТС включены. Работаем по всей России.',
   // Собирается тем же скриптом, что и слои главного экрана.
   ogImageUrl: '/hero/og.jpg',
   canonicalUrl: null as string | null,

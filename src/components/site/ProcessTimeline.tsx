@@ -46,7 +46,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessView[] }) {
       {/* ── Липкая колонка (только desktop) ───────────────────────────── */}
       <div className="hidden lg:col-span-5 lg:block">
         <div className="sticky top-28">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-paper-3">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper-3">
             {steps.map((step, index) => (
               <div
                 key={step.id}
@@ -119,7 +119,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessView[] }) {
 
               {/* На мобильном фотография показывается прямо в ленте */}
               {step.imageUrl && (
-                <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-[4px] bg-paper-3 lg:hidden">
+                <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-2xl bg-paper-3 lg:hidden">
                   <SmartImage
                     src={step.imageUrl}
                     alt=""

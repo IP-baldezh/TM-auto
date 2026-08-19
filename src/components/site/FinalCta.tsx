@@ -76,7 +76,7 @@ export function FinalCta({
           </div>
 
           <div className="lg:col-span-7 lg:pl-8">
-            <div className="rounded-[4px] bg-paper p-6 text-ink sm:p-9" data-reveal="up">
+            <div className="rounded-2xl bg-paper-2 p-6 text-ink sm:p-9" data-reveal="up">
               {form.status === 'success' ? (
                 <div className="py-8 text-center">
                   <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-brand text-white">
@@ -84,7 +84,7 @@ export function FinalCta({
                   </div>
                   <h3 className="mt-6 text-2xl font-bold tracking-[-0.02em]">Заявка отправлена</h3>
                   <p className="mx-auto mt-3 max-w-sm text-[0.9375rem] leading-relaxed text-steel">
-                    Свяжемся с вами в рабочее время: 8:00–20:00, без выходных.
+                    Перезвоним в течение часа и подберём варианты с ценами и сроками.
                   </p>
                 </div>
               ) : (

@@ -6,7 +6,7 @@ import { LegalPage } from '@/components/site/LegalPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Политика конфиденциальности — Sunservice',
+  title: 'Политика конфиденциальности — ТМ Авто',
   description: 'Политика в отношении обработки персональных данных.',
   robots: 'noindex,follow',
 };

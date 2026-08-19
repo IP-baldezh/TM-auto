@@ -57,7 +57,7 @@ export function InspectionExplorer({ categories }: { categories: InspectionView[
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       {/* ── Изображение ───────────────────────────────────────────────── */}
       <div className="lg:col-span-5" data-reveal="mask">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[4px] bg-paper-3 sm:aspect-[16/11] lg:sticky lg:top-24 lg:aspect-[4/5]">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-3 sm:aspect-[16/11] lg:sticky lg:top-24 lg:aspect-[4/5]">
           {categories.map((category, index) => (
             <div
               key={category.id}
@@ -88,7 +88,7 @@ export function InspectionExplorer({ categories }: { categories: InspectionView[
         <div
           role="tablist"
           aria-orientation="vertical"
-          aria-label="Категории проверки"
+          aria-label="Этапы инспекции"
           onKeyDown={onKeyDown}
           className="border-t border-line"
         >

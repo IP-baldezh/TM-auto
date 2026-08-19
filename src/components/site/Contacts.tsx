@@ -57,7 +57,7 @@ export function Contacts({
                   <dt className="text-[0.875rem] text-steel">
                     {contact.label}
                     {contact.isPrimary && (
-                      <span className="ml-2 inline-block rounded-[2px] bg-brand px-1.5 py-0.5 align-middle text-[0.625rem] font-semibold uppercase tracking-wider text-white">
+                      <span className="ml-2 inline-block rounded bg-brand px-1.5 py-0.5 align-middle text-[0.625rem] font-semibold uppercase tracking-wider text-white">
                         Подбор
                       </span>
                     )}
@@ -106,7 +106,7 @@ export function Contacts({
           {/* ── Карта ─────────────────────────────────────────────────── */}
           {site.mapEmbedUrl && (
             <div className="lg:col-span-7" data-reveal="mask">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] border border-line bg-paper-3 sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[26rem]">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-paper-3 sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[26rem]">
                 <iframe
                   src={site.mapEmbedUrl}
                   title={`Схема проезда: ${site.address}`}

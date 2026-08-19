@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Админ-панель — Sunservice',
+  title: 'Админ-панель — ТМ Авто',
   robots: 'noindex,nofollow',
 };
 

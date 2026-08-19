@@ -13,7 +13,7 @@ export default async function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[#f6f6f4] px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <p className="text-lg font-extrabold uppercase tracking-[-0.02em]">Sunservice</p>
+          <p className="text-lg font-extrabold uppercase tracking-[-0.02em]">ТМ Авто</p>
           <p className="mt-1 text-[0.75rem] uppercase tracking-[0.14em] text-black/40">
             Админ-панель
           </p>

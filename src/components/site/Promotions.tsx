@@ -1,123 +1,179 @@
-import type { PromotionView, SectionView } from '@/lib/content';
-import { Container } from '@/components/site/Section';
-import { SmartImage } from '@/components/ui/SmartImage';
+'use client';
 
-/**
- * Акции — первый блок после главного экрана.
- *
- * Карточка: слева текст и цена, справа автомобиль, выходящий за правый край.
- * Ключевой приём — крупная цена по акции против зачёркнутой обычной.
- *
- * Секция открывает светлую часть страницы, поэтому начинается градиентом:
- * сцена главного экрана растворяется в тёмном, и стык ink → paper вплотную
- * читался бы обрывом.
- */
+import { useState } from 'react';
+import { Check, Loader2, X } from 'lucide-react';
+
+import type { SectionView } from '@/lib/content';
+import { Container } from '@/components/site/Section';
+import { Button } from '@/components/ui/Button';
+import { LeadFields } from '@/components/forms/LeadFields';
+import { useLeadForm } from '@/components/forms/useLeadForm';
+
+
 export function Promotions({
   section,
-  promotions,
+  privacyUrl,
+  consentUrl,
 }: {
   section: SectionView;
-  promotions: PromotionView[];
+  privacyUrl: string;
+  consentUrl: string;
 }) {
-  if (!section.enabled || promotions.length === 0) return null;
+  const [open, setOpen] = useState(false);
+  const form = useLeadForm('OTHER');
+
+  if (!section.enabled) return null;
+
+  function handleClose() {
+    setOpen(false);
+    form.reset();
+  }
 
   return (
-    <section id="promotions" className="relative bg-paper">
-      {/* Всплытие из тёмного главного экрана */}
-      <div
-        aria-hidden="true"
-        className="h-20 w-full bg-gradient-to-b from-ink to-paper sm:h-28 lg:h-32"
-      />
+    <>
+      <section id="promotions" className="relative overflow-hidden">
+        {/* Фото во весь блок */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/promotions-bg.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
 
-      <div className="pb-20 md:pb-28 lg:pb-32">
-        <Container>
-          {section.title && (
-            <h2
-              className="display mx-auto max-w-[22ch] text-center text-[clamp(1.75rem,4.2vw,3.4rem)] leading-[1.06]"
-              data-reveal="up"
-            >
-              {section.title}
-            </h2>
-          )}
-          {section.subtitle && (
-            <p
-              className="mx-auto mt-5 max-w-[56ch] text-center text-[0.9375rem] leading-relaxed text-steel md:text-base"
-              data-reveal="up"
-            >
-              {section.subtitle}
-            </p>
-          )}
+        {/* Тёмный градиент-оверлей */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-b from-ink/90 via-ink/65 to-ink/75"
+        />
 
-          <ul className="mt-12 grid gap-5 md:mt-16 md:grid-cols-2 lg:gap-6">
-            {promotions.map((promo) => (
-              <li
-                key={promo.id}
-                data-reveal="up"
-                className="relative isolate overflow-hidden rounded-[1.25rem] bg-paper-2 p-6 sm:p-7 lg:p-8"
-              >
-                {/* Пометка о демо-данных не должна влиять на высоту карточки —
-                    иначе макет «поедет», когда её заменят на реальную акцию. */}
-                {promo.isDemo && (
-                  <span className="absolute right-3 top-3 z-10 rounded-[3px] bg-ink/75 px-2 py-0.5 text-[0.625rem] uppercase tracking-wider text-paper">
-                    Демо
-                  </span>
-                )}
+        {/* Контент */}
+        <div className="relative py-24 md:py-32 lg:py-40">
+          <Container>
+            <div className="lg:grid lg:grid-cols-11 lg:items-center lg:gap-16">
 
-                {/* Автомобиль справа, выходит за край карточки */}
-                {promo.imageUrl && (
-                  <div className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-[46%] sm:w-[56%]">
-                    <SmartImage
-                      src={promo.imageUrl}
-                      alt={promo.imageAlt ?? ''}
-                      fill
-                      sizes="(max-width: 768px) 60vw, 30vw"
-                      className="scale-110 object-cover object-left [mask-image:linear-gradient(to_right,transparent,#000_38%)]"
-                    />
-                  </div>
-                )}
+              {/* Левая колонка: заголовок + кнопка */}
+              <div className="lg:col-span-5" data-reveal="up">
+                <h2
+                  className="display text-[clamp(1.75rem,4.2vw,3.4rem)] leading-[1.06] text-white"
+                >
+                  Привозим авто по самым выгодным условиям
+                </h2>
 
-                {/* На узкой карточке текст занимает почти всю ширину: левый
-                    край изображения растворён маской, поэтому лёгкое
-                    наложение не мешает читаемости. */}
-                <div className="relative max-w-[78%] sm:max-w-[58%]">
-                  <h3 className="text-[clamp(1.0625rem,1.9vw,1.5rem)] leading-snug">
-                    {promo.title}
-                  </h3>
-                  {promo.subtitle && (
-                    <p className="mt-2 text-[0.875rem] leading-relaxed text-steel">
-                      {promo.subtitle}
-                    </p>
-                  )}
-
-                  <p className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <span className="display tabular text-[clamp(1.75rem,3.4vw,2.75rem)] leading-none">
-                      {promo.price}
-                    </span>
-                    {promo.oldPrice && (
-                      <span className="tabular text-[0.9375rem] text-steel-2 line-through">
-                        {promo.oldPrice}
-                      </span>
-                    )}
-                  </p>
-
-                  <a
-                    href={promo.ctaHref}
-                    className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-ink px-6 text-[0.875rem] font-medium text-paper transition-colors hover:bg-graphite"
+                <div className="mt-10">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(true)}
+                    className="inline-flex h-13 items-center justify-center rounded-full bg-brand px-9 text-[0.9375rem] font-semibold text-white shadow-xl shadow-brand/30 transition-colors hover:bg-brand-dark"
                   >
-                    {promo.ctaLabel}
-                  </a>
+                    Подобрать предложение
+                  </button>
+                </div>
+              </div>
 
-                  {promo.validUntil && (
-                    <p className="mt-4 text-[0.8125rem] text-steel">
-                      Акция действует до <span className="text-brand">{promo.validUntil}</span>
+              {/* Правая колонка: матовое стекло с текстом */}
+              <div className="mt-12 lg:col-span-6 lg:mt-0" data-reveal="up">
+                <div className="rounded-2xl border border-white/[0.13] bg-white/[0.07] p-8 backdrop-blur-md sm:p-10">
+                  <p className="text-[1rem] leading-relaxed text-white/90 sm:text-[1.0625rem]">
+                    У нас есть прямой доступ к заводским партиям автомобилей — мы работаем с
+                    производителем напрямую, минуя дилерскую цепочку.
+                  </p>
+                  <p className="mt-5 text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
+                    Ещё до нанесения VIN-номера на кузов мы можем забронировать конкретный
+                    автомобиль из партии. Как только завод присваивает идентификатор — сразу
+                    забираем машину.
+                  </p>
+                  <p className="mt-5 text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
+                    Благодаря этому покупатель получает автомобиль одним из первых — без
+                    ожидания в очереди и по цене ниже рыночной, пока рынок ещё не успел
+                    отреагировать на новую партию.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </Container>
+        </div>
+      </section>
+
+      {/* Модальная форма */}
+      {open && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Подобрать предложение"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+        >
+          {/* Подложка */}
+          <button
+            type="button"
+            aria-label="Закрыть"
+            className="absolute inset-0 bg-ink/70 backdrop-blur-sm"
+            onClick={handleClose}
+          />
+
+          {/* Окно */}
+          <div className="relative z-10 w-full max-w-md rounded-[1.25rem] bg-paper-2 p-7 shadow-2xl sm:p-9">
+            <button
+              type="button"
+              onClick={handleClose}
+              aria-label="Закрыть"
+              className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-steel transition-colors hover:text-ink"
+            >
+              <X className="size-5" />
+            </button>
+
+            {form.status === 'success' ? (
+              <div className="py-6 text-center">
+                <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-brand text-white">
+                  <Check className="size-7" strokeWidth={2.5} aria-hidden="true" />
+                </div>
+                <h3 className="mt-5 text-xl font-bold tracking-tight">Заявка отправлена</h3>
+                <p className="mx-auto mt-2 max-w-[30ch] text-[0.9375rem] leading-relaxed text-steel">
+                  Перезвоним в течение часа и подберём варианты с ценами и сроками.
+                </p>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-bold tracking-tight">Подобрать предложение</h2>
+                <p className="mt-1.5 text-[0.875rem] leading-relaxed text-steel">
+                  Оставьте контакты — подберём лучший вариант под ваш бюджет
+                </p>
+
+                <form
+                  className="mt-6"
+                  noValidate
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void form.submit();
+                  }}
+                >
+                  <LeadFields form={form} privacyUrl={privacyUrl} consentUrl={consentUrl} />
+
+                  {form.error && (
+                    <p role="alert" className="mt-3 text-[0.8125rem] text-brand">
+                      {form.error}
                     </p>
                   )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </div>
-    </section>
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    className="mt-5 w-full"
+                    disabled={form.status === 'submitting'}
+                  >
+                    {form.status === 'submitting' && (
+                      <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                    )}
+                    Отправить заявку
+                  </Button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

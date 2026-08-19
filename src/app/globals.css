@@ -8,9 +8,9 @@
 
 @theme {
   /* Поверхности */
-  --color-paper: #f4f1ec;
-  --color-paper-2: #ebe7e0;
-  --color-paper-3: #e0dbd2;
+  --color-paper: #ededf0;
+  --color-paper-2: #ffffff;
+  --color-paper-3: #e2e2e6;
 
   /* Тёмные */
   --color-ink: #0e1114;
@@ -24,8 +24,8 @@
   --color-steel-3: #b4bcc3;
 
   /* Линии */
-  --color-line: #d8d2c8;
-  --color-line-strong: #c4bcae;
+  --color-line: #d6d6dc;
+  --color-line-strong: #c0c0c8;
   --color-line-dark: #2b333b;
 
   /* Акцент */
@@ -36,13 +36,13 @@
 
   /* Типографика */
   --font-display:
-    var(--font-unbounded), var(--font-manrope), ui-sans-serif, system-ui,
+    var(--font-montserrat), ui-sans-serif, system-ui,
     sans-serif;
   --font-sans:
-    var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, sans-serif;
   --font-mono:
-    var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Сетка */
   --spacing-gutter: 1.25rem;
@@ -160,21 +160,20 @@
   }
 }
 
-/* Технический подзаголовок секции: 01 / ЧТО ПРОВЕРЯЕМ */
+/* Технический подзаголовок секции */
 @utility eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Крупный дисплейный заголовок */
 @utility display {
   font-family: var(--font-display);
   font-weight: 700;
-  /* Unbounded шире Manrope: сильный отрицательный трекинг ему вредит */
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1;
   text-transform: none;
 }
@@ -270,6 +269,7 @@
 [data-parallax-layer="4"].parallax__layer-img {
   top: 0;
   height: 85.3333%;
+  object-fit: cover;
   object-position: center bottom;
 }
 
@@ -293,28 +293,22 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* Отступ снизу поднимает текст в чистое небо над кромкой деревьев.
-     У reference заголовок стоит по центру, потому что его передний план —
-     узкая полоса у нижнего края. Наш автомобиль занимает середину кадра, и
-     текст, оставленный по центру, тонул в кроне и кузове. */
-  padding-bottom: 50svh;
+  /* Смещаем текст выше центра — при загрузке читается над машиной,
+     при скролле машина (layer 4) его перекрывает. */
+  padding-bottom: 38svh;
 }
 
 .parallax__title {
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   line-height: 1;
   text-align: center;
   text-transform: uppercase;
   position: relative;
   margin: 0;
   pointer-events: auto;
-  /* reference: 11vw. Ограничение по высоте экрана — на невысоком ноутбуке
-     чистого неба над горизонтом меньше. */
   font-size: clamp(2.25rem, min(11vw, 22svh), 12rem);
-  /* Страховка поверх градиентного фильтра: тень не создаёт видимой формы,
-     но добавляет запас там, где под букву попало светлое облако. */
   text-shadow: 0 0.06em 0.5em rgb(14 17 20 / 0.55);
 }
 
@@ -322,16 +316,108 @@
 .parallax__tagline {
   margin: 0.9em 0 0;
   text-align: center;
-  color: rgb(255 255 255 / 0.72);
-  font-size: clamp(0.8125rem, 1.35vw, 1.125rem);
-  letter-spacing: 0.16em;
+  color: #fff;
+  font-size: clamp(0.875rem, 1.5vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  text-shadow: 0 0.08em 0.6em rgb(14 17 20 / 0.7);
+  text-shadow: none;
   line-height: 1.4;
 }
 
 .parallax__title-block {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Подзаголовок под tagline */
+.parallax__subtitle {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: rgb(255 255 255 / 0.65);
+  font-size: clamp(0.875rem, 1.5vw, 1.0625rem);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: 0 0.08em 0.6em rgb(14 17 20 / 0.7);
+  line-height: 1.5;
+  max-width: 44ch;
+}
+
+/* Контейнер CTA + scroll-hint — поверх всех слоёв параллакса */
+.parallax__hero-bottom {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  pointer-events: none;
+}
+
+.parallax__hero-bottom .parallax__cta {
+  pointer-events: auto;
+}
+
+/* Ряд CTA-кнопок */
+.parallax__cta-row {
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.parallax__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0 1.75rem;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.parallax__cta--primary {
+  background-color: var(--color-brand);
+  color: #fff;
+}
+
+.parallax__cta--primary:hover {
+  background-color: var(--color-brand-dark);
+}
+
+.parallax__cta--secondary {
+  background-color: transparent;
+  color: #fff;
+  border: 1.5px solid rgb(255 255 255 / 0.45);
+}
+
+.parallax__cta--secondary:hover {
+  border-color: rgb(255 255 255 / 0.8);
+  background-color: rgb(255 255 255 / 0.08);
+}
+
+/* Scroll-down индикатор — теперь flex-child внутри parallax__hero-bottom */
+.parallax__scroll-hint {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%       { transform: translateY(6px); opacity: 1; }
 }
 
 /* Растворение низа сцены в фон следующей секции.

@@ -41,7 +41,7 @@ export function LegalPage({
           ))}
         </div>
 
-        <p className="mt-10 max-w-[70ch] rounded-[3px] border border-line-strong bg-paper-2 p-5 text-[0.8125rem] leading-relaxed text-steel">
+        <p className="mt-10 max-w-[70ch] rounded-xl border border-line-strong bg-paper-2 p-5 text-[0.8125rem] leading-relaxed text-steel">
           <strong className="font-semibold text-ink">Шаблон, требующий проверки.</strong> Текст
           подготовлен как типовая заготовка и должен быть согласован с юристом до публикации:
           необходимо указать полное наименование оператора, ИНН/ОГРН и регистрационные данные.

@@ -1,9 +1,16 @@
+'use client';
+
+import { useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import type { CarView, SectionView } from '@/lib/content';
-import { Container, Section, SectionHeading } from '@/components/site/Section';
+import { Container, Section } from '@/components/site/Section';
 import { formatMileage, formatMoney, pluralRu } from '@/lib/utils';
 import { CoverflowCarousel, type CoverflowSlide } from './CoverflowCarousel';
 
 export function DeliveredCars({ section, cars }: { section: SectionView; cars: CarView[] }) {
+  const carouselRef = useRef<{ nudge: (by: number) => void } | null>(null);
+
   if (!section.enabled || cars.length === 0) return null;
 
   const slides: CoverflowSlide[] = cars.map((car) => {
@@ -38,13 +45,41 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
   return (
     <Section id="cars" tone="paper-2">
       <Container>
-        <SectionHeading title={section.title} subtitle={section.subtitle} />
+        <div className="mb-12 md:mb-16">
+          <div className="h-px w-full bg-line" data-reveal="mask" />
+          <div className="flex items-end justify-between gap-6 pt-7 md:pt-10">
+            <h2
+              className="display text-[clamp(1.85rem,4.6vw,3.9rem)] leading-[1.04]"
+              data-reveal="up"
+            >
+              {section.title}
+            </h2>
+            {cars.length > 1 && (
+              <div className="flex shrink-0 items-center gap-2 pb-1">
+                <button
+                  type="button"
+                  aria-label="Предыдущий автомобиль"
+                  onClick={() => carouselRef.current?.nudge(-1)}
+                  className="flex h-14 w-[4.25rem] items-center justify-center rounded-2xl bg-brand text-white shadow-md shadow-brand/25 transition-colors hover:bg-brand-dark"
+                >
+                  <ChevronLeft className="size-7" strokeWidth={2.5} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Следующий автомобиль"
+                  onClick={() => carouselRef.current?.nudge(1)}
+                  className="flex h-14 w-[4.25rem] items-center justify-center rounded-2xl bg-brand text-white shadow-md shadow-brand/25 transition-colors hover:bg-brand-dark"
+                >
+                  <ChevronRight className="size-7" strokeWidth={2.5} aria-hidden="true" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </Container>
 
-      {/* Карусель выходит за контейнер: боковые карточки должны уходить под
-          края экрана, иначе теряется ощущение объёма. */}
       <div data-reveal="up">
-        <CoverflowCarousel slides={slides} />
+        <CoverflowCarousel controlRef={carouselRef} slides={slides} />
       </div>
 
       {cars.some((c) => c.isDemo) && (

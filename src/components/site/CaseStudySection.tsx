@@ -30,7 +30,7 @@ export function CaseStudySection({
             <div className="lg:sticky lg:top-28">
               {lead && (
                 <div
-                  className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-graphite-2"
+                  className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-graphite-2"
                   data-reveal="mask"
                 >
                   <SmartImage
@@ -41,7 +41,7 @@ export function CaseStudySection({
                     className="object-cover"
                   />
                   {caseStudy.isDemo && (
-                    <span className="eyebrow absolute left-3 top-3 rounded-[3px] bg-ink/85 px-2 py-1 text-white/85 backdrop-blur-sm">
+                    <span className="eyebrow absolute left-3 top-3 rounded-md bg-ink/85 px-2 py-1 text-white/85 backdrop-blur-sm">
                       Демо
                     </span>
                   )}
@@ -53,7 +53,7 @@ export function CaseStudySection({
                   {rest.slice(0, 2).map((src) => (
                     <div
                       key={src}
-                      className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-graphite-2"
+                      className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-graphite-2"
                       data-reveal="mask"
                     >
                       <SmartImage
@@ -89,7 +89,7 @@ export function CaseStudySection({
             <div className="mt-9 border-l-2 border-steel pl-5" data-reveal="up">
               <p className="eyebrow mb-2.5 flex items-center gap-2 text-steel-3">
                 <FileText className="size-3.5" aria-hidden="true" />
-                Что было в объявлении
+                Автомобиль из Китая
               </p>
               <p className="text-lg font-semibold text-paper">{caseStudy.listingTitle}</p>
               {caseStudy.listingPrice && (
@@ -109,7 +109,7 @@ export function CaseStudySection({
               <div className="mt-9 border-l-2 border-brand pl-5" data-reveal="up">
                 <p className="eyebrow mb-3.5 flex items-center gap-2 text-brand">
                   <AlertTriangle className="size-3.5" aria-hidden="true" />
-                  Что нашли при проверке
+                  Что проверили перед отправкой
                 </p>
                 <ul className="space-y-2.5">
                   {caseStudy.findings.map((finding) => (
@@ -127,7 +127,7 @@ export function CaseStudySection({
               <div className="mt-9 border-l-2 border-steel pl-5" data-reveal="up">
                 <p className="eyebrow mb-3.5 flex items-center gap-2 text-steel-3">
                   <ShieldAlert className="size-3.5" aria-hidden="true" />
-                  Чем это грозило покупателю
+                  Что нужно было знать заранее
                 </p>
                 <ul className="space-y-2.5">
                   {caseStudy.risks.map((risk) => (
@@ -144,7 +144,7 @@ export function CaseStudySection({
             )}
 
             {/* Решение */}
-            <div className="mt-10 rounded-[4px] bg-graphite p-6 sm:p-8" data-reveal="up">
+            <div className="mt-10 rounded-2xl bg-graphite p-6 sm:p-8" data-reveal="up">
               <p className="text-xl font-bold tracking-[-0.02em] text-paper sm:text-2xl">
                 {caseStudy.decisionTitle}
               </p>

@@ -66,7 +66,7 @@ export function AdminShell({
   const sidebar = (
     <div className="flex h-full flex-col bg-graphite text-paper">
       <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/8 px-4">
-        <span className="text-sm font-bold uppercase tracking-wide">Sunservice</span>
+        <span className="text-sm font-bold uppercase tracking-wide">ТМ Авто</span>
         <button
           type="button"
           onClick={() => setOpen(false)}

@@ -1,110 +1,89 @@
-import { ArrowUpRight, Check } from 'lucide-react';
-
-import type { SectionView, ServiceView } from '@/lib/content';
+import type { SectionView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
-import { SmartImage } from '@/components/ui/SmartImage';
-import { ButtonLink } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
 
-/**
- * Четыре крупные панели вместо сетки одинаковых карточек: изображение и
- * текст чередуют стороны, чтобы полоса не читалась как таблица.
- */
-export function Services({
-  section,
-  services,
-  extraServices,
-}: {
-  section: SectionView;
-  services: ServiceView[];
-  extraServices: string[];
-}) {
-  if (!section.enabled || services.length === 0) return null;
+const STEPS = [
+  {
+    num: '01',
+    title: 'Оставляете заявку',
+    desc: 'Оставьте заявку — менеджер ответит на все вопросы и пришлёт подходящие варианты автомобилей с полным расчётом стоимости под ключ.',
+  },
+  {
+    num: '02',
+    title: 'Заключаем договор',
+    desc: 'Фиксируем характеристики выбранного автомобиля и нашу ответственность на каждом этапе — от подбора на площадке в Китае до передачи ключей.',
+  },
+  {
+    num: '03',
+    title: 'Подбираем авто в Китае',
+    desc: 'Наш специалист на месте ежедневно мониторит площадки и дилерские центры. Совместно выбираем автомобиль и проводим очную инспекцию перед покупкой.',
+  },
+  {
+    num: '04',
+    title: 'Доставка и таможня',
+    desc: 'Организуем безопасную доставку из Китая в Россию и берём на себя таможенное оформление, получение СБКТС и ЭПТС.',
+  },
+  {
+    num: '05',
+    title: 'Передача автомобиля',
+    desc: 'Вы получаете готовый к эксплуатации автомобиль с российскими документами. Помогаем с постановкой на учёт в ГИБДД.',
+  },
+];
+
+/* SVG-силуэт автомобиля (логотип) — используется как водяной знак на карточках */
+function CarWatermark() {
+  return (
+    <svg
+      viewBox="0 0 187 89"
+      aria-hidden="true"
+      fill="currentColor"
+      className="pointer-events-none absolute -bottom-4 -right-8 h-32 w-auto select-none text-ink/[0.055]"
+    >
+      <path d="M93.0379 0.0988639C133.037 -1.10095 149.371 8.93223 152.538 14.0989L159.538 24.0989C161.205 24.9322 164.538 26.0986 164.538 24.0989C164.038 15.0993 175.038 16.5989 178.038 16.5989C194.536 22.0986 176.538 28.7654 166.538 31.0989V32.0989C176.137 31.2997 181.538 42.099 183.038 47.5989C190.637 75.9971 182.205 86.7646 177.038 88.5989C183.459 67.4459 166.901 72.5706 156.336 78.5403C155.751 78.9041 155.151 79.2581 154.538 79.5989C155.112 79.2468 155.714 78.8917 156.336 78.5403C166.046 72.4993 171.809 63.5286 173.538 59.5989C184.337 34.4003 149.371 54.099 130.538 67.0989L135.038 61.0989C130.638 65.4988 105.205 67.2655 93.0379 67.5989C80.8714 67.2655 55.4385 65.4987 51.0379 61.0989L55.5379 67.0989C36.7046 54.0989 1.73804 34.399 12.5379 59.5989C14.2671 63.5287 20.0286 72.4993 29.7391 78.5403C30.3611 78.8918 30.9633 79.2467 31.5379 79.5989C30.9243 79.258 30.3241 78.9042 29.7391 78.5403C19.1741 72.5704 2.61629 67.445 9.03791 88.5989C3.87125 86.7655 -4.56208 75.9989 3.03791 47.5989C4.53815 42.0987 9.93828 31.2989 19.5379 32.0989V31.0989C9.53791 28.7655 -8.46209 22.0989 8.03791 16.5989C11.0392 16.5986 22.0374 15.1003 21.5379 24.0989C21.5379 26.0989 24.8712 24.9322 26.5379 24.0989L33.5379 14.0989C36.7057 8.93198 53.0398 -1.10108 93.0379 0.0988639ZM155 29.0002C152.833 29.8336 146.2 31.5002 137 31.5002H48.9998C39.8002 31.5002 33.1668 29.8336 30.9998 29.0002L27.4998 33.5002C25.0998 36.7002 26.1665 39.1669 26.9998 40.0002C33.1666 45.0003 46.1999 55.5002 48.9998 57.5002C51.8003 61.1001 79.5 62.0002 92.9998 62.0002C106.5 62.0002 134.2 61.1002 137 57.5002C139.8 55.4997 152.833 45.0001 159 40.0002C159.833 39.1667 160.899 36.6999 158.5 33.5002L155 29.0002ZM66.5379 7.59886C53.3395 7.99882 46.3723 10.7653 44.5379 12.0989C41.8714 14.0988 36.1382 19.199 34.5379 23.5989C32.9379 27.9989 72.8712 29.0989 93.0379 29.0989C113.205 29.0988 153.137 27.9987 151.538 23.5989C149.938 19.1991 144.205 14.099 141.538 12.0989C139.705 10.7655 132.737 7.99894 119.538 7.59886H66.5379Z" />
+      <ellipse cx="92.9998" cy="58.5002" rx="3" ry="1.5" />
+    </svg>
+  );
+}
+
+export function Services({ section }: { section: SectionView }) {
+  if (!section.enabled) return null;
 
   return (
     <Section id="services" tone="paper">
       <Container>
-        <SectionHeading title={section.title} subtitle={section.subtitle} />
+        <SectionHeading
+          title={section.title ?? 'Как мы работаем'}
+          subtitle={section.subtitle}
+        />
 
-        <div className="space-y-px bg-line">
-          {services.map((service, i) => (
-            <article
-              key={service.id}
+        <ul className="mt-12 flex flex-col gap-4 md:mt-16 lg:gap-5">
+          {STEPS.map((step) => (
+            <li
+              key={step.num}
               data-reveal="up"
-              className="grid gap-0 bg-paper lg:grid-cols-12"
+              className="relative overflow-hidden flex items-start gap-6 rounded-[1.25rem] bg-paper-2 px-8 py-7 sm:flex-row sm:items-center sm:gap-10 lg:px-12 lg:py-9"
             >
-              <div
-                className={cn(
-                  'relative aspect-[16/10] overflow-hidden bg-paper-3 lg:col-span-5 lg:aspect-auto lg:min-h-[22rem]',
-                  i % 2 === 1 && 'lg:order-last',
-                )}
+              <CarWatermark />
+
+              {/* Номер */}
+              <span
+                aria-hidden="true"
+                className="display relative shrink-0 select-none text-[2.75rem] font-bold leading-none text-ink/12 sm:text-[3.25rem]"
               >
-                <SmartImage
-                  src={service.imageUrl ?? ''}
-                  alt={service.imageAlt ?? service.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] hover:scale-[1.04]"
-                />
-                {service.featured && (
-                  <span className="eyebrow absolute left-4 top-4 rounded-[3px] bg-brand px-2.5 py-1.5 text-white">
-                    Чаще всего выбирают
-                  </span>
-                )}
-              </div>
+                {step.num}
+              </span>
 
-              <div className="flex flex-col justify-center px-0 py-9 lg:col-span-7 lg:px-12 lg:py-14">
-                <span aria-hidden="true" className="mb-6 block h-px w-10 bg-brand" />
-
-                <h3 className="text-[clamp(1.5rem,2.9vw,2.35rem)] leading-[1.08]">
-                  {service.title}
+              {/* Текст */}
+              <div className="relative min-w-0">
+                <h3 className="text-[1.0625rem] font-semibold leading-snug text-ink sm:text-[1.125rem]">
+                  {step.title}
                 </h3>
-
-                <p className="mt-4 max-w-[62ch] text-[0.9375rem] leading-relaxed text-steel">
-                  {service.excerpt}
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-steel">
+                  {step.desc}
                 </p>
-
-                {service.outcomes.length > 0 && (
-                  <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
-                    {service.outcomes.map((outcome) => (
-                      <li key={outcome} className="flex items-start gap-2.5 text-[0.875rem]">
-                        <Check
-                          className="mt-0.5 size-4 shrink-0 text-brand"
-                          strokeWidth={2.5}
-                          aria-hidden="true"
-                        />
-                        <span className="leading-snug">{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                <div className="mt-8">
-                  <ButtonLink href={service.ctaHref} variant="outline" size="md">
-                    {service.ctaLabel}
-                    <ArrowUpRight className="size-4" aria-hidden="true" />
-                  </ButtonLink>
-                </div>
               </div>
-            </article>
+            </li>
           ))}
-        </div>
-
-        {extraServices.length > 0 && (
-          <div className="mt-14 border-t border-line pt-8" data-reveal="up">
-            <p className="eyebrow mb-5 text-steel-2">Также доступно</p>
-            <ul className="flex flex-wrap gap-2.5">
-              {extraServices.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-[3px] border border-line-strong px-3.5 py-2 text-[0.8125rem] text-steel"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        </ul>
       </Container>
     </Section>
   );

@@ -6,7 +6,7 @@ import { LegalPage } from '@/components/site/LegalPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Согласие на обработку персональных данных — Sunservice',
+  title: 'Согласие на обработку персональных данных — ТМ Авто',
   description: 'Согласие на обработку персональных данных при отправке заявки.',
   robots: 'noindex,follow',
 };

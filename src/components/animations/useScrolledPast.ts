@@ -30,3 +30,25 @@ export function useScrolledPast(threshold = 24): boolean {
 
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
+
+/**
+ * Прокрутился ли пользователь за пределы hero-секции (≈100svh).
+ * Порог читается динамически из window.innerHeight при каждой проверке,
+ * поэтому корректно работает после изменения размера окна.
+ */
+export function useHeroPassed(): boolean {
+  const subscribe = useCallback((onChange: () => void) => {
+    window.addEventListener('scroll', onChange, { passive: true });
+    window.addEventListener('resize', onChange, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onChange);
+      window.removeEventListener('resize', onChange);
+    };
+  }, []);
+
+  // window.innerHeight читается при каждом вызове — не нужны deps
+  const getSnapshot = useCallback(() => window.scrollY > window.innerHeight * 0.85, []);
+  const getServerSnapshot = useCallback(() => false, []);
+
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
