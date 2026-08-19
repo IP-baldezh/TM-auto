@@ -11,7 +11,7 @@ const AVATAR_COLORS = ['#c60f13', '#1760a8', '#1f7a4e', '#c47a0d', '#6b3aab'];
 
 function avatarColor(name: string): string {
   const clean = name.replace(/^DEMO\s*[·•·]\s*/i, '');
-  return AVATAR_COLORS[clean.charCodeAt(0) % AVATAR_COLORS.length];
+  return AVATAR_COLORS[clean.charCodeAt(0) % AVATAR_COLORS.length] ?? AVATAR_COLORS[0]!;
 }
 
 function displayName(name: string): string {
