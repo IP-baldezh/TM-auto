@@ -35,7 +35,7 @@ export function Promotions({
         {/* Фото во весь блок */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/promotions-bg.jpg"
+          src="/promotions-bg.png"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
