@@ -45,7 +45,7 @@ export const IMAGES = {
 export const DEFAULT_SITE = {
   id: 'site',
   brandName: 'ТМ Авто',
-  brandNote: 'Пригон авто из Китая',
+  brandNote: 'Возим авто в РФ с 2023 года',
   logoUrl: null as string | null,
   city: 'Дзержинск',
   address: 'Дзержинск, ул. Самохвалова, д. 6Б',

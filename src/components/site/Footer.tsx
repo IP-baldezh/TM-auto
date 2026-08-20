@@ -30,7 +30,7 @@ export function Footer({
               tone="light"
             />
             <p className="mt-5 max-w-[34ch] text-[0.875rem] leading-relaxed text-steel-3">
-              Пригон автомобилей из Китая и Кореи под ключ в {site.city}. Таможня, доставка и СБКТС — берём на себя.
+              Пригон автомобилей из Китая и Кореи под ключ. Таможня, доставка и СБКТС — берём на себя.
             </p>
           </div>
 
