@@ -163,7 +163,7 @@ export function Contacts({
 
           {/* ── Карта ────────────────────────────────────────────────── */}
           {site.mapEmbedUrl ? (
-            <div className="overflow-hidden rounded-2xl" data-reveal="mask">
+            <div className="relative overflow-hidden rounded-2xl" data-reveal="mask">
               <iframe
                 src={site.mapEmbedUrl}
                 title={`Схема проезда: ${site.address}`}
@@ -171,6 +171,8 @@ export function Contacts({
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full min-h-[400px] w-full border-0"
               />
+              {/* Блокирует клики на метку — убирает баннер «Организации в доме» */}
+              <div className="absolute inset-0" aria-hidden="true" />
             </div>
           ) : (
             <div className="flex min-h-[400px] items-center justify-center rounded-2xl bg-paper-3 text-steel">
