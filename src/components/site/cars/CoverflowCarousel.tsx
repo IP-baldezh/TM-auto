@@ -283,6 +283,8 @@ export function CoverflowCarousel({
           // Ширина карточки — единственная измеряемая величина: от неё
           // производны и шаг, и глубина, и перспектива.
           '--cf-card': 'clamp(17rem, 46vw, 34rem)',
+          // Высота: на мобильном — портретная (min 20rem), на десктопе — 0.72 от ширины.
+          '--cf-card-h': 'max(calc(var(--cf-card) * 0.72), 20rem)',
         } as React.CSSProperties
       }
       role="region"
@@ -323,7 +325,7 @@ export function CoverflowCarousel({
         >
           <div
             className="relative select-none"
-            style={{ height: 'calc(var(--cf-card) * 0.72)', transformStyle: 'preserve-3d' }}
+            style={{ height: 'var(--cf-card-h)', transformStyle: 'preserve-3d' }}
           >
             {slides.map((slide, index) => (
               <div
@@ -337,7 +339,7 @@ export function CoverflowCarousel({
                 aria-hidden={index !== selected}
                 onClick={() => { if (index !== selected) goTo(index); }}
                 className="absolute left-1/2 top-0 overflow-hidden rounded-[1.25rem] bg-graphite shadow-[0_28px_60px_-24px_rgba(0,0,0,0.85)] will-change-transform"
-                style={{ width: 'var(--cf-card)', height: 'calc(var(--cf-card) * 0.72)' }}
+                style={{ width: 'var(--cf-card)', height: 'var(--cf-card-h)' }}
               >
                 <SmartImage
                   src={slide.src}
@@ -363,14 +365,48 @@ export function CoverflowCarousel({
                   </div>
                 )}
 
-                {/* Подпись прямо на карточке — чтобы боковые карточки тоже
-                    читались, а не были просто «картинками». */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/70 to-transparent px-4 pb-3.5 pt-12">
-                  <p className="truncate text-[0.9375rem] font-semibold text-white">
+                {/* Подпись прямо на карточке */}
+                <div
+                  className={cn(
+                    'pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/75 to-transparent px-4 pb-4',
+                    index === selected ? 'pt-28' : 'pt-12',
+                  )}
+                >
+                  {/* Мета-строка (год · пробег) — только активная карточка */}
+                  {index === selected && slide.meta && slide.meta.length > 0 && (
+                    <div className="mb-2 flex flex-wrap gap-x-3 gap-y-0.5 md:hidden">
+                      {slide.meta.slice(0, 3).map((m) => (
+                        <span key={m.label} className="text-[0.75rem] text-white/55">
+                          {m.label}:{' '}
+                          <span className="font-semibold text-white/80">{m.value}</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <p
+                    className={cn(
+                      'truncate font-semibold text-white',
+                      index === selected ? 'text-[1.0625rem]' : 'text-[0.9375rem]',
+                    )}
+                  >
                     {slide.title}
                   </p>
+                  {index === selected && slide.subtitle && (
+                    <p className="mt-0.5 truncate text-[0.8125rem] text-white/65 md:hidden">
+                      {slide.subtitle}
+                    </p>
+                  )}
                   {slide.price && (
-                    <p className="tabular mt-0.5 text-[0.8125rem] text-white/65">{slide.price}</p>
+                    <p
+                      className={cn(
+                        'tabular mt-1 text-white',
+                        index === selected
+                          ? 'text-[1.0625rem] font-bold'
+                          : 'text-[0.8125rem] opacity-65',
+                      )}
+                    >
+                      {slide.price}
+                    </p>
                   )}
                 </div>
               </div>
@@ -380,9 +416,9 @@ export function CoverflowCarousel({
 
       </div>
 
-      {/* ── Подпись под активной карточкой ──────────────────────────────── */}
+      {/* ── Подпись под активной карточкой — только на десктопе ────────── */}
       {active && (
-        <div className="mx-auto mt-2 max-w-2xl px-1" aria-live="polite" aria-atomic="true">
+        <div className="mx-auto mt-2 max-w-2xl px-1 hidden md:block" aria-live="polite" aria-atomic="true">
           <div key={active.id} className="text-center">
             <h3 className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{active.title}</h3>
             {active.subtitle && (
