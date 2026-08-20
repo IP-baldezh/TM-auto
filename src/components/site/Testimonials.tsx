@@ -137,12 +137,6 @@ export function Testimonials({
           })}
         </ul>
 
-        {testimonials.some((t) => t.isDemo) && (
-          <p className="mt-8 text-[0.8125rem] text-steel-2">
-            Отзывы с отметкой «Демо» — заглушки для вёрстки. Замените реальными в
-            админ-панели или отключите секцию.
-          </p>
-        )}
       </Container>
     </Section>
   );

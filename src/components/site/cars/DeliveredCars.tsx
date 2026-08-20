@@ -82,14 +82,6 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
         <CoverflowCarousel controlRef={carouselRef} slides={slides} />
       </div>
 
-      {cars.some((c) => c.isDemo) && (
-        <Container>
-          <p className="mt-10 text-center text-[0.8125rem] text-steel-2">
-            Карточки с отметкой «Демо» — примеры оформления. Реальные подобранные автомобили
-            добавляются в админ-панели.
-          </p>
-        </Container>
-      )}
     </Section>
   );
 }
