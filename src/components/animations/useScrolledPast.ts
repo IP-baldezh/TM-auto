@@ -46,8 +46,11 @@ export function useHeroPassed(): boolean {
     };
   }, []);
 
-  // window.innerHeight читается при каждом вызове — не нужны deps
-  const getSnapshot = useCallback(() => window.scrollY > window.innerHeight * 0.85, []);
+  // Если на странице нет параллакс-героя — шапка всегда тёмная.
+  const getSnapshot = useCallback(() => {
+    if (!document.querySelector('[data-parallax-layers]')) return true;
+    return window.scrollY > window.innerHeight * 0.85;
+  }, []);
   const getServerSnapshot = useCallback(() => false, []);
 
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

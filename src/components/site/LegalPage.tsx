@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 import type { SiteSettingsView } from '@/lib/content';
@@ -16,13 +15,13 @@ export function LegalPage({
   return (
     <div className="bg-paper pb-24 pt-28 sm:pt-36">
       <Container>
-        <Link
+        <a
           href="/"
           className="mb-10 inline-flex items-center gap-2 text-[0.8125rem] font-medium text-steel transition-colors hover:text-ink"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
           На главную
-        </Link>
+        </a>
 
         <h1 className="display max-w-[22ch] text-[2rem] sm:text-[2.6rem] lg:text-[3.1rem]">
           {title}

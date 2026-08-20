@@ -34,7 +34,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        'relative scroll-mt-20 py-20 md:py-28 lg:py-32',
+        'relative scroll-mt-20 py-14 md:py-28 lg:py-32',
         tones[tone],
         // clip, а не hidden: не ломает position: sticky у дочерних элементов
         'overflow-x-clip',
