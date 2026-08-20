@@ -200,9 +200,9 @@ export function CostExample() {
             </div>
           </div>
 
-          {/* Фото автомобиля */}
-          <div className="xl:col-span-5">
-            <div className="relative h-64 overflow-hidden rounded-3xl bg-paper-3 sm:h-80 xl:h-full">
+          {/* Фото автомобиля — на мобильном первым, на xl справа */}
+          <div className="order-first xl:order-none xl:col-span-5">
+            <div className="relative h-52 overflow-hidden rounded-3xl bg-paper-3 sm:h-72 xl:h-full">
               {EXAMPLES.map((example) => (
                 <div
                   key={example.id}
