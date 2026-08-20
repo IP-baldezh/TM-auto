@@ -240,6 +240,25 @@ export function CoverflowCarousel({
     const drag = dragRef.current;
     if (!drag || drag.id !== event.pointerId) return;
     dragRef.current = null;
+
+    const totalMovement = Math.abs(event.clientX - drag.x) + Math.abs(event.clientY - drag.y);
+
+    // Тап/клик с минимальным смещением — определяем направление по позиции в кадре.
+    // Карточки за пределами overflow-hidden не получают click-события сами,
+    // поэтому обрабатываем навигацию здесь.
+    if (totalMovement < 12 && count > 1) {
+      const frame = frameRef.current;
+      if (frame) {
+        const rect = frame.getBoundingClientRect();
+        const tapX = event.clientX - (rect.left + rect.width / 2);
+        const pitch = widthRef.current * (1 + gap);
+        if (pitch > 0 && Math.abs(tapX) > pitch * 0.35) {
+          settle(clamp(Math.round(targetRef.current) + (tapX > 0 ? 1 : -1)));
+          return;
+        }
+      }
+    }
+
     if (drag.axis !== 'x') return;
     const carried = Math.max(-2, Math.min(2, drag.v * 0.18));
     settle(clamp(Math.round(posRef.current + carried)));
