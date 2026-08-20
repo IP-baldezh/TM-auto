@@ -16,7 +16,7 @@ export function CalculatorSection({
   if (!section.enabled || !calculator.enabled || calculator.steps.length === 0) return null;
 
   return (
-    <Section id="calculator" tone="paper">
+    <Section id="calculator" tone="paper" className="pt-8 md:py-28 lg:py-32">
       <Container>
         <SectionHeading
           title={section.title ?? calculator.title}
