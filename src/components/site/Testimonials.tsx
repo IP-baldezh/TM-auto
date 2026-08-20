@@ -39,7 +39,7 @@ export function Testimonials({
     <Section id="testimonials" tone="paper">
       <Container>
         {/* ── Шапка ──────────────────────────────────────────────── */}
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-6 md:mb-14">
           <h2 className="display text-[clamp(1.85rem,4.6vw,3.9rem)] leading-[1.04]">
             {section.title ?? 'Отзывы клиентов'}
           </h2>

@@ -45,7 +45,7 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
   return (
     <Section id="cars" tone="paper-2">
       <Container>
-        <div className="mb-12 md:mb-16">
+        <div className="mb-8 md:mb-16">
           <div className="h-px w-full bg-line" data-reveal="mask" />
           <div className="flex items-end justify-between gap-6 pt-7 md:pt-10">
             <h2

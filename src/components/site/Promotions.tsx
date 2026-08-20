@@ -48,7 +48,7 @@ export function Promotions({
         />
 
         {/* Контент */}
-        <div className="relative py-24 md:py-32 lg:py-40">
+        <div className="relative py-14 md:py-32 lg:py-40">
           <Container>
             <div className="lg:grid lg:grid-cols-11 lg:items-center lg:gap-16">
 

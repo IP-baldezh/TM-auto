@@ -71,7 +71,7 @@ export function SectionHeading({
   const muted = tone === 'dark' ? 'text-steel-3' : 'text-steel';
 
   return (
-    <div className={cn('mb-12 md:mb-16', className)}>
+    <div className={cn('mb-8 md:mb-16', className)}>
       <div
         className={cn(
           'pt-7 md:pt-10',

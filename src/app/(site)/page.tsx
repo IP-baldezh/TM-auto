@@ -143,7 +143,7 @@ export default async function HomePage() {
       {sections.reasons?.enabled !== false && content.reasons.length > 0 && (
         <section
           id="reasons"
-          className="relative scroll-mt-20 overflow-x-clip bg-ink pt-20 text-paper md:pt-28 lg:pt-32"
+          className="relative scroll-mt-20 overflow-x-clip bg-ink pt-14 text-paper md:pt-28 lg:pt-32"
         >
           <Container>
             <SectionHeading

@@ -57,7 +57,7 @@ export function ImportDirections() {
   return (
     <Section id="directions" tone="paper-2">
       <Container>
-        <div className="mb-12 md:mb-16" data-reveal="up">
+        <div className="mb-8 md:mb-16" data-reveal="up">
           <h2 className="display text-[clamp(1.85rem,4.6vw,3.9rem)] leading-[1.04]">
             Работаем напрямую с двумя рынками — выбирайте направление или доверьте выбор нам.
           </h2>

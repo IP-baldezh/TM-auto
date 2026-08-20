@@ -55,7 +55,7 @@ export function Services({ section }: { section: SectionView }) {
           subtitle={section.subtitle}
         />
 
-        <ul className="mt-12 flex flex-col gap-4 md:mt-16 lg:gap-5">
+        <ul className="mt-8 flex flex-col gap-4 md:mt-16 lg:gap-5">
           {STEPS.map((step) => (
             <li
               key={step.num}
