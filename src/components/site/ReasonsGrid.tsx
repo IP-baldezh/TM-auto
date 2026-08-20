@@ -81,14 +81,6 @@ export function ReasonsGrid({ reasons }: { reasons: ReasonView[] }) {
               {/* Контент */}
               <div className="relative px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
                 <div className="mx-auto max-w-5xl">
-                  {/* Номер */}
-                  <span
-                    aria-hidden="true"
-                    className="mb-5 block text-[3rem] font-bold leading-none tracking-[-0.04em] text-white/[0.12] sm:text-[4rem]"
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-
                   {/* Разделитель */}
                   <span
                     aria-hidden="true"

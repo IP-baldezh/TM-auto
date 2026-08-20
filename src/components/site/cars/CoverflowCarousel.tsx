@@ -335,7 +335,7 @@ export function CoverflowCarousel({
               goTo(count - 1);
             }
           }}
-          className="cursor-grab overflow-hidden py-8 outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 focus-visible:ring-offset-paper active:cursor-grabbing sm:py-12"
+          className="cursor-grab overflow-hidden pb-8 pt-3 outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 focus-visible:ring-offset-paper active:cursor-grabbing sm:py-12"
           style={{
             perspective: `calc(var(--cf-card) * ${perspective})`,
             // Горизонталь — наша, вертикальный скролл остаётся у страницы.
