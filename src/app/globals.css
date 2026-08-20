@@ -309,7 +309,7 @@
   margin: 0;
   pointer-events: auto;
   font-size: clamp(2.25rem, min(11vw, 22svh), 12rem);
-  text-shadow: 0 0.06em 0.5em rgb(14 17 20 / 0.55);
+  text-shadow: none;
 }
 
 /* Подпись под заголовком */

@@ -116,7 +116,6 @@ export function ParallaxHero({
               {/* ── 2 · Свет и дымка */}
               <div data-parallax-layer="2" className="parallax__layer-img is-third" aria-hidden="true">
                 <div className="absolute inset-x-[8%] top-[52%] h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-                <div className="absolute inset-x-[24%] top-[56%] h-px bg-gradient-to-r from-transparent via-brand-bright/40 to-transparent" />
               </div>
 
               {/* ── 3 · Заголовок. Лежит ПОД автомобилем */}
