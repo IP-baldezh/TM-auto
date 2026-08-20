@@ -6,7 +6,7 @@ type Variant = 'primary' | 'dark' | 'outline' | 'ghost' | 'light';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'group/btn relative inline-flex items-center justify-center gap-2.5 rounded-[3px] font-semibold ' +
+  'group/btn relative inline-flex items-center justify-center gap-2.5 rounded-full font-semibold ' +
   'tracking-[-0.01em] transition-[background-color,color,border-color,transform] duration-200 ' +
   'select-none whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 active:translate-y-px';
 

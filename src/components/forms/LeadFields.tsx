@@ -112,11 +112,11 @@ export function LeadFields({
           onChange={(e) => setValue('consent', e.target.checked)}
         >
           Согласен на{' '}
-          <Link href={consentUrl} className={linkClass}>
+          <Link href={consentUrl} className={linkClass} target="_blank" rel="noopener noreferrer">
             обработку персональных данных
           </Link>{' '}
           и принимаю{' '}
-          <Link href={privacyUrl} className={linkClass}>
+          <Link href={privacyUrl} className={linkClass} target="_blank" rel="noopener noreferrer">
             политику конфиденциальности
           </Link>
         </Checkbox>

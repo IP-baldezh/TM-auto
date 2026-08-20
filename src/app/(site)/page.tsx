@@ -8,7 +8,8 @@ import { Container, Section, SectionHeading } from '@/components/site/Section';
 import { ParallaxHero } from '@/components/site/hero/ParallaxHero';
 import { Promotions } from '@/components/site/Promotions';
 import { Services } from '@/components/site/Services';
-import { InspectionExplorer } from '@/components/site/InspectionExplorer';
+
+import { CostExample } from '@/components/site/CostExample';
 import { CalculatorSection } from '@/components/site/CalculatorSection';
 import { DeliveredCars } from '@/components/site/cars/DeliveredCars';
 import { ProcessTimeline } from '@/components/site/ProcessTimeline';
@@ -16,6 +17,7 @@ import { ReasonsGrid } from '@/components/site/ReasonsGrid';
 import { Testimonials } from '@/components/site/Testimonials';
 import { FaqAccordion } from '@/components/site/FaqAccordion';
 import { FinalCta } from '@/components/site/FinalCta';
+import { ImportDirections } from '@/components/site/ImportDirections';
 import { Contacts } from '@/components/site/Contacts';
 
 /** Контент меняется только из админки — ISR вместо запроса к базе на каждый хит. */
@@ -103,6 +105,8 @@ export default async function HomePage() {
         />
       )}
 
+      <ImportDirections />
+
       <Services
         section={sections.services ?? FALLBACK_SECTION}
       />
@@ -113,19 +117,9 @@ export default async function HomePage() {
         consentUrl={site.consentUrl}
       />
 
-      {sections.inspection?.enabled !== false && content.inspection.length > 0 && (
-        <Section id="inspection" tone="paper-2">
-          <Container>
-            <SectionHeading
-              title={sections.inspection?.title}
-              subtitle={sections.inspection?.subtitle}
-            />
-            <InspectionExplorer categories={content.inspection} />
-          </Container>
-        </Section>
-      )}
+      <CostExample />
 
-      <CalculatorSection
+<CalculatorSection
         section={sections.calculator ?? FALLBACK_SECTION}
         calculator={content.calculator}
         privacyUrl={site.privacyUrl}

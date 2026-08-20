@@ -204,7 +204,7 @@ export function Calculator({
               tabIndex={-1}
               className="mt-4 text-[clamp(1.2rem,2.4vw,1.625rem)] font-bold leading-snug tracking-tight outline-none"
             >
-              Вы получили{' '}
+              Вы получите{' '}
               <span className="text-brand">индивидуальный расчёт</span>
             </h3>
             <p className="mt-3 max-w-[52ch] text-[0.875rem] leading-relaxed text-steel">

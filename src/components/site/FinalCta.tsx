@@ -27,7 +27,19 @@ export function FinalCta({
   if (!section.enabled) return null;
 
   return (
-    <Section id="cta" tone="ink">
+    <Section id="cta" tone="ink" className="overflow-hidden">
+      {/* Водяной знак */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 select-none overflow-hidden"
+      >
+        <p className="whitespace-nowrap text-right font-bold leading-none tracking-[-0.04em] text-white/[0.04]"
+          style={{ fontSize: 'clamp(6rem, 20vw, 18rem)' }}
+        >
+          ТМ АВТО
+        </p>
+      </div>
+
       <Container>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

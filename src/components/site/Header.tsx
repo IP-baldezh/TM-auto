@@ -69,7 +69,10 @@ export function Header({
             href="/"
             className="shrink-0"
             aria-label={`${brandName} — на главную`}
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           >
             <BrandMark
               brandName={brandName}
