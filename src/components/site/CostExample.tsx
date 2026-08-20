@@ -117,7 +117,7 @@ export function CostExample() {
   const active = EXAMPLES.find((e) => e.id === activeId) ?? EXAMPLES[0]!;
 
   return (
-    <Section id="cost-example" tone="paper">
+    <Section id="cost-example" tone="paper" className="py-14 md:py-28 lg:py-32">
       <Container>
         {/* Заголовок */}
         <div className="mb-10 md:mb-14" data-reveal="up">

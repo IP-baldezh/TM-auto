@@ -122,7 +122,7 @@ export function CoverflowCarousel({
       const edge = loop ? Math.min(1, Math.max(0, count / 2 - distance)) : 1;
       card.style.opacity = String(Math.max(0, 1 - fade * distance) * edge);
       card.style.zIndex = String(100 - Math.round(distance * 10));
-      card.style.pointerEvents = distance < 0.5 ? 'auto' : 'none';
+      card.style.pointerEvents = distance < 1.5 ? 'auto' : 'none';
     });
   }, [count, depth, fade, falloff, gap, loop, rotate]);
 
@@ -335,6 +335,7 @@ export function CoverflowCarousel({
                 aria-roledescription="слайд"
                 aria-label={`${index + 1} из ${count}: ${slide.title}`}
                 aria-hidden={index !== selected}
+                onClick={() => { if (index !== selected) goTo(index); }}
                 className="absolute left-1/2 top-0 overflow-hidden rounded-[1.25rem] bg-graphite shadow-[0_28px_60px_-24px_rgba(0,0,0,0.85)] will-change-transform"
                 style={{ width: 'var(--cf-card)', height: 'calc(var(--cf-card) * 0.72)' }}
               >
