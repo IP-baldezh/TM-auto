@@ -302,8 +302,8 @@ export function CoverflowCarousel({
           // Ширина карточки — единственная измеряемая величина: от неё
           // производны и шаг, и глубина, и перспектива.
           '--cf-card': 'clamp(17rem, 46vw, 34rem)',
-          // Высота: на мобильном — портретная (min 20rem), на десктопе — 0.72 от ширины.
-          '--cf-card-h': 'max(calc(var(--cf-card) * 0.72), 20rem)',
+          // Высота: на мобильном — портретная (min 26rem), на десктопе — 0.77 от ширины.
+          '--cf-card-h': 'max(calc(var(--cf-card) * 0.77), 26rem)',
         } as React.CSSProperties
       }
       role="region"

@@ -55,7 +55,7 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
               {section.title}
             </h2>
             {cars.length > 1 && (
-              <div className="flex shrink-0 items-center gap-2 pb-1">
+              <div className="hidden shrink-0 items-center gap-2 pb-1 sm:flex">
                 <button
                   type="button"
                   aria-label="Предыдущий автомобиль"
