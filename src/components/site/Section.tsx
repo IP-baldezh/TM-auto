@@ -72,8 +72,6 @@ export function SectionHeading({
 
   return (
     <div className={cn('mb-12 md:mb-16', className)}>
-      <div className={cn('h-px w-full', line)} data-reveal="mask" />
-
       <div
         className={cn(
           'pt-7 md:pt-10',
