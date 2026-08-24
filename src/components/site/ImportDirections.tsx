@@ -61,7 +61,7 @@ export function ImportDirections() {
       <Container>
         <div className="mb-8 md:mb-16" data-reveal="up">
           <h2 className="display text-[clamp(1.85rem,4.6vw,3.9rem)] leading-[1.04]">
-            Работаем с основными рынками — выбирайте направление или доверьте выбор нам.
+            Привезём новый автомобиль или авто с пробегом — под ваш бюджет и требования.
           </h2>
         </div>
 
