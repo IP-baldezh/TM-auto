@@ -267,10 +267,11 @@
    Запас хода при этом сохраняется: слой уезжает вниз, а сверху у него
    прозрачное поле. */
 [data-parallax-layer="4"].parallax__layer-img {
-  top: 0;
-  height: 85.3333%;
+  top: auto;
+  bottom: 0;
+  height: 60%;
   object-fit: cover;
-  object-position: center bottom;
+  object-position: center top;
 }
 
 /* На узком экране почти квадратная плита в высоком контейнере обрезается по
