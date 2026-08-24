@@ -23,7 +23,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-  title: 'Авто под заказ из Китая, Кореи и Европы — ТМ Авто',
+  title: 'Авто под заказ из-за рубежа — ТМ Авто',
   description: 'Подбор и доставка автомобилей из любой страны: таможня, доставка, СБКТС. Работаем по всей России.',
 };
 

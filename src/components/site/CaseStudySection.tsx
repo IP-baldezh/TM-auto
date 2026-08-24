@@ -89,7 +89,7 @@ export function CaseStudySection({
             <div className="mt-9 border-l-2 border-steel pl-5" data-reveal="up">
               <p className="eyebrow mb-2.5 flex items-center gap-2 text-steel-3">
                 <FileText className="size-3.5" aria-hidden="true" />
-                Автомобиль из Китая
+                Автомобиль из-за рубежа
               </p>
               <p className="text-lg font-semibold text-paper">{caseStudy.listingTitle}</p>
               {caseStudy.listingPrice && (

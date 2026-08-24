@@ -3,30 +3,32 @@ import { ButtonLink } from '@/components/ui/Button';
 
 const DIRECTIONS = [
   {
-    country: 'Китая',
-    flag: '🇨🇳',
-    tagline: 'Новые авто напрямую от производителей',
+    id: 'new',
+    heading: 'Новые автомобили',
+    flag: '🌍',
+    tagline: 'Напрямую от дилеров и производителей',
     features: [
       'Audi, BMW, Mercedes-Benz, Volkswagen, Porsche и другие',
       'Предотгрузочная инспекция на заводе или складе',
-      'Доставка морем или авто-транспортом через границу',
+      'Доставка морем или автотранспортом',
       'Таможня, СБКТС и ЭПТС под ключ',
     ],
     bg: 'bg-ink',
     text: 'text-paper',
     accent: 'text-brand-bright',
     muted: 'text-steel-3',
-    cta: { label: 'Подобрать авто из Китая', href: '#calculator' },
+    cta: { label: 'Подобрать новое авто', href: '#calculator' },
     watermarkColor: 'fill-white',
     watermarkOpacity: 'opacity-[0.06]',
   },
   {
-    country: 'Кореи',
-    flag: '🇰🇷',
-    tagline: 'Авто с аукционов и у официальных дилеров',
+    id: 'used',
+    heading: 'Авто с пробегом',
+    flag: '🏁',
+    tagline: 'С международных аукционов и у официальных дилеров',
     features: [
-      'Hyundai, Kia, а также Audi, BMW, Mercedes-Benz и другие европейские марки',
-      'Проверка по базам CARFAX Korea и CarHistory',
+      'BMW, Mercedes-Benz, Toyota, Lexus и другие марки',
+      'Проверка по международным базам данных',
       'Аукционная документация и история обслуживания',
       'Доставка и растаможка с фиксированной ценой',
     ],
@@ -34,7 +36,7 @@ const DIRECTIONS = [
     text: 'text-white',
     accent: 'text-white',
     muted: 'text-white/70',
-    cta: { label: 'Подобрать авто из Кореи', href: '#calculator' },
+    cta: { label: 'Подобрать авто с пробегом', href: '#calculator' },
     watermarkColor: 'fill-white',
     watermarkOpacity: 'opacity-[0.10]',
   },
@@ -66,7 +68,7 @@ export function ImportDirections() {
         <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
           {DIRECTIONS.map((dir) => (
             <div
-              key={dir.country}
+              key={dir.id}
               data-reveal="up"
               className={`relative overflow-hidden rounded-3xl p-8 sm:p-10 ${dir.bg} ${dir.text}`}
             >
@@ -78,7 +80,7 @@ export function ImportDirections() {
                 </span>
 
                 <h3 className={`mt-5 text-[2rem] font-bold leading-tight tracking-[-0.02em] ${dir.accent}`}>
-                  Авто из {dir.country}
+                  {dir.heading}
                 </h3>
                 <p className={`mt-2 text-[0.9375rem] ${dir.muted}`}>{dir.tagline}</p>
 
