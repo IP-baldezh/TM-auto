@@ -126,20 +126,6 @@ export default async function HomePage() {
         consentUrl={site.consentUrl}
       />
 
-      <DeliveredCars section={sections.cars ?? FALLBACK_SECTION} cars={content.cars} />
-
-      {sections.process?.enabled !== false && content.process.length > 0 && (
-        <Section id="process" tone="paper">
-          <Container>
-            <SectionHeading
-              title={sections.process?.title}
-              subtitle={sections.process?.subtitle}
-            />
-            <ProcessTimeline steps={content.process} />
-          </Container>
-        </Section>
-      )}
-
       {sections.reasons?.enabled !== false && content.reasons.length > 0 && (
         <section
           id="reasons"
@@ -154,6 +140,20 @@ export default async function HomePage() {
           </Container>
           <ReasonsGrid reasons={content.reasons} />
         </section>
+      )}
+
+      <DeliveredCars section={sections.cars ?? FALLBACK_SECTION} cars={content.cars} />
+
+      {sections.process?.enabled !== false && content.process.length > 0 && (
+        <Section id="process" tone="paper">
+          <Container>
+            <SectionHeading
+              title={sections.process?.title}
+              subtitle={sections.process?.subtitle}
+            />
+            <ProcessTimeline steps={content.process} />
+          </Container>
+        </Section>
       )}
 
       <Testimonials
