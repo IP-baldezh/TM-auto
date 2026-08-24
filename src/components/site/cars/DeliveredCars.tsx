@@ -39,6 +39,10 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
       accent: car.savings ? `−${formatMoney(car.savings)} к цене` : null,
       meta,
       price: car.price ? formatMoney(car.price) : null,
+      review:
+        car.reviewAuthor && car.reviewText
+          ? { author: car.reviewAuthor, text: car.reviewText }
+          : null,
     };
   });
 

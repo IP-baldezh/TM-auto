@@ -307,6 +307,11 @@ model DeliveredCar {
   gallery  String[]
   videoUrl String?
 
+  /// Отзыв клиента — имя автора отзыва.
+  reviewAuthor String?
+  /// Отзыв клиента — текст отзыва.
+  reviewText   String?
+
   handedOverAt DateTime?
   featured     Boolean   @default(false)
   sortOrder    Int       @default(0)

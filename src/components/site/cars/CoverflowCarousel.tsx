@@ -19,6 +19,7 @@ export type CoverflowSlide = {
   meta?: { label: string; value: string }[];
   price?: string | null;
   href?: string | null;
+  review?: { author: string; text: string } | null;
 };
 
 export type CoverflowCarouselProps = {
@@ -462,6 +463,17 @@ export function CoverflowCarousel({
               <p className="tabular mt-6 text-2xl font-bold tracking-[-0.02em] sm:text-3xl">
                 {active.price}
               </p>
+            )}
+
+            {active.review && (
+              <blockquote className="mt-6 border-t border-line pt-6 text-left">
+                <p className="text-[0.9375rem] leading-relaxed text-steel">
+                  &laquo;{active.review.text}&raquo;
+                </p>
+                <footer className="mt-2 text-[0.8125rem] font-semibold text-ink">
+                  — {active.review.author}
+                </footer>
+              </blockquote>
             )}
           </div>
         </div>

@@ -102,6 +102,8 @@ export type CarView = {
   videoUrl: string | null;
   handedOverAt: Date | null;
   isDemo: boolean;
+  reviewAuthor: string | null;
+  reviewText: string | null;
 };
 
 export type ProcessView = {
@@ -363,6 +365,8 @@ function fallbackContent(): SiteContent {
         videoUrl: null,
         handedOverAt: null,
         isDemo: true,
+        reviewAuthor: c.reviewAuthor ?? null,
+        reviewText: c.reviewText ?? null,
       })),
       'car',
     ),
