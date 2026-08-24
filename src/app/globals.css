@@ -268,7 +268,7 @@
    прозрачное поле. */
 [data-parallax-layer="4"].parallax__layer-img {
   top: 0;
-  height: 85.3333%;
+  height: 68%;
   object-fit: cover;
   object-position: center bottom;
 }
