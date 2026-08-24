@@ -150,6 +150,7 @@ export const DEFAULT_SECTIONS = [
     eyebrow: null,
     title: 'От заявки до ключей — шаг за шагом',
     subtitle: null,
+    enabled: false,
     sortOrder: 5,
   },
   {

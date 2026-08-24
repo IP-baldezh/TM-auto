@@ -40,7 +40,7 @@ export function BrandMark({
         <span
           className={cn(
             'text-[1.0625rem] font-extrabold uppercase tracking-[-0.01em]',
-            tone === 'dark' ? 'text-ink' : tone === 'red' ? 'text-white' : 'text-white',
+            tone === 'dark' ? 'text-ink' : tone === 'red' ? 'text-brand' : 'text-white',
           )}
         >
           {brandName}

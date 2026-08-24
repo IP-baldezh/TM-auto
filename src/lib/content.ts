@@ -293,7 +293,7 @@ const fallbackSections: Record<string, SectionView> = Object.fromEntries(
       eyebrow: s.eyebrow,
       title: s.title,
       subtitle: s.subtitle,
-      enabled: true,
+      enabled: (s as { enabled?: boolean }).enabled ?? true,
       sortOrder: s.sortOrder,
     },
   ]),
