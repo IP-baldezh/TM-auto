@@ -75,11 +75,7 @@ export function ImportDirections() {
               <BrandWatermark fillClass={dir.watermarkColor} opacityClass={dir.watermarkOpacity} />
 
               <div className="relative">
-                <span className="text-4xl leading-none" aria-hidden="true">
-                  {dir.flag}
-                </span>
-
-                <h3 className={`mt-5 text-[2rem] font-bold leading-tight tracking-[-0.02em] ${dir.accent}`}>
+                <h3 className={`text-[2rem] font-bold leading-tight tracking-[-0.02em] ${dir.accent}`}>
                   {dir.heading}
                 </h3>
                 <p className={`mt-2 text-[0.9375rem] ${dir.muted}`}>{dir.tagline}</p>

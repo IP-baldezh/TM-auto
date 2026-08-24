@@ -175,6 +175,7 @@ export const DEFAULT_SECTIONS = [
     eyebrow: 'Реальные истории',
     title: 'Отзывы клиентов',
     subtitle: null,
+    enabled: false,
     sortOrder: 8,
   },
   {
@@ -189,7 +190,7 @@ export const DEFAULT_SECTIONS = [
     key: 'cta',
     label: 'Финальная заявка',
     eyebrow: null,
-    title: 'Расскажите, какой автомобиль из-за рубежа вас интересует',
+    title: 'Расскажите, какой автомобиль Вас интересует',
     subtitle:
       'Марка, модель, бюджет — оставьте заявку, и мы подберём варианты с ценами и сроками доставки.',
     sortOrder: 10,

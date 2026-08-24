@@ -143,7 +143,6 @@ export function CostExample() {
                   : 'bg-paper-3 text-steel hover:text-ink',
               )}
             >
-              <span className="mr-1.5">{example.flag}</span>
               {example.brand} {example.model}
             </button>
           ))}
@@ -157,7 +156,7 @@ export function CostExample() {
               <div className="flex items-center justify-between gap-4 bg-ink px-6 py-5 sm:px-8">
                 <div>
                   <p className="text-[0.75rem] font-medium uppercase tracking-widest text-steel-3">
-                    {active.flag} Расчёт под ключ · {active.origin}
+                    Расчёт под ключ · {active.origin}
                   </p>
                   <h3 className="mt-1 text-xl font-bold text-paper">
                     {active.brand} {active.model}{' '}
