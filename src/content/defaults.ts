@@ -245,7 +245,7 @@ export const DEFAULT_HERO = {
   id: 'hero',
   eyebrow: null as string | null,
   titleLead: 'ТМ Авто',
-  titleAccent: 'Привезём авто из Китая и Кореи',
+  titleAccent: 'Авто под заказ из-за рубежа',
   titleTail: '',
   subtitle: '',
   trustLine: 'Работаем по всей России · таможня включена в стоимость',
