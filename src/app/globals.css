@@ -271,6 +271,9 @@
   height: 85.3333%;
   object-fit: cover;
   object-position: center bottom;
+  /* Верхняя треть прозрачна — заголовок читается поверх фото */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 28%, black 52%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 28%, black 52%);
 }
 
 /* На узком экране почти квадратная плита в высоком контейнере обрезается по
