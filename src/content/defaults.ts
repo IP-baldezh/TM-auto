@@ -257,7 +257,7 @@ export const DEFAULT_HERO = {
   // так же, как в reference разложена фотография горы.
   layerSkyUrl: '/hero/sky.webp',
   layerMidUrl: null as string | null,
-  layerCarUrl: '/hero/audi.png',
+  layerCarUrl: '/hero/car.webp',
   /** Плита уже с прозрачностью — маска не нужна. */
   layerCarIsCutout: true,
   layerForegroundUrl: null as string | null,
