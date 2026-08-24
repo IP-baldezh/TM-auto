@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Menu, Phone, X } from 'lucide-react';
 
@@ -54,6 +54,13 @@ export function Header({
 
   const solid = scrolled || open;
 
+  const scrollToAnchor = useCallback((href: string) => {
+    const id = href.startsWith('#') ? href.slice(1) : null;
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
   return (
     <>
       <header
@@ -90,6 +97,12 @@ export function Header({
                     href={item.href}
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
+                    onClick={(e) => {
+                      if (item.href.startsWith('#')) {
+                        e.preventDefault();
+                        scrollToAnchor(item.href);
+                      }
+                    }}
                     className={cn(
                       'relative py-2 text-[0.8125rem] font-medium transition-colors',
                       'after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-300 hover:after:scale-x-100',
@@ -187,7 +200,13 @@ export function Header({
                       href={item.href}
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noopener noreferrer' : undefined}
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => {
+                        setOpen(false);
+                        if (item.href.startsWith('#')) {
+                          e.preventDefault();
+                          setTimeout(() => scrollToAnchor(item.href), 150);
+                        }
+                      }}
                       className="block py-4 font-[family-name:var(--font-display)] text-xl tracking-[-0.02em] transition-colors hover:text-brand"
                     >
                       {item.label}

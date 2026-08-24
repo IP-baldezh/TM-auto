@@ -35,7 +35,7 @@ const DIRECTIONS = [
     bg: 'bg-brand',
     text: 'text-white',
     accent: 'text-white',
-    muted: 'text-white/70',
+    muted: 'text-white',
     cta: { label: 'Подобрать авто с пробегом', href: '#calculator' },
     watermarkColor: 'fill-white',
     watermarkOpacity: 'opacity-[0.10]',
