@@ -45,7 +45,7 @@ export const IMAGES = {
 export const DEFAULT_SITE = {
   id: 'site',
   brandName: 'ТМ Авто',
-  brandNote: 'Работаем в автобизнесе с 2012',
+  brandNote: 'В автобизнесе с 2012 года',
   logoUrl: null as string | null,
   city: 'Дзержинск',
   address: 'Дзержинск, ул. Самохвалова, д. 6Б',
