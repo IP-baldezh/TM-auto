@@ -20,7 +20,7 @@ export function CalculatorSection({
       <Container>
         <SectionHeading
           title={section.title ?? calculator.title}
-          subtitle="Пройдите опрос, чтобы узнать точную стоимость пригона"
+          subtitle="Пройдите опрос, чтобы узнать точную стоимость авто под заказ"
         />
 
         <div data-reveal="up">

@@ -117,7 +117,7 @@ export function Calculator({
               Вопрос {stepIndex + 1} из {steps.length}
             </p>
             <p className="mt-1 text-[0.875rem] text-steel">
-              Ответьте на несколько вопросов и узнайте стоимость пригона
+              Ответьте на несколько вопросов и узнайте стоимость авто под заказ
             </p>
 
             <h3

@@ -7,7 +7,7 @@ const DIRECTIONS = [
     flag: '🇨🇳',
     tagline: 'Новые авто напрямую от производителей',
     features: [
-      'Электромобили и гибриды BYD, Chery, Geely, Li Auto',
+      'Audi, BMW, Mercedes-Benz, Volkswagen, Porsche и другие',
       'Предотгрузочная инспекция на заводе или складе',
       'Доставка морем или авто-транспортом через границу',
       'Таможня, СБКТС и ЭПТС под ключ',
@@ -25,7 +25,7 @@ const DIRECTIONS = [
     flag: '🇰🇷',
     tagline: 'Авто с аукционов и у официальных дилеров',
     features: [
-      'Hyundai, Kia, Genesis, SsangYong с пробегом',
+      'Hyundai, Kia, а также Audi, BMW, Mercedes-Benz и другие европейские марки',
       'Проверка по базам CARFAX Korea и CarHistory',
       'Аукционная документация и история обслуживания',
       'Доставка и растаможка с фиксированной ценой',
@@ -59,7 +59,7 @@ export function ImportDirections() {
       <Container>
         <div className="mb-8 md:mb-16" data-reveal="up">
           <h2 className="display text-[clamp(1.85rem,4.6vw,3.9rem)] leading-[1.04]">
-            Работаем напрямую с двумя рынками — выбирайте направление или доверьте выбор нам.
+            Работаем с основными рынками — выбирайте направление или доверьте выбор нам.
           </h2>
         </div>
 
