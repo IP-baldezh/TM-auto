@@ -10,7 +10,7 @@ export function BrandMark({
   brandName: string;
   brandNote?: string;
   logoUrl?: string | null;
-  tone?: 'dark' | 'light';
+  tone?: 'dark' | 'light' | 'red';
   className?: string;
 }) {
   if (logoUrl) {
@@ -28,7 +28,7 @@ export function BrandMark({
     <span className={cn('flex items-center gap-3', className)}>
       <svg
         viewBox="0 0 187 89"
-        className={cn('h-7 w-auto shrink-0', tone === 'dark' ? 'text-ink' : 'text-white')}
+        className={cn('h-7 w-auto shrink-0', tone === 'dark' ? 'text-ink' : tone === 'red' ? 'text-brand' : 'text-white')}
         aria-hidden="true"
         fill="currentColor"
       >
@@ -40,7 +40,7 @@ export function BrandMark({
         <span
           className={cn(
             'text-[1.0625rem] font-extrabold uppercase tracking-[-0.01em]',
-            tone === 'dark' ? 'text-ink' : 'text-white',
+            tone === 'dark' ? 'text-ink' : tone === 'red' ? 'text-white' : 'text-white',
           )}
         >
           {brandName}

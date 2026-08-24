@@ -27,7 +27,7 @@ export function Footer({
               brandName={site.brandName}
               brandNote={site.brandNote}
               logoUrl={site.logoUrl}
-              tone="light"
+              tone="red"
             />
             <p className="mt-5 max-w-[34ch] text-[0.875rem] leading-relaxed text-steel-3">
               Авто под заказ из любой страны под ключ. Таможня, доставка и СБКТС — берём на себя.
