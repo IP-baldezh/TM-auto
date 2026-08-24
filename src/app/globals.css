@@ -279,9 +279,9 @@
    высоту слоя — плита масштабируется ближе к ширине. */
 @media (max-width: 767px) {
   [data-parallax-layer="4"].parallax__layer-img {
-    height: 62%;
+    height: 42%;
     top: auto;
-    bottom: 17%;
+    bottom: 0;
   }
 }
 
