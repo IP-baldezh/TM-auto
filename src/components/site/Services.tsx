@@ -83,12 +83,11 @@ export function Services({ section }: { section: SectionView }) {
                     const dark = DARK_CARDS.has(step.num);
                     const prevDark = ci > 0 && DARK_CARDS.has(row[ci - 1].num);
                     return (
-                      <>
+                      <div key={step.num} className="contents">
                         {ci > 0 && (
-                          <HLine key={`h-${step.num}`} dark={dark || prevDark} />
+                          <HLine dark={dark || prevDark} />
                         )}
                         <div
-                          key={step.num}
                           data-reveal="up"
                           className={`relative flex flex-col rounded-2xl px-6 py-6 min-h-[9rem] ${
                             dark ? 'bg-ink' : 'bg-paper-2'
@@ -107,7 +106,7 @@ export function Services({ section }: { section: SectionView }) {
                           )}
                           <LogoWatermark dark={dark} />
                         </div>
-                      </>
+                      </div>
                     );
                   })}
 
