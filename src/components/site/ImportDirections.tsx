@@ -8,7 +8,7 @@ const DIRECTIONS = [
     flag: '🌍',
     tagline: 'Напрямую от дилеров и производителей',
     features: [
-      'Audi, BMW, Mercedes-Benz, Volkswagen, Porsche и другие',
+      'Audi, BMW, Volkswagen, Changan, Geely, Kia и другие',
       'Предотгрузочная инспекция на заводе или складе',
       'Доставка морем или автотранспортом',
       'Таможня, СБКТС и ЭПТС под ключ',
@@ -27,7 +27,7 @@ const DIRECTIONS = [
     flag: '🏁',
     tagline: 'С международных аукционов и у официальных дилеров',
     features: [
-      'BMW, Mercedes-Benz, Toyota, Lexus и другие марки',
+      'BMW, Mercedes-Benz, Kia, Hyundai и другие марки',
       'Проверка по международным базам данных',
       'Аукционная документация и история обслуживания',
       'Доставка и растаможка с фиксированной ценой',
