@@ -159,6 +159,7 @@ export const DEFAULT_SECTIONS = [
     eyebrow: null,
     title: 'Почему выбирают нас',
     subtitle: null,
+    enabled: false,
     sortOrder: 6,
   },
   {
