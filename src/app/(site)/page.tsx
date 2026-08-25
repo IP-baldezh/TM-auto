@@ -107,15 +107,15 @@ export default async function HomePage() {
 
       <ImportDirections />
 
+      <Services
+        section={sections.services ?? FALLBACK_SECTION}
+      />
+
       <CalculatorSection
         section={sections.calculator ?? FALLBACK_SECTION}
         calculator={content.calculator}
         privacyUrl={site.privacyUrl}
         consentUrl={site.consentUrl}
-      />
-
-      <Services
-        section={sections.services ?? FALLBACK_SECTION}
       />
 
       <Promotions
