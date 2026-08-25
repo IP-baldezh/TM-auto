@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState } from 'react'; // используется в DeliveredCars
 import { ArrowUpRight, X, Quote } from 'lucide-react';
 
 import type { CarView, SectionView } from '@/lib/content';
@@ -8,9 +8,17 @@ import { Container, Section } from '@/components/site/Section';
 import { SectionHeading } from '@/components/site/Section';
 import { formatMileage, formatMoney } from '@/lib/utils';
 
-function CarCard({ car }: { car: CarView }) {
-  const [showReview, setShowReview] = useState(false);
-
+function CarCard({
+  car,
+  reviewOpen,
+  onOpen,
+  onClose,
+}: {
+  car: CarView;
+  reviewOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) {
   const specs: { label: string; value: string }[] = [];
   if (car.trim)             specs.push({ label: 'Комплектация', value: car.trim });
   if (car.transmission)     specs.push({ label: 'Трансмиссия',  value: car.transmission });
@@ -24,7 +32,7 @@ function CarCard({ car }: { car: CarView }) {
   return (
     <article
       className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06] transition-shadow hover:shadow-md"
-      onClick={() => hasReview && setShowReview(true)}
+      onClick={() => hasReview && onOpen()}
       style={{ cursor: hasReview ? 'pointer' : 'default' }}
     >
       {/* Фото */}
@@ -88,7 +96,7 @@ function CarCard({ car }: { car: CarView }) {
       </div>
 
       {/* Оверлей с отзывом */}
-      {showReview && hasReview && (
+      {reviewOpen && hasReview && (
         <div
           className="absolute inset-0 flex flex-col justify-between rounded-2xl bg-ink/95 p-5 backdrop-blur-sm"
           onClick={(e) => e.stopPropagation()}
@@ -96,7 +104,7 @@ function CarCard({ car }: { car: CarView }) {
           <button
             type="button"
             aria-label="Закрыть отзыв"
-            onClick={() => setShowReview(false)}
+            onClick={onClose}
             className="ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition hover:bg-white/20 hover:text-white"
           >
             <X className="size-4" />
@@ -120,6 +128,8 @@ function CarCard({ car }: { car: CarView }) {
 }
 
 export function DeliveredCars({ section, cars }: { section: SectionView; cars: CarView[] }) {
+  const [openId, setOpenId] = useState<string | null>(null);
+
   if (!section.enabled || cars.length === 0) return null;
 
   return (
@@ -132,7 +142,13 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-12">
           {cars.map((car) => (
-            <CarCard key={car.id} car={car} />
+            <CarCard
+              key={car.id}
+              car={car}
+              reviewOpen={openId === car.id}
+              onOpen={() => setOpenId(car.id)}
+              onClose={() => setOpenId(null)}
+            />
           ))}
         </div>
       </Container>
