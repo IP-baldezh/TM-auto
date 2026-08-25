@@ -1,91 +1,102 @@
 'use client';
 
-import { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 import type { CarView, SectionView } from '@/lib/content';
 import { Container, Section } from '@/components/site/Section';
-import { formatMileage, formatMoney, pluralRu } from '@/lib/utils';
-import { CoverflowCarousel, type CoverflowSlide } from './CoverflowCarousel';
+import { SectionHeading } from '@/components/site/Section';
+import { formatMileage, formatMoney } from '@/lib/utils';
 
-export function DeliveredCars({ section, cars }: { section: SectionView; cars: CarView[] }) {
-  const carouselRef = useRef<{ nudge: (by: number) => void } | null>(null);
-
-  if (!section.enabled || cars.length === 0) return null;
-
-  const slides: CoverflowSlide[] = cars.map((car) => {
-    const meta: { label: string; value: string }[] = [];
-    meta.push({ label: 'Год', value: String(car.year) });
-    if (car.mileage !== null) meta.push({ label: 'Пробег', value: formatMileage(car.mileage) });
-    if (car.engine) meta.push({ label: 'Двигатель', value: car.engine });
-    if (car.drive) meta.push({ label: 'Привод', value: car.drive });
-    else if (car.transmission) meta.push({ label: 'КПП', value: car.transmission });
-
-    const subtitleParts = [
-      car.trim,
-      car.location,
-      car.searchDays
-        ? `нашли за ${car.searchDays} ${pluralRu(car.searchDays, ['день', 'дня', 'дней'])}`
-        : null,
-    ].filter(Boolean);
-
-    return {
-      id: car.id,
-      src: car.imageUrl,
-      alt: car.imageAlt ?? car.title,
-      title: car.title,
-      subtitle: subtitleParts.length ? subtitleParts.join(' · ') : null,
-      badge: car.isDemo ? 'Демо' : null,
-      accent: car.savings ? `−${formatMoney(car.savings)} к цене` : null,
-      meta,
-      price: car.price ? formatMoney(car.price) : null,
-      review:
-        car.reviewAuthor && car.reviewText
-          ? { author: car.reviewAuthor, text: car.reviewText }
-          : null,
-    };
-  });
+function CarCard({ car }: { car: CarView }) {
+  const specs: { label: string; value: string }[] = [];
+  if (car.trim)         specs.push({ label: 'Комплектация', value: car.trim });
+  if (car.transmission) specs.push({ label: 'Трансмиссия',  value: car.transmission });
+  if (car.drive)        specs.push({ label: 'Привод',        value: car.drive });
+  if (car.engine)       specs.push({ label: 'Двигатель',     value: car.engine });
+  if (car.mileage !== null) specs.push({ label: 'Пробег', value: formatMileage(car.mileage) });
+  specs.push({ label: 'Год', value: String(car.year) });
 
   return (
-    <Section id="cars" tone="paper-2">
-      <Container>
-        <div className="mb-3 md:mb-16">
-          <div className="h-px w-full bg-line" data-reveal="mask" />
-          <div className="flex items-end justify-between gap-6 pt-5 md:pt-10">
-            <h2
-              className="display text-[clamp(1.85rem,4.6vw,3.9rem)] leading-[1.04]"
-              data-reveal="up"
-            >
-              {section.title}
-            </h2>
-            {cars.length > 1 && (
-              <div className="hidden shrink-0 items-center gap-2 pb-1 sm:flex">
-                <button
-                  type="button"
-                  aria-label="Предыдущий автомобиль"
-                  onClick={() => carouselRef.current?.nudge(-1)}
-                  className="flex h-14 w-[4.25rem] items-center justify-center rounded-2xl bg-brand text-white shadow-md shadow-brand/25 transition-colors hover:bg-brand-dark"
-                >
-                  <ChevronLeft className="size-7" strokeWidth={2.5} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Следующий автомобиль"
-                  onClick={() => carouselRef.current?.nudge(1)}
-                  className="flex h-14 w-[4.25rem] items-center justify-center rounded-2xl bg-brand text-white shadow-md shadow-brand/25 transition-colors hover:bg-brand-dark"
-                >
-                  <ChevronRight className="size-7" strokeWidth={2.5} aria-hidden="true" />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </Container>
-
-      <div data-reveal="up">
-        <CoverflowCarousel controlRef={carouselRef} slides={slides} />
+    <article className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06]">
+      {/* Фото */}
+      <div className="relative aspect-[4/3] shrink-0 overflow-hidden bg-graphite">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={car.imageUrl}
+          alt={car.imageAlt ?? car.title}
+          className="h-full w-full object-cover"
+        />
+        {car.videoUrl && (
+          <a
+            href={car.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/70 px-3 py-1 text-[0.6875rem] font-medium text-white backdrop-blur-sm transition hover:bg-black/90"
+          >
+            Видео-обзор
+            <ArrowUpRight className="size-3" aria-hidden="true" />
+          </a>
+        )}
       </div>
 
+      {/* Контент */}
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        {/* Название + бейдж страны */}
+        <div className="flex items-start gap-2">
+          <h3 className="flex-1 text-[0.9375rem] font-bold uppercase leading-tight tracking-wide text-ink">
+            {car.title}
+          </h3>
+          {car.location && (
+            <span className="shrink-0 rounded bg-steel/10 px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-steel">
+              {car.location}
+            </span>
+          )}
+        </div>
+
+        {/* Характеристики */}
+        <ul className="flex flex-col gap-0.5">
+          {specs.map((s) => (
+            <li key={s.label} className="flex items-baseline gap-1 text-[0.75rem] leading-relaxed">
+              <span className="shrink-0 text-ink/60">{s.label}:</span>
+              <span className="font-medium text-brand">{s.value}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Цена */}
+        <div className="mt-auto flex items-end justify-between pt-3">
+          <div>
+            <p className="text-[0.6875rem] text-steel">Стоимость под ключ:</p>
+            <p className="text-[1.25rem] font-bold leading-none tracking-[-0.02em] text-brand">
+              {car.price ? `${formatMoney(car.price)} ₽` : 'По запросу'}
+            </p>
+          </div>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-white">
+            <ArrowUpRight className="size-5" aria-hidden="true" />
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function DeliveredCars({ section, cars }: { section: SectionView; cars: CarView[] }) {
+  if (!section.enabled || cars.length === 0) return null;
+
+  return (
+    <Section id="cars" tone="paper">
+      <Container>
+        <SectionHeading
+          title={section.title ?? 'Автомобили, которые мы привезли'}
+          subtitle={section.subtitle}
+        />
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-12">
+          {cars.map((car) => (
+            <CarCard key={car.id} car={car} />
+          ))}
+        </div>
+      </Container>
     </Section>
   );
 }
