@@ -19,7 +19,7 @@ function CarCard({ car }: { car: CarView }) {
   return (
     <article className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06]">
       {/* Фото: впритык к краям сверху и по бокам, нижние углы закруглены */}
-      <div className="relative aspect-[4/3] overflow-hidden rounded-b-2xl bg-graphite">
+      <div className="relative aspect-square overflow-hidden rounded-b-2xl bg-graphite">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={car.imageUrl}
