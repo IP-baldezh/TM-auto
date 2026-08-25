@@ -18,16 +18,14 @@ function CarCard({ car }: { car: CarView }) {
 
   return (
     <article className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06]">
-      {/* Фото с закруглёнными углами со всех сторон */}
-      <div className="p-2 pb-0">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-graphite">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={car.imageUrl}
-            alt={car.imageAlt ?? car.title}
-            className="h-full w-full object-cover"
-          />
-        </div>
+      {/* Фото: впритык к краям сверху и по бокам, нижние углы закруглены */}
+      <div className="relative aspect-[4/3] overflow-hidden rounded-b-2xl bg-graphite">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={car.imageUrl}
+          alt={car.imageAlt ?? car.title}
+          className="h-full w-full object-cover"
+        />
       </div>
 
       {/* Контент */}
