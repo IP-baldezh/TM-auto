@@ -46,13 +46,13 @@ function CarCard({
       </div>
 
       {/* Контент */}
-      <div className="flex flex-1 flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-3 p-4" style={{ fontFamily: 'var(--font-display)' }}>
         {/* Название + бейдж страны + видео */}
         <div className="flex items-start gap-2">
-          <h3 className="flex-1 text-[0.9375rem] font-bold uppercase leading-tight tracking-wide text-ink transition-colors duration-200 group-hover:text-brand">
+          <h3 className="flex-1 text-[0.9375rem] font-semibold uppercase leading-tight tracking-wide text-ink/80 transition-colors duration-200 group-hover:text-brand">
             {car.title}
             {car.location && (
-              <span className="ml-2 align-middle rounded bg-steel/10 px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-steel">
+              <span className="ml-2 align-middle rounded bg-steel/10 px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wider text-steel">
                 {car.location}
               </span>
             )}
@@ -75,8 +75,8 @@ function CarCard({
         <ul className="flex flex-col gap-0.5">
           {specs.map((s) => (
             <li key={s.label} className="flex items-baseline gap-1 text-[0.75rem] leading-relaxed">
-              <span className="shrink-0 text-ink/60">{s.label}:</span>
-              <span className="font-medium text-brand">{s.value}</span>
+              <span className="shrink-0 font-semibold text-ink/50">{s.label}:</span>
+              <span className="font-semibold text-ink/80">{s.value}</span>
             </li>
           ))}
         </ul>
@@ -84,9 +84,11 @@ function CarCard({
         {/* Цена */}
         <div className="mt-auto flex items-end justify-between pt-3">
           <div>
-            <p className="text-[0.6875rem] text-steel">Стоимость под ключ:</p>
-            <p className="text-[1.25rem] font-bold leading-none tracking-[-0.02em] text-brand">
-              {car.price ? `${formatMoney(car.price)} ₽` : 'По запросу'}
+            <p className="text-[0.8125rem] font-semibold text-ink/60">Стоимость под ключ:</p>
+            <p className="text-[1.25rem] font-semibold leading-none tracking-[-0.02em] text-ink/80">
+              {car.price
+                ? <>{formatMoney(car.price)}<span className="text-brand"> ₽</span></>
+                : 'По запросу'}
             </p>
           </div>
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-white transition-colors duration-200 group-hover:bg-brand">
