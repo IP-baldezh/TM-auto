@@ -1,6 +1,7 @@
 'use client';
 
-import { ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowUpRight, X, Quote } from 'lucide-react';
 
 import type { CarView, SectionView } from '@/lib/content';
 import { Container, Section } from '@/components/site/Section';
@@ -8,23 +9,31 @@ import { SectionHeading } from '@/components/site/Section';
 import { formatMileage, formatMoney } from '@/lib/utils';
 
 function CarCard({ car }: { car: CarView }) {
+  const [showReview, setShowReview] = useState(false);
+
   const specs: { label: string; value: string }[] = [];
-  if (car.trim)         specs.push({ label: 'Комплектация', value: car.trim });
-  if (car.transmission) specs.push({ label: 'Трансмиссия',  value: car.transmission });
-  if (car.drive)        specs.push({ label: 'Привод',        value: car.drive });
-  if (car.engine)       specs.push({ label: 'Двигатель',     value: car.engine });
-  if (car.mileage !== null) specs.push({ label: 'Пробег', value: formatMileage(car.mileage) });
+  if (car.trim)             specs.push({ label: 'Комплектация', value: car.trim });
+  if (car.transmission)     specs.push({ label: 'Трансмиссия',  value: car.transmission });
+  if (car.drive)            specs.push({ label: 'Привод',        value: car.drive });
+  if (car.engine)           specs.push({ label: 'Двигатель',     value: car.engine });
+  if (car.mileage !== null) specs.push({ label: 'Пробег',        value: formatMileage(car.mileage) });
   specs.push({ label: 'Год', value: String(car.year) });
 
+  const hasReview = Boolean(car.reviewText);
+
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06]">
-      {/* Фото: впритык к краям сверху и по бокам, нижние углы закруглены */}
+    <article
+      className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06] transition-shadow hover:shadow-md"
+      onClick={() => hasReview && setShowReview(true)}
+      style={{ cursor: hasReview ? 'pointer' : 'default' }}
+    >
+      {/* Фото */}
       <div className="relative aspect-square overflow-hidden rounded-b-2xl bg-graphite">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={car.imageUrl}
           alt={car.imageAlt ?? car.title}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
       </div>
 
@@ -32,7 +41,7 @@ function CarCard({ car }: { car: CarView }) {
       <div className="flex flex-1 flex-col gap-3 p-4">
         {/* Название + бейдж страны + видео */}
         <div className="flex items-start gap-2">
-          <h3 className="flex-1 text-[0.9375rem] font-bold uppercase leading-tight tracking-wide text-ink">
+          <h3 className="flex-1 text-[0.9375rem] font-bold uppercase leading-tight tracking-wide text-ink transition-colors duration-200 group-hover:text-brand">
             {car.title}
             {car.location && (
               <span className="ml-2 align-middle rounded bg-steel/10 px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-steel">
@@ -45,6 +54,7 @@ function CarCard({ car }: { car: CarView }) {
               href={car.videoUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className="shrink-0 flex items-center gap-1 text-[0.75rem] font-medium text-steel transition hover:text-brand"
             >
               Видео-обзор
@@ -71,11 +81,40 @@ function CarCard({ car }: { car: CarView }) {
               {car.price ? `${formatMoney(car.price)} ₽` : 'По запросу'}
             </p>
           </div>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-white">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-white transition-colors duration-200 group-hover:bg-brand">
             <ArrowUpRight className="size-5" aria-hidden="true" />
           </div>
         </div>
       </div>
+
+      {/* Оверлей с отзывом */}
+      {showReview && hasReview && (
+        <div
+          className="absolute inset-0 flex flex-col justify-between rounded-2xl bg-ink/95 p-5 backdrop-blur-sm"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            aria-label="Закрыть отзыв"
+            onClick={() => setShowReview(false)}
+            className="ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition hover:bg-white/20 hover:text-white"
+          >
+            <X className="size-4" />
+          </button>
+
+          <div className="flex flex-col gap-4">
+            <Quote className="size-8 text-brand" aria-hidden="true" />
+            <p className="text-[0.875rem] leading-relaxed text-white/90">
+              {car.reviewText}
+            </p>
+            {car.reviewAuthor && (
+              <p className="text-[0.75rem] font-semibold uppercase tracking-wider text-brand">
+                — {car.reviewAuthor}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </article>
   );
 }
