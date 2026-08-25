@@ -91,8 +91,8 @@ function CarCard({
                 : 'По запросу'}
             </p>
           </div>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-white transition-colors duration-200 group-hover:bg-brand">
-            <ArrowUpRight className="size-5" aria-hidden="true" />
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-ink text-white transition-colors duration-200 group-hover:bg-brand">
+            <ArrowUpRight className="size-7" strokeWidth={2.8} aria-hidden="true" />
           </div>
         </div>
       </div>
