@@ -18,38 +18,40 @@ function CarCard({ car }: { car: CarView }) {
 
   return (
     <article className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06]">
-      {/* Фото */}
-      <div className="relative aspect-[4/3] shrink-0 overflow-hidden bg-graphite">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={car.imageUrl}
-          alt={car.imageAlt ?? car.title}
-          className="h-full w-full object-cover"
-        />
-        {car.videoUrl && (
-          <a
-            href={car.videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/70 px-3 py-1 text-[0.6875rem] font-medium text-white backdrop-blur-sm transition hover:bg-black/90"
-          >
-            Видео-обзор
-            <ArrowUpRight className="size-3" aria-hidden="true" />
-          </a>
-        )}
+      {/* Фото с закруглёнными углами со всех сторон */}
+      <div className="p-2 pb-0">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-graphite">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={car.imageUrl}
+            alt={car.imageAlt ?? car.title}
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
 
       {/* Контент */}
       <div className="flex flex-1 flex-col gap-3 p-4">
-        {/* Название + бейдж страны */}
+        {/* Название + бейдж страны + видео */}
         <div className="flex items-start gap-2">
           <h3 className="flex-1 text-[0.9375rem] font-bold uppercase leading-tight tracking-wide text-ink">
             {car.title}
+            {car.location && (
+              <span className="ml-2 align-middle rounded bg-steel/10 px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-steel">
+                {car.location}
+              </span>
+            )}
           </h3>
-          {car.location && (
-            <span className="shrink-0 rounded bg-steel/10 px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-steel">
-              {car.location}
-            </span>
+          {car.videoUrl && (
+            <a
+              href={car.videoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 flex items-center gap-1 text-[0.75rem] font-medium text-steel transition hover:text-brand"
+            >
+              Видео-обзор
+              <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            </a>
           )}
         </div>
 
