@@ -183,7 +183,7 @@ export const DEFAULT_SECTIONS = [
     key: 'faq',
     label: 'Вопросы и ответы',
     eyebrow: null,
-    title: 'Коротко о главном',
+    title: 'Ответы на частые вопросы',
     subtitle: null,
     sortOrder: 9,
   },

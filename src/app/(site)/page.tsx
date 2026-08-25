@@ -107,6 +107,13 @@ export default async function HomePage() {
 
       <ImportDirections />
 
+      <CalculatorSection
+        section={sections.calculator ?? FALLBACK_SECTION}
+        calculator={content.calculator}
+        privacyUrl={site.privacyUrl}
+        consentUrl={site.consentUrl}
+      />
+
       <Services
         section={sections.services ?? FALLBACK_SECTION}
       />
@@ -118,13 +125,6 @@ export default async function HomePage() {
       />
 
       <CostExample />
-
-<CalculatorSection
-        section={sections.calculator ?? FALLBACK_SECTION}
-        calculator={content.calculator}
-        privacyUrl={site.privacyUrl}
-        consentUrl={site.consentUrl}
-      />
 
       {sections.reasons?.enabled !== false && content.reasons.length > 0 && (
         <section
