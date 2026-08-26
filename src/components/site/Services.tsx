@@ -30,27 +30,24 @@ export function Services({ section }: { section: SectionView }) {
           subtitle={section.subtitle}
         />
 
-        <div className="mt-8 overflow-hidden rounded-2xl ring-1 ring-black/[0.07] md:mt-12">
-          {/* gap-px + bg создаёт 1px-разделители между ячейками */}
-          <div className="grid gap-px bg-black/[0.07] sm:grid-cols-2 lg:grid-cols-3">
-            {STEPS.map((step) => (
-              <div key={step.num} data-reveal="up" className="flex gap-3.5 bg-paper-2 px-5 py-4">
-                <span className="mt-[2px] w-7 shrink-0 tabular-nums text-[0.8125rem] font-bold leading-none text-brand">
-                  {step.num}
+        <div className="mt-8 md:mt-12 overflow-hidden rounded-2xl ring-1 ring-black/[0.07]">
+          {STEPS.map((step, i) => (
+            <div
+              key={step.num}
+              data-reveal="up"
+              className={`flex items-baseline gap-4 px-6 py-3 ${i !== 0 ? 'border-t border-black/[0.06]' : ''} bg-paper-2`}
+            >
+              <span className="w-7 shrink-0 tabular-nums text-[0.8125rem] font-bold text-brand">
+                {step.num}
+              </span>
+              <span className="text-[0.875rem] font-semibold text-ink">{step.title}</span>
+              {step.note && (
+                <span className="ml-auto shrink-0 hidden sm:block text-[0.75rem] text-steel max-w-xs text-right leading-snug">
+                  {step.note}
                 </span>
-                <div>
-                  <p className="text-[0.875rem] font-semibold leading-snug text-ink">
-                    {step.title}
-                  </p>
-                  {step.note && (
-                    <p className="mt-1 text-[0.75rem] leading-relaxed text-steel">
-                      {step.note}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
       </Container>
     </Section>
