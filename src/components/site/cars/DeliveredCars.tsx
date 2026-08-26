@@ -87,7 +87,7 @@ function CarCard({
             <p className="text-[0.8125rem] font-semibold text-ink/60">Стоимость под ключ:</p>
             <p className="text-[1.25rem] font-semibold leading-none tracking-[-0.02em] text-ink/80">
               {car.price
-                ? <>{formatMoney(car.price)}<span className="text-brand"> ₽</span></>
+                ? <>{formatMoney(car.price, false)}<span className="text-brand"> ₽</span></>
                 : 'По запросу'}
             </p>
           </div>
