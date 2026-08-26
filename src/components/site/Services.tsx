@@ -35,14 +35,14 @@ export function Services({ section }: { section: SectionView }) {
             <div
               key={step.num}
               data-reveal="up"
-              className={`flex items-baseline gap-4 px-6 py-3 ${i !== 0 ? 'border-t border-black/[0.06]' : ''} bg-paper-2`}
+              className={`flex items-center gap-4 px-6 h-11 ${i !== 0 ? 'border-t border-black/[0.06]' : ''} bg-paper-2`}
             >
               <span className="w-7 shrink-0 tabular-nums text-[0.8125rem] font-bold text-brand">
                 {step.num}
               </span>
               <span className="text-[0.875rem] font-semibold text-ink">{step.title}</span>
               {step.note && (
-                <span className="ml-auto shrink-0 hidden sm:block text-[0.75rem] text-steel max-w-xs text-right leading-snug">
+                <span className="ml-auto hidden sm:block text-[0.75rem] text-steel truncate max-w-sm text-right">
                   {step.note}
                 </span>
               )}
