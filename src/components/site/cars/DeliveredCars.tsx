@@ -32,7 +32,7 @@ function CarCard({
   return (
     <article
       className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.06] transition-shadow hover:shadow-md"
-      onClick={() => hasReview && onOpen()}
+      onClick={() => hasReview && (reviewOpen ? onClose() : onOpen())}
       style={{ cursor: hasReview ? 'pointer' : 'default' }}
     >
       {/* Фото */}
@@ -101,7 +101,6 @@ function CarCard({
       {reviewOpen && hasReview && (
         <div
           className="absolute inset-0 flex flex-col justify-between rounded-2xl bg-ink/95 p-5 backdrop-blur-sm"
-          onClick={(e) => e.stopPropagation()}
         >
           <button
             type="button"
@@ -140,6 +139,7 @@ export function DeliveredCars({ section, cars }: { section: SectionView; cars: C
         <SectionHeading
           title={section.title ?? 'Автомобили, которые мы привезли'}
           subtitle={section.subtitle}
+          align="stack"
         />
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-12">
