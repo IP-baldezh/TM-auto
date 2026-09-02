@@ -69,7 +69,7 @@ export const DEFAULT_SITE = {
 };
 
 export const DEFAULT_CONTACTS = [
-  { label: 'Авто под заказ и подбор', phone: '+7 (000) 000-00-00', isPrimary: true, sortOrder: 0 },
+  { label: 'Авто под заказ и подбор', phone: '+7 (908) 235-08-45', isPrimary: true, sortOrder: 0 },
 ];
 
 // ── Навигация ────────────────────────────────────────────────────────────
