@@ -116,7 +116,7 @@ export const DEFAULT_SECTIONS = [
     label: 'Услуги',
     eyebrow: null,
     title: 'Как мы работаем',
-    subtitle: 'Пять шагов от заявки до ключей в руках — берём на себя всё.',
+    subtitle: null,
     sortOrder: 1,
   },
   {
