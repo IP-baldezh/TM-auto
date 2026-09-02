@@ -140,7 +140,7 @@ export const DEFAULT_SECTIONS = [
     key: 'cars',
     label: 'Пригнанные автомобили',
     eyebrow: null,
-    title: 'Автомобили, которые мы уже привезли',
+    title: 'Автомобили, которые мы привезли',
     subtitle: null,
     sortOrder: 4,
   },
