@@ -19,7 +19,6 @@ const STEPS = [
   { num: '15', title: 'ТО и допоборудование', note: 'По желанию — сразу сделаем первое ТО и установим всё нужное.' },
 ];
 
-/* Карточки с водяным знаком — хаотичная выборка */
 const WATERMARK_CARDS = new Set(['02', '05', '08', '11', '15']);
 
 function LogoWatermark() {
@@ -36,10 +35,14 @@ function LogoWatermark() {
   );
 }
 
-function StepCard({ step }: { step: typeof STEPS[number] }) {
+/* Карточка шага — штрих с той стороны, которая смотрит к центральной линии */
+function StepCard({ step, accent }: { step: typeof STEPS[number]; accent: 'left' | 'right' }) {
   const hasWatermark = WATERMARK_CARDS.has(step.num);
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-paper-2 px-6 py-5 ring-1 ring-black/[0.06] min-h-[7rem] flex flex-col">
+    <div
+      className={`relative flex min-h-[7rem] flex-col overflow-hidden rounded-2xl bg-paper-2 px-6 py-5 shadow-sm
+        ${accent === 'left' ? 'border-l-[3px] border-brand' : 'border-r-[3px] border-brand'}`}
+    >
       <span className="tabular-nums text-[0.8125rem] font-bold leading-none text-brand">
         {step.num}
       </span>
@@ -53,6 +56,18 @@ function StepCard({ step }: { step: typeof STEPS[number] }) {
       )}
       {hasWatermark && <LogoWatermark />}
     </div>
+  );
+}
+
+/* Большой полупрозрачный номер на противоположной стороне */
+function BigNum({ num, align }: { num: string; align: 'left' | 'right' }) {
+  return (
+    <p
+      className={`select-none tabular-nums text-[5.5rem] font-black leading-none text-ink/[0.06]
+        ${align === 'left' ? 'pl-4 text-left' : 'pr-4 text-right'}`}
+    >
+      {num}
+    </p>
   );
 }
 
@@ -70,44 +85,44 @@ export function Services({ section }: { section: SectionView }) {
         {/* Mobile: простой список */}
         <div className="mt-8 flex flex-col gap-2 md:hidden">
           {STEPS.map((step) => (
-            <StepCard key={step.num} step={step} />
+            <StepCard key={step.num} step={step} accent="left" />
           ))}
         </div>
 
-        {/* Desktop: зигзаг */}
+        {/* Desktop: зигзаг — карточка на всю половину + большой номер напротив */}
         <div className="relative mt-10 hidden md:block">
-          {/* Вертикальная линия по центру */}
+          {/* Вертикальная линия */}
           <div
             className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
-            style={{ background: 'linear-gradient(to bottom, transparent, color-mix(in srgb, currentColor 12%, transparent) 4%, color-mix(in srgb, currentColor 12%, transparent) 96%, transparent)' }}
+            style={{ background: 'linear-gradient(to bottom, transparent, color-mix(in srgb, currentColor 10%, transparent) 4%, color-mix(in srgb, currentColor 10%, transparent) 96%, transparent)' }}
           />
 
           <div className="flex flex-col gap-3">
             {STEPS.map((step, i) => {
-              const isLeft = i % 2 === 0;
+              const cardOnLeft = i % 2 === 0;
               return (
-                <div
-                  key={step.num}
-                  data-reveal="up"
-                  className={`flex items-center gap-6 ${isLeft ? '' : 'flex-row-reverse'}`}
-                >
-                  {/* Карточка */}
-                  <div className="flex-1">
-                    <div className={`max-w-sm ${isLeft ? 'ml-auto' : 'mr-auto'}`}>
-                      <StepCard step={step} />
-                    </div>
+                <div key={step.num} data-reveal="up" className="flex items-center">
+                  {/* Левая половина */}
+                  <div className="flex-1 pr-8">
+                    {cardOnLeft
+                      ? <StepCard step={step} accent="right" />
+                      : <BigNum num={step.num} align="right" />}
                   </div>
 
                   {/* Точка на линии */}
-                  <div className="relative z-10 flex w-6 shrink-0 justify-center">
+                  <div className="relative z-10 flex w-0 shrink-0 justify-center">
                     <div
                       className="h-3 w-3 rounded-full bg-brand"
                       style={{ boxShadow: '0 0 0 3px var(--color-paper)' }}
                     />
                   </div>
 
-                  {/* Пустая половина */}
-                  <div className="flex-1" />
+                  {/* Правая половина */}
+                  <div className="flex-1 pl-8">
+                    {!cardOnLeft
+                      ? <StepCard step={step} accent="left" />
+                      : <BigNum num={step.num} align="left" />}
+                  </div>
                 </div>
               );
             })}
