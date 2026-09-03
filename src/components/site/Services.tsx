@@ -86,40 +86,48 @@ export function Services({ section }: { section: SectionView }) {
           ))}
         </div>
 
-        {/* Desktop: зигзаг — карточка на всю половину + большой номер напротив */}
-        <div className="relative mt-10 hidden md:block">
-          {/* Вертикальная линия */}
-          <div
-            className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
-            style={{ background: 'linear-gradient(to bottom, transparent, color-mix(in srgb, currentColor 10%, transparent) 4%, color-mix(in srgb, currentColor 10%, transparent) 96%, transparent)' }}
-          />
-
-          <div className="flex flex-col gap-3">
+        {/* Desktop: зигзаг с L-образными переходами */}
+        <div className="mt-10 hidden md:block">
+          <div className="flex flex-col">
             {STEPS.map((step, i) => {
               const cardOnLeft = i % 2 !== 0;
+              const isLast = i === STEPS.length - 1;
               return (
-                <div key={step.num} data-reveal="up" className="flex items-center">
-                  {/* Левая половина */}
-                  <div className="flex-1 pr-8">
-                    {cardOnLeft
-                      ? <StepCard step={step} accent="right" />
-                      : <BigNum num={step.num} align="right" />}
+                <div key={step.num}>
+                  <div data-reveal="up" className="flex items-center">
+                    {/* Левая половина */}
+                    <div className="flex-1 pr-8">
+                      {cardOnLeft
+                        ? <StepCard step={step} accent="right" />
+                        : <BigNum num={step.num} align="right" />}
+                    </div>
+
+                    <div className="w-0 shrink-0" />
+
+                    {/* Правая половина */}
+                    <div className="flex-1 pl-8">
+                      {!cardOnLeft
+                        ? <StepCard step={step} accent="left" />
+                        : <BigNum num={step.num} align="left" />}
+                    </div>
                   </div>
 
-                  {/* Точка на линии */}
-                  <div className="relative z-10 flex w-0 shrink-0 justify-center">
-                    <div
-                      className="h-3 w-3 rounded-full bg-brand"
-                      style={{ boxShadow: '0 0 0 3px var(--color-paper)' }}
-                    />
-                  </div>
-
-                  {/* Правая половина */}
-                  <div className="flex-1 pl-8">
-                    {!cardOnLeft
-                      ? <StepCard step={step} accent="left" />
-                      : <BigNum num={step.num} align="left" />}
-                  </div>
+                  {/* L-образная соединяющая линия */}
+                  {!isLast && (
+                    <div className="relative" style={{ height: '1.5rem' }}>
+                      <div
+                        className={`absolute inset-y-0 border-b-2 border-brand/30 ${
+                          cardOnLeft
+                            ? 'border-l-2 rounded-bl-[10px]'
+                            : 'border-r-2 rounded-br-[10px]'
+                        }`}
+                        style={{
+                          left: 'calc(50% - 2rem)',
+                          right: 'calc(50% - 2rem)',
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               );
             })}
