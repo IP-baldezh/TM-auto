@@ -112,14 +112,14 @@ export function Services({ section }: { section: SectionView }) {
                     </div>
                   </div>
 
-                  {/* L-образная соединяющая линия */}
+                  {/* Плавный дуговой переход между карточками */}
                   {!isLast && (
-                    <div className="relative" style={{ height: '2.5rem' }}>
+                    <div className="relative" style={{ height: '4rem' }}>
                       <div
-                        className={`absolute inset-y-0 border-b-[3px] border-brand/25 ${
+                        className={`absolute inset-y-0 border-b-[3px] border-brand/35 ${
                           cardOnLeft
-                            ? 'border-l-[3px] rounded-bl-[20px]'
-                            : 'border-r-[3px] rounded-br-[20px]'
+                            ? 'border-l-[3px] rounded-bl-[9999px]'
+                            : 'border-r-[3px] rounded-br-[9999px]'
                         }`}
                         style={{
                           left: 'calc(50% - 2rem)',
