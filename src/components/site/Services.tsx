@@ -114,12 +114,12 @@ export function Services({ section }: { section: SectionView }) {
 
                   {/* L-образная соединяющая линия */}
                   {!isLast && (
-                    <div className="relative" style={{ height: '1.5rem' }}>
+                    <div className="relative" style={{ height: '2.5rem' }}>
                       <div
-                        className={`absolute inset-y-0 border-b-2 border-brand/30 ${
+                        className={`absolute inset-y-0 border-b-[3px] border-brand/25 ${
                           cardOnLeft
-                            ? 'border-l-2 rounded-bl-[10px]'
-                            : 'border-r-2 rounded-br-[10px]'
+                            ? 'border-l-[3px] rounded-bl-[20px]'
+                            : 'border-r-[3px] rounded-br-[20px]'
                         }`}
                         style={{
                           left: 'calc(50% - 2rem)',
