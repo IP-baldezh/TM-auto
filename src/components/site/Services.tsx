@@ -43,10 +43,7 @@ function StepCard({ step, accent }: { step: typeof STEPS[number]; accent: 'left'
       className={`relative flex min-h-[7rem] flex-col overflow-hidden rounded-2xl bg-paper-2 px-6 py-5 shadow-sm
         ${accent === 'left' ? 'border-l-[3px] border-brand' : 'border-r-[3px] border-brand'}`}
     >
-      <span className="tabular-nums text-[0.8125rem] font-bold leading-none text-brand">
-        {step.num}
-      </span>
-      <p className="mt-2 text-[0.9375rem] font-semibold leading-snug text-ink">
+      <p className="text-[0.9375rem] font-semibold leading-snug text-ink">
         {step.title}
       </p>
       {step.note && (
@@ -66,7 +63,7 @@ function BigNum({ num, align }: { num: string; align: 'left' | 'right' }) {
       className={`select-none tabular-nums text-[5.5rem] font-black leading-none text-ink/[0.06]
         ${align === 'left' ? 'pl-4 text-left' : 'pr-4 text-right'}`}
     >
-      {num}
+      {String(parseInt(num, 10))}
     </p>
   );
 }
@@ -99,7 +96,7 @@ export function Services({ section }: { section: SectionView }) {
 
           <div className="flex flex-col gap-3">
             {STEPS.map((step, i) => {
-              const cardOnLeft = i % 2 === 0;
+              const cardOnLeft = i % 2 !== 0;
               return (
                 <div key={step.num} data-reveal="up" className="flex items-center">
                   {/* Левая половина */}
