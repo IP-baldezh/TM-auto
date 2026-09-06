@@ -96,7 +96,7 @@ export function Header({
           </Link>
 
           <nav aria-label="Основная навигация" className="hidden xl:block">
-            <ul className="flex items-center gap-7">
+            <ul className="flex items-center gap-5">
               {nav.map((item) => (
                 <li key={item.id}>
                   <Link
@@ -110,7 +110,7 @@ export function Header({
                       }
                     }}
                     className={cn(
-                      'relative py-2 text-[0.8125rem] font-medium transition-colors',
+                      'relative whitespace-nowrap py-2 text-[0.8125rem] font-medium transition-colors',
                       'after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-300 hover:after:scale-x-100',
                       solid ? 'text-steel hover:text-ink' : 'text-white/75 hover:text-white',
                     )}
@@ -128,7 +128,7 @@ export function Header({
                 key={contact.phone}
                 href={`tel:${telHref(contact.phone)}`}
                 className={cn(
-                  'hidden items-center gap-1.5 text-[0.8125rem] font-semibold transition-colors',
+                  'hidden items-center gap-1.5 whitespace-nowrap text-[0.8125rem] font-semibold transition-colors',
                   i === 0 ? 'lg:flex' : '2xl:flex',
                   solid ? 'text-ink hover:text-brand' : 'text-white hover:text-brand-bright',
                 )}
