@@ -6,7 +6,8 @@ import { Menu, Phone, X } from 'lucide-react';
 
 import type { NavItemView } from '@/lib/content';
 import { useHeroPassed } from '@/components/animations/useScrolledPast';
-import { ButtonLink } from '@/components/ui/Button';
+import { LeadModal } from '@/components/forms/LeadModal';
+import { Button } from '@/components/ui/Button';
 import { cn, formatPhone, telHref } from '@/lib/utils';
 import { BrandMark } from './BrandMark';
 
@@ -17,8 +18,9 @@ export function Header({
   brandName,
   brandNote,
   logoUrl,
+  privacyUrl,
+  consentUrl,
   ctaLabel = 'Подобрать авто',
-  ctaHref = '#calculator',
 }: {
   nav: NavItemView[];
   phone: string | null;
@@ -26,12 +28,15 @@ export function Header({
   brandName: string;
   brandNote: string;
   logoUrl: string | null;
+  privacyUrl: string;
+  consentUrl: string;
   ctaLabel?: string;
-  ctaHref?: string;
 }) {
   // Прозрачная шапка живёт только над hero — дальше нужен фон.
   const scrolled = useHeroPassed();
   const [open, setOpen] = useState(false);
+  // Отдельно от open: тот отвечает за мобильное меню.
+  const [leadOpen, setLeadOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Меню на мобильном: блокируем прокрутку страницы и закрываем по Escape.
@@ -130,14 +135,15 @@ export function Header({
               </a>
             )}
 
-            <ButtonLink
-              href={ctaHref}
+            <Button
+              type="button"
+              onClick={() => setLeadOpen(true)}
               size="sm"
               variant={solid ? 'primary' : 'light'}
               className="hidden sm:inline-flex"
             >
               {ctaLabel}
-            </ButtonLink>
+            </Button>
 
             <button
               type="button"
@@ -229,19 +235,31 @@ export function Header({
               {phoneLabel && (
                 <p className="mb-4 text-center text-[0.75rem] text-steel-2">{phoneLabel}</p>
               )}
-              <ButtonLink
-                href={ctaHref}
+              <Button
+                type="button"
                 size="lg"
                 variant="primary"
                 className="w-full"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  setLeadOpen(true);
+                }}
               >
                 {ctaLabel}
-              </ButtonLink>
+              </Button>
             </div>
           </div>
         </div>
       )}
+
+      <LeadModal
+        open={leadOpen}
+        onClose={() => setLeadOpen(false)}
+        source="HEADER"
+        privacyUrl={privacyUrl}
+        consentUrl={consentUrl}
+        title={ctaLabel}
+      />
     </>
   );
 }

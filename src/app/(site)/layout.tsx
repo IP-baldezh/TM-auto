@@ -28,6 +28,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         brandName={content.site.brandName}
         brandNote={content.site.brandNote}
         logoUrl={content.site.logoUrl}
+        privacyUrl={content.site.privacyUrl}
+        consentUrl={content.site.consentUrl}
       />
 
       <main id="main">{children}</main>

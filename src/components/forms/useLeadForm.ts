@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CalculatorAnswers } from '@/lib/calculator/engine';
 
-type Source = 'CALCULATOR' | 'FINAL_CTA' | 'HEADER' | 'SERVICE' | 'CONTACTS' | 'OTHER';
+export type Source = 'CALCULATOR' | 'FINAL_CTA' | 'HEADER' | 'SERVICE' | 'CONTACTS' | 'OTHER';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
