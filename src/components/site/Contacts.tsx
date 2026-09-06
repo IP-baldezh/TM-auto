@@ -2,7 +2,7 @@ import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 
 import type { SectionView, SiteSettingsView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
-import { EMAILS, PHONES, VK_URL, type MessengerKind } from '@/content/contacts';
+import { EMAILS, MAX_URL, PHONES, VK_URL, type MessengerKind } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
 
 const MESSENGERS: Record<
@@ -23,8 +23,9 @@ export function Contacts({
 }) {
   if (!section.enabled) return null;
 
-  // Заданное в админке значение перекрывает запасное.
+  // Заданные в админке значения перекрывают запасные.
   const vkUrl = site.vkUrl ?? VK_URL;
+  const maxUrl = site.maxUrl ?? MAX_URL;
 
   return (
     <Section id="contacts" tone="paper">
@@ -70,7 +71,7 @@ export function Contacts({
                         key={kind}
                         kind={kind}
                         phone={contact.phone}
-                        maxUrl={site.maxUrl}
+                        maxUrl={maxUrl}
                       />
                     ))}
                   </div>

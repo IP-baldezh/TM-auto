@@ -39,3 +39,5 @@ export const EMAILS = ['moskalev_tmn@mail.ru', 'mike_badgo@mail.ru'];
  * по-прежнему будет перекрывать её.
  */
 export const VK_URL = 'https://vk.ru/tm_autodzr';
+
+export const MAX_URL = 'https://max.ru/u/f9LHodD0cOLDDzuKzqkNk4Mrlus7_JteqNT_8YAPjgfWCu7R_g-rN6dY2zc';
