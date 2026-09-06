@@ -33,6 +33,12 @@ const PHASES: { title: string; steps: Step[] }[] = [
   { title: 'Подготовка и выдача',   steps: STEPS.slice(11) },
 ];
 
+/* Запасной подзаголовок: в базе у секции лежит null, а править её
+   правкой defaults нельзя — сид уже отработал. Админка по-прежнему
+   перекрывает это значение. */
+const SUBTITLE_FALLBACK =
+  'В автобизнесе с 2012 года. Берём на себя все пятнадцать шагов — оформление, логистику, таможню и сертификацию — от подписания договора до передачи ключей.';
+
 const WATERMARK_CARDS = new Set(['02', '05', '08', '11', '15']);
 
 function LogoWatermark() {
@@ -140,8 +146,9 @@ export function Services({ section }: { section: SectionView }) {
             className="h-full w-full object-cover"
           />
           {/* Слева вуаль плотнее: там стоит заголовок, и там же на фото
-              здание с собственными вывесками, которые спорят с текстом */}
-          <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/[0.89] to-ink/[0.78]" />
+              здание с собственными вывесками, которые спорят с текстом.
+              Справа карточки непрозрачны, поэтому фон можно открыть сильнее */}
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/[0.82] via-ink/[0.66] to-ink/[0.48]" />
         </div>
       </div>
 
@@ -150,7 +157,7 @@ export function Services({ section }: { section: SectionView }) {
         <div className="lg:hidden">
           <SectionHeading
             title={section.title ?? 'Как мы работаем'}
-            subtitle={section.subtitle}
+            subtitle={section.subtitle ?? SUBTITLE_FALLBACK}
             tone="dark"
           />
           <div className="mt-8 flex flex-col gap-2">
@@ -167,7 +174,7 @@ export function Services({ section }: { section: SectionView }) {
           <div className="sticky top-24 self-start">
             <SectionHeading
               title={section.title ?? 'Как мы работаем'}
-              subtitle={section.subtitle}
+              subtitle={section.subtitle ?? SUBTITLE_FALLBACK}
               align="stack"
               tone="dark"
               className="mb-0 md:mb-0"
