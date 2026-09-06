@@ -1,5 +1,6 @@
 import type { SectionView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
+import { CardSticky, ContainerScroll } from '@/components/ui/ContainerScroll';
 
 const STEPS = [
   { num: '01', title: 'Подписываем договор', note: 'Фиксируем ваши критерии: марку, модель, комплектацию и бюджет.' },
@@ -19,6 +20,19 @@ const STEPS = [
   { num: '15', title: 'ТО и допоборудование', note: 'По желанию — сразу сделаем первое ТО и установим всё нужное.' },
 ];
 
+type Step = (typeof STEPS)[number];
+
+/* Пятнадцать шагов сгруппированы в пять этапов: колода из пятнадцати
+   карточек нечитаема — от каждой погребённой остаётся полоска в
+   несколько пикселей. Границы срезов идут по смыслу этапа. */
+const PHASES: { title: string; range: string; steps: Step[] }[] = [
+  { title: 'Договор и подбор',      range: 'Шаги 1–3',   steps: STEPS.slice(0, 3) },
+  { title: 'Оплата и бронирование', range: 'Шаги 4–6',   steps: STEPS.slice(3, 6) },
+  { title: 'Логистика',             range: 'Шаги 7–8',   steps: STEPS.slice(6, 8) },
+  { title: 'Таможня и документы',   range: 'Шаги 9–11',  steps: STEPS.slice(8, 11) },
+  { title: 'Подготовка и выдача',   range: 'Шаги 12–15', steps: STEPS.slice(11) },
+];
+
 const WATERMARK_CARDS = new Set(['02', '05', '08', '11', '15']);
 
 function LogoWatermark() {
@@ -35,8 +49,8 @@ function LogoWatermark() {
   );
 }
 
-/* Карточка шага — штрих с той стороны, которая смотрит к центральной линии */
-function StepCard({ step, accent }: { step: typeof STEPS[number]; accent: 'left' | 'right' }) {
+/* Карточка одного шага — используется в мобильном списке */
+function StepCard({ step, accent }: { step: Step; accent: 'left' | 'right' }) {
   const hasWatermark = WATERMARK_CARDS.has(step.num);
   return (
     <div
@@ -56,58 +70,56 @@ function StepCard({ step, accent }: { step: typeof STEPS[number]; accent: 'left'
   );
 }
 
-/* Большой полупрозрачный номер на противоположной стороне */
-function BigNum({ num, align }: { num: string; align: 'left' | 'right' }) {
+/* Карточка этапа для колоды. Непрозрачный фон обязателен: карточки
+   перекрывают друг друга. Тень направлена вверх — на полоски тех
+   карточек, что уже ушли под неё. */
+function PhaseCard({
+  phase,
+  index,
+}: {
+  phase: (typeof PHASES)[number];
+  index: number;
+}) {
   return (
-    <p
-      className={`select-none tabular-nums text-[5.5rem] font-black leading-none text-ink/[0.06]
-        ${align === 'left' ? 'pl-4 text-left' : 'pr-4 text-right'}`}
+    <div
+      className="relative min-h-[19rem] overflow-hidden rounded-3xl border-t-[3px] border-brand bg-paper-2 px-10 py-9 ring-1 ring-ink/[0.06]"
+      style={{ boxShadow: '0 -10px 40px -12px rgba(14, 17, 20, 0.18)' }}
     >
-      {String(parseInt(num, 10))}
-    </p>
-  );
-}
+      <div className="flex items-baseline gap-5">
+        <span className="select-none tabular-nums text-[2.5rem] font-black leading-none text-brand/20">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <div>
+          <h3 className="text-[1.375rem] font-semibold leading-tight tracking-[-0.01em] text-ink">
+            {phase.title}
+          </h3>
+          <p className="mt-1 text-[0.75rem] font-semibold uppercase tracking-wider text-steel-2">
+            {phase.range}
+          </p>
+        </div>
+      </div>
 
-const LINK_FADE_ID = 'services-step-link-fade';
+      <ul className="mt-7 flex flex-col gap-5 border-t border-line pt-7">
+        {phase.steps.map((step) => (
+          <li key={step.num} className="flex gap-4">
+            <span className="mt-[0.15rem] w-5 shrink-0 tabular-nums text-[0.8125rem] font-bold text-brand">
+              {parseInt(step.num, 10)}
+            </span>
+            <div>
+              <p className="text-[0.9375rem] font-semibold leading-snug text-ink">
+                {step.title}
+              </p>
+              {step.note && (
+                <p className="mt-1 text-[0.8125rem] leading-relaxed text-steel">
+                  {step.note}
+                </p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
 
-/* Градиент для связок: плотный у концов, где кривая встречается со штрихом
-   карточки, и лёгкий в середине. Рендерится один раз на секцию. */
-function StepLinkDefs() {
-  return (
-    <svg aria-hidden="true" width="0" height="0" className="absolute">
-      <defs>
-        <linearGradient id={LINK_FADE_ID} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--color-brand)" stopOpacity="0.9" />
-          <stop offset="50%" stopColor="var(--color-brand)" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="var(--color-brand)" stopOpacity="0.9" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
-/* Плавная S-кривая между штрихами соседних карточек.
-   Контрольные точки заданы так, что кривая выходит и приходит строго
-   вертикально — она читается как продолжение штриха карточки. */
-function StepLink({ fromLeft }: { fromLeft: boolean }) {
-  return (
-    <div className="relative" style={{ height: '4rem' }}>
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        className="absolute inset-y-0 overflow-visible"
-        style={{ left: 'calc(50% - 2rem)', width: '4rem' }}
-      >
-        <path
-          d={fromLeft ? 'M0 0 C0 50 100 50 100 100' : 'M100 0 C100 50 0 50 0 100'}
-          fill="none"
-          stroke={`url(#${LINK_FADE_ID})`}
-          strokeWidth={3}
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
+      <LogoWatermark />
     </div>
   );
 }
@@ -130,39 +142,19 @@ export function Services({ section }: { section: SectionView }) {
           ))}
         </div>
 
-        {/* Desktop: зигзаг с плавными переходами */}
-        <div className="mt-10 hidden md:block">
-          <StepLinkDefs />
-          <div className="flex flex-col">
-            {STEPS.map((step, i) => {
-              const cardOnLeft = i % 2 !== 0;
-              const isLast = i === STEPS.length - 1;
-              return (
-                <div key={step.num}>
-                  <div data-reveal="up" className="flex items-center">
-                    {/* Левая половина */}
-                    <div className="flex-1 pr-8">
-                      {cardOnLeft
-                        ? <StepCard step={step} accent="right" />
-                        : <BigNum num={step.num} align="right" />}
-                    </div>
-
-                    <div className="w-0 shrink-0" />
-
-                    {/* Правая половина */}
-                    <div className="flex-1 pl-8">
-                      {!cardOnLeft
-                        ? <StepCard step={step} accent="left" />
-                        : <BigNum num={step.num} align="left" />}
-                    </div>
-                  </div>
-
-                  {!isLast && <StepLink fromLeft={cardOnLeft} />}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {/* Desktop: карточки этапов собираются в колоду при прокрутке.
+            baseY обходит фиксированную шапку (h-20 = 80px на lg).
+            gap задаёт кинематографичный темп — примерно экран на карточку. */}
+        <ContainerScroll className="mt-12 hidden flex-col gap-[60vh] md:flex">
+          {PHASES.map((phase, i) => (
+            <CardSticky key={phase.title} index={i} baseY={96} incrementY={16}>
+              <PhaseCard phase={phase} index={i} />
+            </CardSticky>
+          ))}
+          {/* Распорка даёт последней карточке время постоять собранной
+              колодой: sticky ограничен content-box контейнера. */}
+          <div aria-hidden className="h-0" />
+        </ContainerScroll>
       </Container>
     </Section>
   );
