@@ -86,7 +86,7 @@ function PhaseCard({
   return (
     <div
       className="relative min-h-[16rem] overflow-hidden rounded-3xl border border-line bg-paper-2 px-8 py-7"
-      style={{ boxShadow: '0 -10px 40px -12px rgba(14, 17, 20, 0.15)' }}
+      style={{ boxShadow: '0 -10px 40px -12px rgba(14, 17, 20, 0.25)' }}
     >
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="text-[1.25rem] font-semibold leading-tight tracking-[-0.01em] text-ink">
@@ -126,13 +126,32 @@ export function Services({ section }: { section: SectionView }) {
   if (!section.enabled) return null;
 
   return (
-    <Section id="services" tone="paper">
-      <Container>
+    <Section id="services" tone="ink">
+      {/* Фон закреплён на высоту экрана: секция высотой в пять экранов,
+          и растянутое на неё фото превратилось бы в неузнаваемую полосу.
+          overflow-hidden на обёртке недопустим — он сделал бы её
+          скролл-контейнером и сломал прилипание и фона, и колоды. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="sticky top-0 h-screen w-full">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/services-bg.jpg"
+            alt=""
+            className="h-full w-full object-cover"
+          />
+          {/* Слева вуаль плотнее: там стоит заголовок, и там же на фото
+              здание с собственными вывесками, которые спорят с текстом */}
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/[0.89] to-ink/[0.78]" />
+        </div>
+      </div>
+
+      <Container className="relative z-10">
         {/* До lg — заголовок и простой список: колода в узкой колонке тесна */}
         <div className="lg:hidden">
           <SectionHeading
             title={section.title ?? 'Как мы работаем'}
             subtitle={section.subtitle}
+            tone="dark"
           />
           <div className="mt-8 flex flex-col gap-2">
             {STEPS.map((step) => (
@@ -150,6 +169,7 @@ export function Services({ section }: { section: SectionView }) {
               title={section.title ?? 'Как мы работаем'}
               subtitle={section.subtitle}
               align="stack"
+              tone="dark"
               className="mb-0 md:mb-0"
             />
           </div>
