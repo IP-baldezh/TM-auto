@@ -8,6 +8,7 @@ import type { NavItemView } from '@/lib/content';
 import { useHeroPassed } from '@/components/animations/useScrolledPast';
 import { LeadModal } from '@/components/forms/LeadModal';
 import { Button } from '@/components/ui/Button';
+import { PHONES } from '@/content/contacts';
 import { cn, formatPhone, telHref } from '@/lib/utils';
 import { BrandMark } from './BrandMark';
 
@@ -122,18 +123,19 @@ export function Header({
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            {phone && (
+            {PHONES.map((contact) => (
               <a
-                href={`tel:${telHref(phone)}`}
+                key={contact.phone}
+                href={`tel:${telHref(contact.phone)}`}
                 className={cn(
-                  'hidden items-center gap-2 text-[0.875rem] font-semibold transition-colors lg:flex',
+                  'hidden items-center gap-2 text-[0.875rem] font-semibold transition-colors xl:flex',
                   solid ? 'text-ink hover:text-brand' : 'text-white hover:text-brand-bright',
                 )}
               >
                 <Phone className="size-4" aria-hidden="true" />
-                <span className="tabular">{formatPhone(phone)}</span>
+                <span className="tabular">{formatPhone(contact.phone)}</span>
               </a>
-            )}
+            ))}
 
             <Button
               type="button"
@@ -223,18 +225,16 @@ export function Header({
             </nav>
 
             <div className="shrink-0 border-t border-line p-5">
-              {phone && (
+              {PHONES.map((contact) => (
                 <a
-                  href={`tel:${telHref(phone)}`}
-                  className="mb-3 flex items-center justify-center gap-2 text-lg font-bold"
+                  key={contact.phone}
+                  href={`tel:${telHref(contact.phone)}`}
+                  className="mb-2 flex items-center justify-center gap-2 text-lg font-bold"
                 >
                   <Phone className="size-4 text-brand" aria-hidden="true" />
-                  <span className="tabular">{formatPhone(phone)}</span>
+                  <span className="tabular">{formatPhone(contact.phone)}</span>
                 </a>
-              )}
-              {phoneLabel && (
-                <p className="mb-4 text-center text-[0.75rem] text-steel-2">{phoneLabel}</p>
-              )}
+              ))}
               <Button
                 type="button"
                 size="lg"
