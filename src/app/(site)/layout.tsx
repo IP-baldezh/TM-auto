@@ -34,7 +34,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
       <Footer
         site={content.site}
-        contacts={content.contacts}
         nav={content.nav.footer}
         legal={content.nav.legal}
       />

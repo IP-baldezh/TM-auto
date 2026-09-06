@@ -1,18 +1,17 @@
 import Link from 'next/link';
 
-import type { ContactChannelView, NavItemView, SiteSettingsView } from '@/lib/content';
+import type { NavItemView, SiteSettingsView } from '@/lib/content';
 import { Container } from '@/components/site/Section';
 import { BrandMark } from './BrandMark';
+import { EMAILS, PHONES } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
 
 export function Footer({
   site,
-  contacts,
   nav,
   legal,
 }: {
   site: SiteSettingsView;
-  contacts: ContactChannelView[];
   nav: NavItemView[];
   legal: NavItemView[];
 }) {
@@ -53,10 +52,10 @@ export function Footer({
           </nav>
 
           <div className="lg:col-span-3">
-            <p className="eyebrow mb-4 text-steel">Телефоны</p>
+            <p className="eyebrow mb-4 text-steel">Связь</p>
             <ul className="space-y-3">
-              {contacts.map((contact) => (
-                <li key={contact.id}>
+              {PHONES.map((contact) => (
+                <li key={contact.phone}>
                   <a
                     href={`tel:${telHref(contact.phone)}`}
                     className="block transition-colors hover:text-brand-bright"
@@ -65,6 +64,16 @@ export function Footer({
                       {formatPhone(contact.phone)}
                     </span>
                     <span className="text-[0.75rem] text-steel">{contact.label}</span>
+                  </a>
+                </li>
+              ))}
+              {EMAILS.map((email) => (
+                <li key={email}>
+                  <a
+                    href={`mailto:${email}`}
+                    className="block text-[0.875rem] text-steel-3 transition-colors hover:text-brand-bright"
+                  >
+                    {email}
                   </a>
                 </li>
               ))}

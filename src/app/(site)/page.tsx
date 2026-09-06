@@ -178,11 +178,7 @@ export default async function HomePage() {
         consentUrl={site.consentUrl}
       />
 
-      <Contacts
-        section={sections.contacts ?? FALLBACK_SECTION}
-        site={site}
-        contacts={content.contacts}
-      />
+      <Contacts section={sections.contacts ?? FALLBACK_SECTION} site={site} />
     </>
   );
 }

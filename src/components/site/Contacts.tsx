@@ -1,17 +1,25 @@
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 
-import type { ContactChannelView, SectionView, SiteSettingsView } from '@/lib/content';
+import type { SectionView, SiteSettingsView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
+import { EMAILS, PHONES, type MessengerKind } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
+
+const MESSENGERS: Record<
+  MessengerKind,
+  { name: string; color: string; Icon: () => React.ReactElement }
+> = {
+  telegram: { name: 'Telegram', color: '#229ED9', Icon: TelegramIcon },
+  whatsapp: { name: 'WhatsApp', color: '#25D366', Icon: WhatsAppIcon },
+  max: { name: 'MAX', color: '#0077FF', Icon: MaxIcon },
+};
 
 export function Contacts({
   section,
   site,
-  contacts,
 }: {
   section: SectionView;
   site: SiteSettingsView;
-  contacts: ContactChannelView[];
 }) {
   if (!section.enabled) return null;
 
@@ -37,12 +45,12 @@ export function Contacts({
             <h3 className="mb-7 text-2xl font-bold tracking-tight text-white">Контакты</h3>
 
             <ul className="flex flex-col gap-5">
-              {/* Телефоны */}
-              {contacts.map((contact) => (
-                <li key={contact.id}>
+              {/* Телефоны с пометками мессенджеров */}
+              {PHONES.map((contact) => (
+                <li key={contact.phone} className="flex items-center gap-4">
                   <a
                     href={`tel:${telHref(contact.phone)}`}
-                    className="flex items-center gap-4 transition-opacity hover:opacity-80"
+                    className="flex flex-1 items-center gap-4 transition-opacity hover:opacity-80"
                   >
                     <IconCircle bg="#c60f13">
                       <Phone className="size-5 fill-white stroke-none" />
@@ -52,86 +60,37 @@ export function Contacts({
                       <p className="text-[1rem] font-bold text-white">{formatPhone(contact.phone)}</p>
                     </div>
                   </a>
+
+                  <div className="flex shrink-0 items-center gap-2">
+                    {contact.messengers.map((kind) => (
+                      <MessengerBadge
+                        key={kind}
+                        kind={kind}
+                        phone={contact.phone}
+                        maxUrl={site.maxUrl}
+                      />
+                    ))}
+                  </div>
                 </li>
               ))}
 
-              {/* WhatsApp */}
-              {site.whatsappUrl && (
-                <li>
+              {/* Почта */}
+              {EMAILS.map((email) => (
+                <li key={email}>
                   <a
-                    href={site.whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 transition-opacity hover:opacity-80"
-                  >
-                    <IconCircle bg="#c60f13">
-                      <WhatsAppIcon />
-                    </IconCircle>
-                    <div>
-                      <p className="text-[0.75rem] text-steel-3">WhatsApp</p>
-                      <p className="text-[1rem] font-bold text-white">Написать</p>
-                    </div>
-                  </a>
-                </li>
-              )}
-
-              {/* Telegram */}
-              {site.telegramUrl && (
-                <li>
-                  <a
-                    href={site.telegramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 transition-opacity hover:opacity-80"
-                  >
-                    <IconCircle bg="#c60f13">
-                      <TelegramIcon />
-                    </IconCircle>
-                    <div>
-                      <p className="text-[0.75rem] text-steel-3">Telegram</p>
-                      <p className="text-[1rem] font-bold text-white">Написать</p>
-                    </div>
-                  </a>
-                </li>
-              )}
-
-              {/* Max */}
-              {site.maxUrl && (
-                <li>
-                  <a
-                    href={site.maxUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 transition-opacity hover:opacity-80"
-                  >
-                    <IconCircle bg="#c60f13">
-                      <MaxIcon />
-                    </IconCircle>
-                    <div>
-                      <p className="text-[0.75rem] text-steel-3">Макс</p>
-                      <p className="text-[1rem] font-bold text-white">Написать</p>
-                    </div>
-                  </a>
-                </li>
-              )}
-
-              {/* Email */}
-              {site.email && (
-                <li>
-                  <a
-                    href={`mailto:${site.email}`}
+                    href={`mailto:${email}`}
                     className="flex items-center gap-4 transition-opacity hover:opacity-80"
                   >
                     <IconCircle bg="#c60f13">
                       <Mail className="size-5 fill-white stroke-none" />
                     </IconCircle>
                     <div>
-                      <p className="text-[0.75rem] text-steel-3">Email</p>
-                      <p className="text-[1rem] font-bold text-white">{site.email}</p>
+                      <p className="text-[0.75rem] text-steel-3">Почта</p>
+                      <p className="text-[1rem] font-bold text-white">{email}</p>
                     </div>
                   </a>
                 </li>
-              )}
+              ))}
 
               {/* Адрес */}
               {site.address && (
@@ -186,6 +145,59 @@ export function Contacts({
 }
 
 /* ── Вспомогательные компоненты ─────────────────────────────────────────── */
+
+/* Значок мессенджера рядом с номером.
+   Ссылки на Telegram и WhatsApp собираются из самого номера — форматы
+   у обоих стандартные. Для MAX такого формата нет, поэтому ссылка
+   берётся из настроек сайта; без неё значок остаётся просто пометкой,
+   что номер есть в этом мессенджере. */
+function MessengerBadge({
+  kind,
+  phone,
+  maxUrl,
+}: {
+  kind: MessengerKind;
+  phone: string;
+  maxUrl: string | null;
+}) {
+  const { name, color, Icon } = MESSENGERS[kind];
+  const tel = telHref(phone);
+  const href =
+    kind === 'telegram'
+      ? `https://t.me/${tel}`
+      : kind === 'whatsapp'
+        ? `https://wa.me/${tel.replace('+', '')}`
+        : maxUrl;
+
+  const circle = (
+    <span
+      className="flex size-8 shrink-0 items-center justify-center rounded-full"
+      style={{ backgroundColor: color }}
+    >
+      <Icon />
+    </span>
+  );
+
+  if (!href) {
+    return (
+      <span title={`${name}: ${formatPhone(phone)}`} aria-label={name}>
+        {circle}
+      </span>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${name}: ${formatPhone(phone)}`}
+      className="transition-opacity hover:opacity-80"
+    >
+      {circle}
+    </a>
+  );
+}
 
 function IconCircle({ bg, children }: { bg: string; children: React.ReactNode }) {
   return (
