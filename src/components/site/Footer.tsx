@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { NavItemView, SiteSettingsView } from '@/lib/content';
 import { Container } from '@/components/site/Section';
 import { BrandMark } from './BrandMark';
-import { EMAILS, PHONES } from '@/content/contacts';
+import { EMAILS, PHONES, VK_URL } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
 
 export function Footer({
@@ -16,6 +16,7 @@ export function Footer({
   legal: NavItemView[];
 }) {
   const year = new Date().getFullYear();
+  const vkUrl = site.vkUrl ?? VK_URL;
 
   return (
     <footer className="mx-4 rounded-t-3xl bg-ink text-paper sm:mx-6 lg:mx-8">
@@ -77,6 +78,18 @@ export function Footer({
                   </a>
                 </li>
               ))}
+              {vkUrl && (
+                <li>
+                  <a
+                    href={vkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-[0.875rem] text-steel-3 transition-colors hover:text-brand-bright"
+                  >
+                    Группа ВКонтакте
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 

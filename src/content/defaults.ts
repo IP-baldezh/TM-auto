@@ -53,7 +53,7 @@ export const DEFAULT_SITE = {
   email: null as string | null,
   whatsappUrl: null as string | null,
   telegramUrl: null as string | null,
-  vkUrl: null as string | null,
+  vkUrl: 'https://vk.ru/tm_autodzr' as string | null,
   maxUrl: null as string | null,
   routeUrl: 'https://yandex.ru/maps/?text=Дзержинск, улица Самохвалова, 6Б',
   mapEmbedUrl:

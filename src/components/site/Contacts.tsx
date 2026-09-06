@@ -2,7 +2,7 @@ import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 
 import type { SectionView, SiteSettingsView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
-import { EMAILS, PHONES, type MessengerKind } from '@/content/contacts';
+import { EMAILS, PHONES, VK_URL, type MessengerKind } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
 
 const MESSENGERS: Record<
@@ -22,6 +22,9 @@ export function Contacts({
   site: SiteSettingsView;
 }) {
   if (!section.enabled) return null;
+
+  // Заданное в админке значение перекрывает запасное.
+  const vkUrl = site.vkUrl ?? VK_URL;
 
   return (
     <Section id="contacts" tone="paper">
@@ -73,6 +76,28 @@ export function Contacts({
                   </div>
                 </li>
               ))}
+
+              {/* ВКонтакте */}
+              {vkUrl && (
+                <li>
+                  <a
+                    href={vkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 transition-opacity hover:opacity-80"
+                  >
+                    <IconCircle bg="#c60f13">
+                      <VkIcon />
+                    </IconCircle>
+                    <div>
+                      <p className="text-[0.75rem] text-steel-3">ВКонтакте</p>
+                      <p className="text-[1rem] font-bold text-white">
+                        {vkUrl.replace(/^https?:\/\//, '')}
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              )}
 
               {/* Почта */}
               {EMAILS.map((email) => (
@@ -230,6 +255,14 @@ function MaxIcon() {
   return (
     <svg viewBox="0 0 24 24" className="size-5 fill-white" aria-hidden="true">
       <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 14h-1.75v-5.586l-2.375 3.211h-.75L9.25 10.414V16H7.5V8h1.563l2.937 4.016L14.938 8H16.5v8z" />
+    </svg>
+  );
+}
+
+function VkIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5 fill-white" aria-hidden="true">
+      <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.576-1.496c.588-.19 1.341 1.26 2.14 1.818.605.422 1.064.33 1.064.33l2.137-.03s1.118-.071.588-.964c-.043-.073-.308-.661-1.588-1.87-1.34-1.264-1.16-1.059.453-3.246.983-1.332 1.376-2.145 1.253-2.493-.117-.332-.84-.244-.84-.244l-2.406.015s-.178-.025-.31.056c-.13.079-.212.262-.212.262s-.382 1.03-.89 1.907c-1.07 1.85-1.499 1.948-1.674 1.832-.407-.267-.305-1.075-.305-1.649 0-1.793.267-2.54-.521-2.733-.262-.065-.454-.107-1.123-.114-.858-.009-1.585.003-1.996.208-.274.135-.485.437-.356.454.159.022.519.099.71.365.246.344.237 1.115.237 1.115s.142 2.11-.33 2.371c-.325.18-.77-.187-1.725-1.865-.489-.859-.859-1.81-.859-1.81s-.07-.176-.198-.272c-.154-.115-.37-.151-.37-.151l-2.286.015s-.343.01-.469.161c-.112.135-.009.444-.009.444s1.79 4.258 3.817 6.403c1.858 1.967 3.968 1.838 3.968 1.838z" />
     </svg>
   );
 }
