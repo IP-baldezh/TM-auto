@@ -22,7 +22,7 @@ export const PHONES: {
     messengers: ['telegram', 'whatsapp'],
   },
   {
-    label: 'Дополнительный номер',
+    label: 'Авто под заказ и подбор',
     phone: '+7 (920) 021-18-52',
     messengers: ['telegram', 'max'],
   },

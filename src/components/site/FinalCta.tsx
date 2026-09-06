@@ -7,6 +7,7 @@ import { Container, Section } from '@/components/site/Section';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { LeadFields } from '@/components/forms/LeadFields';
 import { useLeadForm } from '@/components/forms/useLeadForm';
+import { PHONES } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
 
 export function FinalCta({
@@ -66,12 +67,17 @@ export function FinalCta({
             )}
 
             <div className="mt-8 flex flex-wrap gap-3" data-reveal="up">
-              {phone && (
-                <ButtonLink href={`tel:${telHref(phone)}`} variant="light" size="md">
+              {PHONES.map((contact) => (
+                <ButtonLink
+                  key={contact.phone}
+                  href={`tel:${telHref(contact.phone)}`}
+                  variant="light"
+                  size="md"
+                >
                   <Phone className="size-4" aria-hidden="true" />
-                  <span className="tabular">{formatPhone(phone)}</span>
+                  <span className="tabular">{formatPhone(contact.phone)}</span>
                 </ButtonLink>
-              )}
+              ))}
               {messengerUrl && (
                 <ButtonLink
                   href={messengerUrl}

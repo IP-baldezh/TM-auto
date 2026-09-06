@@ -141,7 +141,7 @@ export function Services({ section }: { section: SectionView }) {
         <div className="sticky top-0 h-screen w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/services-bg.jpg"
+            src="/services-bg.png"
             alt=""
             className="h-full w-full object-cover"
           />
