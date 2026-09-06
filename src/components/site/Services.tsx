@@ -25,12 +25,12 @@ type Step = (typeof STEPS)[number];
 /* Пятнадцать шагов сгруппированы в пять этапов: колода из пятнадцати
    карточек нечитаема — от каждой погребённой остаётся полоска в
    несколько пикселей. Границы срезов идут по смыслу этапа. */
-const PHASES: { title: string; range: string; steps: Step[] }[] = [
-  { title: 'Договор и подбор',      range: 'Шаги 1–3',   steps: STEPS.slice(0, 3) },
-  { title: 'Оплата и бронирование', range: 'Шаги 4–6',   steps: STEPS.slice(3, 6) },
-  { title: 'Логистика',             range: 'Шаги 7–8',   steps: STEPS.slice(6, 8) },
-  { title: 'Таможня и документы',   range: 'Шаги 9–11',  steps: STEPS.slice(8, 11) },
-  { title: 'Подготовка и выдача',   range: 'Шаги 12–15', steps: STEPS.slice(11) },
+const PHASES: { title: string; steps: Step[] }[] = [
+  { title: 'Договор и подбор',      steps: STEPS.slice(0, 3) },
+  { title: 'Оплата и бронирование', steps: STEPS.slice(3, 6) },
+  { title: 'Логистика',             steps: STEPS.slice(6, 8) },
+  { title: 'Таможня и документы',   steps: STEPS.slice(8, 11) },
+  { title: 'Подготовка и выдача',   steps: STEPS.slice(11) },
 ];
 
 const WATERMARK_CARDS = new Set(['02', '05', '08', '11', '15']);
@@ -71,8 +71,11 @@ function StepCard({ step, accent }: { step: Step; accent: 'left' | 'right' }) {
 }
 
 /* Карточка этапа для колоды. Непрозрачный фон обязателен: карточки
-   перекрывают друг друга. Тень направлена вверх — на полоски тех
-   карточек, что уже ушли под неё. */
+   перекрывают друг друга. Тень направлена вверх — на те карточки,
+   что уже ушли под неё.
+   Название и номер стоят одной строкой в самом верху: именно эта
+   строка остаётся видимой у погребённых карточек, поэтому колода
+   читается как оглавление пройденных этапов. */
 function PhaseCard({
   phase,
   index,
@@ -82,24 +85,19 @@ function PhaseCard({
 }) {
   return (
     <div
-      className="relative min-h-[19rem] overflow-hidden rounded-3xl border-t-[3px] border-brand bg-paper-2 px-10 py-9 ring-1 ring-ink/[0.06]"
-      style={{ boxShadow: '0 -10px 40px -12px rgba(14, 17, 20, 0.18)' }}
+      className="relative min-h-[16rem] overflow-hidden rounded-3xl border border-line bg-paper-2 px-8 py-7"
+      style={{ boxShadow: '0 -10px 40px -12px rgba(14, 17, 20, 0.15)' }}
     >
-      <div className="flex items-baseline gap-5">
-        <span className="select-none tabular-nums text-[2.5rem] font-black leading-none text-brand/20">
+      <div className="flex items-baseline justify-between gap-4">
+        <h3 className="text-[1.25rem] font-semibold leading-tight tracking-[-0.01em] text-ink">
+          {phase.title}
+        </h3>
+        <span className="shrink-0 select-none tabular-nums text-[1.25rem] font-black leading-none text-brand">
           {String(index + 1).padStart(2, '0')}
         </span>
-        <div>
-          <h3 className="text-[1.375rem] font-semibold leading-tight tracking-[-0.01em] text-ink">
-            {phase.title}
-          </h3>
-          <p className="mt-1 text-[0.75rem] font-semibold uppercase tracking-wider text-steel-2">
-            {phase.range}
-          </p>
-        </div>
       </div>
 
-      <ul className="mt-7 flex flex-col gap-5 border-t border-line pt-7">
+      <ul className="mt-6 flex flex-col gap-4 border-t border-line pt-6">
         {phase.steps.map((step) => (
           <li key={step.num} className="flex gap-4">
             <span className="mt-[0.15rem] w-5 shrink-0 tabular-nums text-[0.8125rem] font-bold text-brand">
@@ -130,31 +128,47 @@ export function Services({ section }: { section: SectionView }) {
   return (
     <Section id="services" tone="paper">
       <Container>
-        <SectionHeading
-          title={section.title ?? 'Как мы работаем'}
-          subtitle={section.subtitle}
-        />
-
-        {/* Mobile: простой список */}
-        <div className="mt-8 flex flex-col gap-2 md:hidden">
-          {STEPS.map((step) => (
-            <StepCard key={step.num} step={step} accent="left" />
-          ))}
+        {/* До lg — заголовок и простой список: колода в узкой колонке тесна */}
+        <div className="lg:hidden">
+          <SectionHeading
+            title={section.title ?? 'Как мы работаем'}
+            subtitle={section.subtitle}
+          />
+          <div className="mt-8 flex flex-col gap-2">
+            {STEPS.map((step) => (
+              <StepCard key={step.num} step={step} accent="left" />
+            ))}
+          </div>
         </div>
 
-        {/* Desktop: карточки этапов собираются в колоду при прокрутке.
-            baseY обходит фиксированную шапку (h-20 = 80px на lg).
-            gap задаёт кинематографичный темп — примерно экран на карточку. */}
-        <ContainerScroll className="mt-12 hidden flex-col gap-[60vh] md:flex">
-          {PHASES.map((phase, i) => (
-            <CardSticky key={phase.title} index={i} baseY={96} incrementY={16}>
-              <PhaseCard phase={phase} index={i} />
-            </CardSticky>
-          ))}
-          {/* Распорка даёт последней карточке время постоять собранной
-              колодой: sticky ограничен content-box контейнера. */}
-          <div aria-hidden className="h-0" />
-        </ContainerScroll>
+        {/* lg+ — слева липкий заголовок, справа колода этапов */}
+        <div className="hidden lg:grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-x-20">
+          {/* self-start обязателен: иначе колонка растянется на всю высоту
+              строки грида и липнуть будет нечему */}
+          <div className="sticky top-24 self-start">
+            <SectionHeading
+              title={section.title ?? 'Как мы работаем'}
+              subtitle={section.subtitle}
+              align="stack"
+              className="mb-0 md:mb-0"
+            />
+          </div>
+
+          {/* baseY обходит фиксированную шапку (h-20 = 80px на lg) и
+              совпадает с top-24 заголовка. incrementY подобран так, чтобы
+              у погребённых карточек оставалась видна строка названия.
+              gap задаёт темп — примерно экран прокрутки на карточку. */}
+          <ContainerScroll className="flex flex-col gap-[55vh]">
+            {PHASES.map((phase, i) => (
+              <CardSticky key={phase.title} index={i} baseY={96} incrementY={56}>
+                <PhaseCard phase={phase} index={i} />
+              </CardSticky>
+            ))}
+            {/* Распорка даёт последней карточке время постоять собранной
+                колодой: sticky ограничен content-box контейнера. */}
+            <div aria-hidden className="h-0" />
+          </ContainerScroll>
+        </div>
       </Container>
     </Section>
   );
