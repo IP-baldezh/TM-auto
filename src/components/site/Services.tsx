@@ -68,6 +68,50 @@ function BigNum({ num, align }: { num: string; align: 'left' | 'right' }) {
   );
 }
 
+const LINK_FADE_ID = 'services-step-link-fade';
+
+/* Градиент для связок: плотный у концов, где кривая встречается со штрихом
+   карточки, и лёгкий в середине. Рендерится один раз на секцию. */
+function StepLinkDefs() {
+  return (
+    <svg aria-hidden="true" width="0" height="0" className="absolute">
+      <defs>
+        <linearGradient id={LINK_FADE_ID} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="var(--color-brand)" stopOpacity="0.9" />
+          <stop offset="50%" stopColor="var(--color-brand)" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="var(--color-brand)" stopOpacity="0.9" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+/* Плавная S-кривая между штрихами соседних карточек.
+   Контрольные точки заданы так, что кривая выходит и приходит строго
+   вертикально — она читается как продолжение штриха карточки. */
+function StepLink({ fromLeft }: { fromLeft: boolean }) {
+  return (
+    <div className="relative" style={{ height: '4rem' }}>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-y-0 overflow-visible"
+        style={{ left: 'calc(50% - 2rem)', width: '4rem' }}
+      >
+        <path
+          d={fromLeft ? 'M0 0 C0 50 100 50 100 100' : 'M100 0 C100 50 0 50 0 100'}
+          fill="none"
+          stroke={`url(#${LINK_FADE_ID})`}
+          strokeWidth={3}
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function Services({ section }: { section: SectionView }) {
   if (!section.enabled) return null;
 
@@ -86,40 +130,34 @@ export function Services({ section }: { section: SectionView }) {
           ))}
         </div>
 
-        {/* Desktop: зигзаг — карточка на всю половину + большой номер напротив */}
-        <div className="relative mt-10 hidden md:block">
-          {/* Вертикальная линия */}
-          <div
-            className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
-            style={{ background: 'linear-gradient(to bottom, transparent, color-mix(in srgb, currentColor 10%, transparent) 4%, color-mix(in srgb, currentColor 10%, transparent) 96%, transparent)' }}
-          />
-
-          <div className="flex flex-col gap-3">
+        {/* Desktop: зигзаг с плавными переходами */}
+        <div className="mt-10 hidden md:block">
+          <StepLinkDefs />
+          <div className="flex flex-col">
             {STEPS.map((step, i) => {
               const cardOnLeft = i % 2 !== 0;
+              const isLast = i === STEPS.length - 1;
               return (
-                <div key={step.num} data-reveal="up" className="flex items-center">
-                  {/* Левая половина */}
-                  <div className="flex-1 pr-8">
-                    {cardOnLeft
-                      ? <StepCard step={step} accent="right" />
-                      : <BigNum num={step.num} align="right" />}
+                <div key={step.num}>
+                  <div data-reveal="up" className="flex items-center">
+                    {/* Левая половина */}
+                    <div className="flex-1 pr-8">
+                      {cardOnLeft
+                        ? <StepCard step={step} accent="right" />
+                        : <BigNum num={step.num} align="right" />}
+                    </div>
+
+                    <div className="w-0 shrink-0" />
+
+                    {/* Правая половина */}
+                    <div className="flex-1 pl-8">
+                      {!cardOnLeft
+                        ? <StepCard step={step} accent="left" />
+                        : <BigNum num={step.num} align="left" />}
+                    </div>
                   </div>
 
-                  {/* Точка на линии */}
-                  <div className="relative z-10 flex w-0 shrink-0 justify-center">
-                    <div
-                      className="h-3 w-3 rounded-full bg-brand"
-                      style={{ boxShadow: '0 0 0 3px var(--color-paper)' }}
-                    />
-                  </div>
-
-                  {/* Правая половина */}
-                  <div className="flex-1 pl-8">
-                    {!cardOnLeft
-                      ? <StepCard step={step} accent="left" />
-                      : <BigNum num={step.num} align="left" />}
-                  </div>
+                  {!isLast && <StepLink fromLeft={cardOnLeft} />}
                 </div>
               );
             })}
