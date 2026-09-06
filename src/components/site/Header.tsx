@@ -123,16 +123,17 @@ export function Header({
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            {PHONES.map((contact) => (
+            {PHONES.map((contact, i) => (
               <a
                 key={contact.phone}
                 href={`tel:${telHref(contact.phone)}`}
                 className={cn(
-                  'hidden items-center gap-2 text-[0.875rem] font-semibold transition-colors xl:flex',
+                  'hidden items-center gap-1.5 text-[0.8125rem] font-semibold transition-colors',
+                  i === 0 ? 'lg:flex' : '2xl:flex',
                   solid ? 'text-ink hover:text-brand' : 'text-white hover:text-brand-bright',
                 )}
               >
-                <Phone className="size-4" aria-hidden="true" />
+                <Phone className="size-3.5 shrink-0" aria-hidden="true" />
                 <span className="tabular">{formatPhone(contact.phone)}</span>
               </a>
             ))}
