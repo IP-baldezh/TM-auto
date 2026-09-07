@@ -2,7 +2,7 @@ import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 
 import type { SectionView, SiteSettingsView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
-import { EMAILS, MAX_URL, PHONES, VK_URL, type MessengerKind } from '@/content/contacts';
+import { EMAILS, MAX_URL, PHONES, TG_CHANNEL_URL, VK_URL, type MessengerKind } from '@/content/contacts';
 import { formatPhone, telHref } from '@/lib/utils';
 
 const MESSENGERS: Record<
@@ -78,6 +78,26 @@ export function Contacts({
                 </li>
               ))}
 
+              {/* Telegram-канал */}
+              <li>
+                <a
+                  href={TG_CHANNEL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 transition-opacity hover:opacity-80"
+                >
+                  <IconCircle bg="#229ED9">
+                    <TelegramIcon />
+                  </IconCircle>
+                  <div>
+                    <p className="text-[0.75rem] text-steel-3">Следите за нами · Telegram</p>
+                    <p className="text-[1rem] font-bold text-white">
+                      {TG_CHANNEL_URL.replace(/^https?:\/\//, '')}
+                    </p>
+                  </div>
+                </a>
+              </li>
+
               {/* ВКонтакте */}
               {vkUrl && (
                 <li>
@@ -87,11 +107,11 @@ export function Contacts({
                     rel="noopener noreferrer"
                     className="flex items-center gap-4 transition-opacity hover:opacity-80"
                   >
-                    <IconCircle bg="#c60f13">
+                    <IconCircle bg="#0077FF">
                       <VkIcon />
                     </IconCircle>
                     <div>
-                      <p className="text-[0.75rem] text-steel-3">ВКонтакте</p>
+                      <p className="text-[0.75rem] text-steel-3">Следите за нами · ВКонтакте</p>
                       <p className="text-[1rem] font-bold text-white">
                         {vkUrl.replace(/^https?:\/\//, '')}
                       </p>
