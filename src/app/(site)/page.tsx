@@ -9,6 +9,7 @@ import { ParallaxHero } from '@/components/site/hero/ParallaxHero';
 import { Promotions } from '@/components/site/Promotions';
 import { Services } from '@/components/site/Services';
 
+import { CalculatorSection } from '@/components/site/CalculatorSection';
 import { CostExample } from '@/components/site/CostExample';
 import { DeliveredCars } from '@/components/site/cars/DeliveredCars';
 import { ProcessTimeline } from '@/components/site/ProcessTimeline';
@@ -111,6 +112,12 @@ export default async function HomePage() {
         steps={content.process}
       />
 
+      <CalculatorSection
+        section={sections.calculator ?? FALLBACK_SECTION}
+        calculator={content.calculator}
+        privacyUrl={site.privacyUrl}
+        consentUrl={site.consentUrl}
+      />
 
       <Promotions
         section={sections.promotions ?? FALLBACK_SECTION}
