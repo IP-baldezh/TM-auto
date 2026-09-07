@@ -252,20 +252,20 @@ export const ENTITIES: Record<EntityKey, EntityConfig> = {
   },
 
   process: {
-    title: 'Этапы работы',
-    singular: 'этап',
+    title: 'Как мы работаем',
+    singular: 'шаг',
     titleField: 'title',
     sortable: true,
     creatable: true,
     deletable: true,
     fields: [
-      { name: 'title', label: 'Название этапа', type: 'text', required: true, wide: true },
+      { name: 'phase', label: 'Фаза (группа)', type: 'text', required: true, wide: true, placeholder: 'Договор и подбор' },
+      { name: 'title', label: 'Название шага', type: 'text', required: true, wide: true },
       { name: 'text', label: 'Описание', type: 'textarea', rows: 3, wide: true },
-      { name: 'detail', label: 'Уточнение', type: 'textarea', rows: 2, wide: true },
-      { name: 'imageUrl', label: 'Изображение', type: 'image', wide: true },
       { name: 'enabled', label: 'Показывать', type: 'switch' },
     ],
     schema: z.object({
+      phase: str.max(200).default(''),
       title: str.min(1).max(200),
       text: str.min(1).max(1000),
       detail: nullableText,

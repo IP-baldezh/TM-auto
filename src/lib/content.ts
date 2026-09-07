@@ -108,6 +108,7 @@ export type CarView = {
 
 export type ProcessView = {
   id: string;
+  phase: string;
   title: string;
   text: string;
   detail: string | null;
@@ -549,7 +550,17 @@ export async function getSiteContent(): Promise<SiteContent> {
           }
         : fb.calculator,
     cars: nonEmpty(cars, fb.cars),
-    process: nonEmpty(processSteps, fb.process),
+    process: nonEmpty(
+      processSteps?.map((s) => ({
+        id: s.id,
+        phase: (s as unknown as { phase?: string }).phase ?? '',
+        title: s.title,
+        text: s.text,
+        detail: s.detail,
+        imageUrl: s.imageUrl,
+      })) ?? null,
+      fb.process,
+    ),
     reasons: nonEmpty(reasons, fb.reasons),
     // Кейс — единственная секция, которую корректно скрыть целиком:
     // undefined значит «база не ответила» (берём демо), null — «кейса нет».

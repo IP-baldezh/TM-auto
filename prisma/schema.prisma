@@ -329,6 +329,8 @@ model DeliveredCar {
 
 model ProcessStep {
   id        String  @id @default(cuid())
+  /// Название фазы/группы: «Договор и подбор», «Логистика» и т.д.
+  phase     String  @default("")
   title     String
   text      String
   detail    String?

@@ -109,6 +109,7 @@ export default async function HomePage() {
 
       <Services
         section={sections.services ?? FALLBACK_SECTION}
+        steps={content.process}
       />
 
       <CalculatorSection

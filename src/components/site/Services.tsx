@@ -1,37 +1,22 @@
-import type { SectionView } from '@/lib/content';
+import type { ProcessView, SectionView } from '@/lib/content';
 import { Container, Section, SectionHeading } from '@/components/site/Section';
 import { CardSticky, ContainerScroll } from '@/components/ui/ContainerScroll';
 
-const STEPS = [
-  { num: '01', title: 'Подписываем договор', note: 'Фиксируем ваши критерии: марку, модель, комплектацию и бюджет.' },
-  { num: '02', title: 'Аванс', note: 'Резервируем место в поставке и приступаем к подбору.' },
-  { num: '03', title: 'Выбираете автомобиль', note: 'Из актуального прайса — цвет кузова, салона и комплектация.' },
-  { num: '04', title: 'Осмотр и бронирование', note: 'Фото- и видеоотчёт с автомобилем. Оформляем бронь у экспортёра.' },
-  { num: '05', title: 'Оплата инвойса', note: 'Переводите стоимость авто в юанях — займёт 5–10 минут.' },
-  { num: '06', title: 'Деньги поступают экспортёру', note: 'Обычно 2–3 рабочих дня. Сразу готовим экспортные документы.' },
-  { num: '07', title: 'Оплата доставки', note: 'Фиксированная стоимость логистики до границы с Россией.' },
-  { num: '08', title: 'Везём автомобиль в Россию', note: 'Маршрут: Китай → нейтральная зона → Казахстан → СВХ в РФ.' },
-  { num: '09', title: 'Таможенное оформление', note: 'Берём на себя все процедуры растаможки.' },
-  { num: '10', title: 'Оплата таможенной пошлины', note: 'Выставляем квитанции — вы оплачиваете по фактическим ставкам.' },
-  { num: '11', title: 'Сертификация', note: 'Лаборатория, СБКТС и электронный ПТС — авто готово к регистрации.' },
-  { num: '12', title: 'Доставка до вашего города', note: 'Отправляем автовозом или транспортной компанией.' },
-  { num: '13', title: 'Мойка и подготовка', note: 'Приводим автомобиль в порядок перед передачей.' },
-  { num: '14', title: 'Передаём вам ключи', note: 'Осматриваем вместе и подписываем акт приёма.' },
-  { num: '15', title: 'ТО и допоборудование', note: 'По желанию — сразу сделаем первое ТО и установим всё нужное.' },
-];
+type Step = { num: string; title: string; note: string };
 
-type Step = (typeof STEPS)[number];
-
-/* Пятнадцать шагов сгруппированы в пять этапов: колода из пятнадцати
-   карточек нечитаема — от каждой погребённой остаётся полоска в
-   несколько пикселей. Границы срезов идут по смыслу этапа. */
-const PHASES: { title: string; steps: Step[] }[] = [
-  { title: 'Договор и подбор',      steps: STEPS.slice(0, 3) },
-  { title: 'Оплата и бронирование', steps: STEPS.slice(3, 6) },
-  { title: 'Логистика',             steps: STEPS.slice(6, 8) },
-  { title: 'Таможня и документы',   steps: STEPS.slice(8, 11) },
-  { title: 'Подготовка и выдача',   steps: STEPS.slice(11) },
-];
+function buildPhases(steps: ProcessView[]): { title: string; steps: Step[] }[] {
+  const order: string[] = [];
+  const map = new Map<string, Step[]>();
+  steps.forEach((s, i) => {
+    const phase = s.phase || 'Шаги';
+    if (!map.has(phase)) {
+      map.set(phase, []);
+      order.push(phase);
+    }
+    map.get(phase)!.push({ num: String(i + 1).padStart(2, '0'), title: s.title, note: s.text });
+  });
+  return order.map((title) => ({ title, steps: map.get(title)! }));
+}
 
 /* Запасной подзаголовок: в базе у секции лежит null, а править её
    правкой defaults нельзя — сид уже отработал. Админка по-прежнему
@@ -39,7 +24,7 @@ const PHASES: { title: string; steps: Step[] }[] = [
 const SUBTITLE_FALLBACK =
   'В автобизнесе с 2012 года. Берём на себя все пятнадцать шагов — оформление, логистику, таможню и сертификацию — от подписания договора до передачи ключей.';
 
-const WATERMARK_CARDS = new Set(['02', '05', '08', '11', '15']);
+const WATERMARK_NUMS = new Set(['02', '05', '08', '11', '15']);
 
 function LogoWatermark() {
   return (
@@ -57,7 +42,7 @@ function LogoWatermark() {
 
 /* Карточка одного шага — используется в мобильном списке */
 function StepCard({ step, accent }: { step: Step; accent: 'left' | 'right' }) {
-  const hasWatermark = WATERMARK_CARDS.has(step.num);
+  const hasWatermark = WATERMARK_NUMS.has(step.num);
   return (
     <div
       className={`relative flex min-h-[7rem] flex-col overflow-hidden rounded-2xl bg-paper-2 px-6 py-5 shadow-sm
@@ -86,7 +71,7 @@ function PhaseCard({
   phase,
   index,
 }: {
-  phase: (typeof PHASES)[number];
+  phase: { title: string; steps: Step[] };
   index: number;
 }) {
   return (
@@ -128,8 +113,15 @@ function PhaseCard({
   );
 }
 
-export function Services({ section }: { section: SectionView }) {
+export function Services({ section, steps }: { section: SectionView; steps: ProcessView[] }) {
   if (!section.enabled) return null;
+
+  const allSteps: Step[] = steps.map((s, i) => ({
+    num: String(i + 1).padStart(2, '0'),
+    title: s.title,
+    note: s.text,
+  }));
+  const phases = buildPhases(steps);
 
   return (
     <Section id="services" tone="ink">
@@ -161,7 +153,7 @@ export function Services({ section }: { section: SectionView }) {
             tone="dark"
           />
           <div className="mt-8 flex flex-col gap-2">
-            {STEPS.map((step) => (
+            {allSteps.map((step) => (
               <StepCard key={step.num} step={step} accent="left" />
             ))}
           </div>
@@ -186,7 +178,7 @@ export function Services({ section }: { section: SectionView }) {
               у погребённых карточек оставалась видна строка названия.
               gap задаёт темп — примерно экран прокрутки на карточку. */}
           <ContainerScroll className="flex flex-col gap-[55vh]">
-            {PHASES.map((phase, i) => (
+            {phases.map((phase, i) => (
               <CardSticky key={phase.title} index={i} baseY={96} incrementY={56}>
                 <PhaseCard phase={phase} index={i} />
               </CardSticky>
