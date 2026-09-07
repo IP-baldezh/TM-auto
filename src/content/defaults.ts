@@ -78,7 +78,6 @@ export const DEFAULT_NAVIGATION = [
   { group: 'HEADER' as const, label: 'Услуги', href: '#directions', sortOrder: 0 },
   { group: 'HEADER' as const, label: 'Как работаем', href: '#services', sortOrder: 1 },
   { group: 'HEADER' as const, label: 'Автомобили', href: '#cars', sortOrder: 3 },
-  { group: 'HEADER' as const, label: 'Рассчитать стоимость', href: '#calculator', sortOrder: 4 },
   { group: 'HEADER' as const, label: 'Контакты', href: '#contacts', sortOrder: 5 },
 
   { group: 'FOOTER' as const, label: 'Услуги', href: '#directions', sortOrder: 0 },

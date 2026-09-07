@@ -34,7 +34,6 @@ const NAV: NavItem[] = [
 
   { section: 'Блоки сайта' },
   { href: '/admin/hero', label: 'Главный экран', icon: Sparkles },
-  { href: '/admin/calculator', label: 'Калькулятор', icon: Gauge },
   { href: '/admin/process', label: 'Как мы работаем', icon: ListChecks },
   { href: '/admin/cars', label: 'Автомобили', icon: Car },
   { href: '/admin/testimonials', label: 'Отзывы', icon: Star },

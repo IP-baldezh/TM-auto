@@ -10,7 +10,6 @@ import { Promotions } from '@/components/site/Promotions';
 import { Services } from '@/components/site/Services';
 
 import { CostExample } from '@/components/site/CostExample';
-import { CalculatorSection } from '@/components/site/CalculatorSection';
 import { DeliveredCars } from '@/components/site/cars/DeliveredCars';
 import { ProcessTimeline } from '@/components/site/ProcessTimeline';
 import { ReasonsGrid } from '@/components/site/ReasonsGrid';
@@ -112,12 +111,6 @@ export default async function HomePage() {
         steps={content.process}
       />
 
-      <CalculatorSection
-        section={sections.calculator ?? FALLBACK_SECTION}
-        calculator={content.calculator}
-        privacyUrl={site.privacyUrl}
-        consentUrl={site.consentUrl}
-      />
 
       <Promotions
         section={sections.promotions ?? FALLBACK_SECTION}
