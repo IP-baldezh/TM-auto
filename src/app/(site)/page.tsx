@@ -19,7 +19,6 @@ import { FaqAccordion } from '@/components/site/FaqAccordion';
 import { FinalCta } from '@/components/site/FinalCta';
 import { ImportDirections } from '@/components/site/ImportDirections';
 import { Contacts } from '@/components/site/Contacts';
-import { SocialTicker } from '@/components/site/SocialTicker';
 
 /** Контент меняется только из админки — ISR вместо запроса к базе на каждый хит. */
 export const revalidate = 300;
@@ -112,8 +111,6 @@ export default async function HomePage() {
         section={sections.services ?? FALLBACK_SECTION}
         steps={content.process}
       />
-
-      <SocialTicker />
 
       <CalculatorSection
         section={sections.calculator ?? FALLBACK_SECTION}
