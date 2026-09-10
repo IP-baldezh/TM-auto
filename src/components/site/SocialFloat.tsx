@@ -54,10 +54,10 @@ export function SocialFloat() {
           aria-expanded={open}
           aria-label="Наши соц сети"
           className="flex items-center justify-center rounded-full text-white shadow-lg shadow-black/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-          style={{ backgroundColor: 'var(--color-brand)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', width: '53px', height: '170px', padding: '0', overflow: 'hidden', fontSize: '16px', letterSpacing: '0.05em' }}
+          style={{ backgroundColor: 'var(--color-brand)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', width: '53px', height: '260px', padding: '0', overflow: 'hidden', fontSize: '11px', letterSpacing: '0.08em' }}
         >
           <span className="select-none font-semibold" style={{ lineHeight: 1 }}>
-            Наши соц сети
+            Больше авто и цен здесь
           </span>
         </button>
       </div>
