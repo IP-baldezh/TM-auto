@@ -2,6 +2,7 @@ import { getSiteContent } from '@/lib/content';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { FloatingMessenger } from '@/components/site/FloatingMessenger';
+import { SocialFloat } from '@/components/site/SocialFloat';
 import { MotionProvider, revealBootstrapScript } from '@/components/animations/MotionProvider';
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -45,6 +46,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         maxUrl={content.site.maxUrl}
         email={content.site.email}
       />
+
+      <SocialFloat />
 
       <MotionProvider />
     </>
