@@ -54,9 +54,9 @@ export function SocialFloat() {
           aria-expanded={open}
           aria-label="Наши соц сети"
           className="flex items-center justify-center rounded-full text-white shadow-lg shadow-black/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-          style={{ backgroundColor: 'var(--color-brand)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', width: '46px', paddingTop: '36px', paddingBottom: '36px' }}
+          style={{ backgroundColor: 'var(--color-brand)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', width: '20px', height: '80px', padding: '0', overflow: 'hidden', fontSize: '9px', letterSpacing: '0.05em' }}
         >
-          <span className="select-none text-[12px] font-semibold tracking-wide">
+          <span className="select-none font-semibold" style={{ lineHeight: 1 }}>
             Наши соц сети
           </span>
         </button>
