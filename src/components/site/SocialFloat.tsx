@@ -57,7 +57,7 @@ export function SocialFloat() {
           style={{ backgroundColor: 'var(--color-brand)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', width: '53px', height: '240px', padding: '0', overflow: 'hidden', fontSize: '14px', letterSpacing: '0.06em' }}
         >
           <span className="select-none font-semibold" style={{ lineHeight: 1 }}>
-            Больше авто и цен здесь
+            Смотреть все авто и цены
           </span>
         </button>
       </div>
