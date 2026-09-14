@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/db';
 import { getSiteContent } from '@/lib/content';
-import { sendLeadNotification } from '@/lib/email';
+import { sendLeadToTelegram } from '@/lib/telegram';
 import { calculateEstimate, serializeAnswers } from '@/lib/calculator/engine';
 import { leadInputSchema, looksAutomated } from '@/lib/validation/lead';
 import { clientIp, rateLimit } from '@/lib/rate-limit';
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     });
 
     if (!isSpam) {
-      void sendLeadNotification({
+      void sendLeadToTelegram({
         name: lead.name,
         phone: lead.phone,
         email: lead.email,
