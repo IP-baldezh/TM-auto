@@ -30,7 +30,7 @@ export async function sendLeadToTelegram(lead: LeadTelegramData): Promise<void> 
     lead.pageUrl ? `🌐 <b>Страница:</b> ${esc(lead.pageUrl)}` : null,
   ].filter((l) => l !== null).join('\n');
 
-  await Promise.allSettled(
+  const results = await Promise.allSettled(
     chatIds.map((chatId) =>
       fetch(`${TELEGRAM_API}/bot${token}/sendMessage`, {
         method: 'POST',
@@ -40,6 +40,9 @@ export async function sendLeadToTelegram(lead: LeadTelegramData): Promise<void> 
       }),
     ),
   );
+  for (const r of results) {
+    if (r.status === 'rejected') console.error('[telegram] не удалось отправить', r.reason);
+  }
 }
 
 function esc(s: string): string {
