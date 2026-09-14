@@ -42,13 +42,15 @@ export function LeadFields({
     <>
       {/* Приманка для ботов: скрыта от людей, но не через display:none —
           часть ботов такие поля игнорирует. */}
+      {/* Honeypot: скрыт от людей, но боты заполняют.
+          aria-hidden + tabIndex=-1 + autoComplete=new-password исключают автозаполнение браузером. */}
       <div aria-hidden="true" className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden">
-        <label htmlFor={`${uid}-company`}>Компания</label>
         <input
           id={`${uid}-company`}
           type="text"
           tabIndex={-1}
-          autoComplete="off"
+          autoComplete="new-password"
+          aria-hidden="true"
           value={values.company}
           onChange={(e) => setValue('company', e.target.value)}
         />

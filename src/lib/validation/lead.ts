@@ -49,8 +49,10 @@ export const leadInputSchema = z.object({
   pageUrl: z.string().max(500).optional(),
   referrer: z.string().max(500).optional(),
 
-  /** Приманка для ботов: поле скрыто от людей и должно остаться пустым. */
-  company: z.string().max(0, 'Ошибка отправки').optional(),
+  /** Приманка для ботов: поле скрыто от людей и должно остаться пустым.
+   *  Не отклоняем форму если заполнено — браузеры могут автозаполнить его.
+   *  Вместо этого помечаем заявку как SPAM в looksAutomated. */
+  company: z.string().optional(),
   /** Время открытия формы, мс. Мгновенная отправка — почти наверняка бот. */
   startedAt: z.number().int().nonnegative().optional(),
 });
