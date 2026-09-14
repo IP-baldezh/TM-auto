@@ -49,10 +49,6 @@ export const leadInputSchema = z.object({
   pageUrl: z.string().max(500).optional(),
   referrer: z.string().max(500).optional(),
 
-  /** Приманка для ботов: поле скрыто от людей и должно остаться пустым.
-   *  Не отклоняем форму если заполнено — браузеры могут автозаполнить его.
-   *  Вместо этого помечаем заявку как SPAM в looksAutomated. */
-  company: z.string().optional(),
   /** Время открытия формы, мс. Мгновенная отправка — почти наверняка бот. */
   startedAt: z.number().int().nonnegative().optional(),
 });
@@ -63,7 +59,6 @@ export type LeadInput = z.infer<typeof leadInputSchema>;
 export const MIN_FILL_MS = 2500;
 
 export function looksAutomated(input: LeadInput): boolean {
-  if (input.company) return true;
   if (input.startedAt && Date.now() - input.startedAt < MIN_FILL_MS) return true;
   return false;
 }

@@ -36,7 +36,6 @@ export type LeadFormValues = {
   phone: string;
   message: string;
   consent: boolean;
-  company: string;
 };
 
 export const emptyLeadValues: LeadFormValues = {
@@ -44,7 +43,6 @@ export const emptyLeadValues: LeadFormValues = {
   phone: '',
   message: '',
   consent: false,
-  company: '',
 };
 
 export function useLeadForm(source: Source) {
@@ -106,7 +104,6 @@ export function useLeadForm(source: Source) {
             message: values.message.trim() || undefined,
             consent: true,
             source,
-            company: values.company || undefined,
             startedAt: startedAtRef.current,
             calculator: calculator
               ? { budget: calculator.budget, choices: calculator.choices }
