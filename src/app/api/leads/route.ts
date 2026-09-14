@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/db';
 import { getSiteContent } from '@/lib/content';
+import { sendLeadNotification } from '@/lib/email';
 import { calculateEstimate, serializeAnswers } from '@/lib/calculator/engine';
 import { leadInputSchema, looksAutomated } from '@/lib/validation/lead';
 import { clientIp, rateLimit } from '@/lib/rate-limit';
@@ -81,6 +82,15 @@ export async function POST(request: Request) {
     });
 
     if (!isSpam) {
+      void sendLeadNotification({
+        name: lead.name,
+        phone: lead.phone,
+        email: lead.email,
+        message: lead.message,
+        source: lead.source,
+        pageUrl: lead.pageUrl,
+      });
+
       // Доставка во внешнюю систему не должна задерживать ответ пользователю.
       void deliverWebhook(lead.id, {
         id: lead.id,
